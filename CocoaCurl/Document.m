@@ -18,8 +18,23 @@
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
+        self->_curlCpp = [[MyEasyCurl alloc]init];
     }
     return self;
+}
+
+- (IBAction)curlButtonTapped:(id) sender {
+    NSString *name = [sender stringValue];
+    if (![name isEqualToString:@""]) {
+        
+        BOOL ok = [self->_curlCpp Run:self.url.title];
+        
+        if (ok) {
+            NSLog(@"Performing curl: %@", self.url.title);
+            NSString* content = [self->_curlCpp GetContent];
+            [self.content setTitle: content];
+        }
+    }
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {

@@ -13,18 +13,66 @@
 		B21D836F1AFD725E004A3171 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21D836D1AFD725E004A3171 /* Document.xib */; };
 		B21D83711AFD725E004A3171 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B21D83701AFD725E004A3171 /* Images.xcassets */; };
 		B21D83741AFD725E004A3171 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21D83721AFD725E004A3171 /* MainMenu.xib */; };
-		B21D83801AFD725E004A3171 /* CocoaCurlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D837F1AFD725E004A3171 /* CocoaCurlTests.m */; };
+		B237040E1B018FCC004F1374 /* MyCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704091B018C96004F1374 /* MyCurl.cpp */; };
+		B237040F1B018FD1004F1374 /* MyCurl.h in Headers */ = {isa = PBXBuildFile; fileRef = B237040A1B018C96004F1374 /* MyCurl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B237041D1B0199F2004F1374 /* MyCocoaCurl.h in Headers */ = {isa = PBXBuildFile; fileRef = B237041C1B0199F2004F1374 /* MyCocoaCurl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B23704231B0199F2004F1374 /* MyCocoaCurl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B23704181B0199F2004F1374 /* MyCocoaCurl.framework */; };
+		B237042C1B0199F2004F1374 /* MyCocoaCurlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B237042B1B0199F2004F1374 /* MyCocoaCurlTests.m */; };
+		B237042F1B0199F2004F1374 /* MyCocoaCurl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B23704181B0199F2004F1374 /* MyCocoaCurl.framework */; };
+		B23704301B0199F2004F1374 /* MyCocoaCurl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B23704181B0199F2004F1374 /* MyCocoaCurl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B23704451B01A16A004F1374 /* MyEasyCurl.m in Sources */ = {isa = PBXBuildFile; fileRef = B23704441B01A16A004F1374 /* MyEasyCurl.m */; };
+		B23704471B01AC10004F1374 /* libMyCurlCppD.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */; };
+		B23704481B01AF2A004F1374 /* MyCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704091B018C96004F1374 /* MyCurl.cpp */; };
+		B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */; };
+		B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */ = {isa = PBXBuildFile; fileRef = B23704111B0198C0004F1374 /* MyCurlCppImpl.h */; };
+		B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */ = {isa = PBXBuildFile; fileRef = B237040A1B018C96004F1374 /* MyCurl.h */; };
+		B237044C1B01AF57004F1374 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */; };
+		B237044D1B01C63C004F1374 /* MyEasyCurl.h in Headers */ = {isa = PBXBuildFile; fileRef = B23704461B01A188004F1374 /* MyEasyCurl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B237044E1B01CBBE004F1374 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B237042A1B0199F2004F1374 /* Info.plist */; };
+		B237044F1B01CBDF004F1374 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B21D83641AFD725E004A3171 /* Info.plist */; };
+		B23704501B01CBFB004F1374 /* MyCurlCppImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */; };
+		B23704511B01CC00004F1374 /* MyCurlCppImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = B23704111B0198C0004F1374 /* MyCurlCppImpl.h */; };
+		B23EE84D1AFEBB6100D42B63 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EE1AFDE13B0081DD53 /* libc++.dylib */; };
+		B23EE84E1AFEBB7900D42B63 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B21D837A1AFD725E004A3171 /* PBXContainerItemProxy */ = {
+		B23704241B0199F2004F1374 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B21D83581AFD725E004A3171 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B23704171B0199F2004F1374;
+			remoteInfo = MyCocoaCurl;
+		};
+		B23704261B0199F2004F1374 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B21D83581AFD725E004A3171 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B21D835F1AFD725E004A3171;
 			remoteInfo = CocoaCurl;
 		};
+		B237042D1B0199F2004F1374 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B21D83581AFD725E004A3171 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B23704171B0199F2004F1374;
+			remoteInfo = MyCocoaCurl;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B23704341B0199F2004F1374 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B23704301B0199F2004F1374 /* MyCocoaCurl.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B21D83601AFD725E004A3171 /* CocoaCurl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaCurl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,9 +85,22 @@
 		B21D836E1AFD725E004A3171 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
 		B21D83701AFD725E004A3171 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B21D83731AFD725E004A3171 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		B21D83791AFD725E004A3171 /* CocoaCurlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaCurlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B21D837E1AFD725E004A3171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B21D837F1AFD725E004A3171 /* CocoaCurlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocoaCurlTests.m; sourceTree = "<group>"; };
+		B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		B22539EE1AFDE13B0081DD53 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		B23704011B018A78004F1374 /* libMyCurlCpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMyCurlCpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B23704091B018C96004F1374 /* MyCurl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyCurl.cpp; sourceTree = "<group>"; };
+		B237040A1B018C96004F1374 /* MyCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCurl.h; sourceTree = "<group>"; };
+		B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyCurlCppImpl.cpp; sourceTree = "<group>"; };
+		B23704111B0198C0004F1374 /* MyCurlCppImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCurlCppImpl.h; sourceTree = "<group>"; };
+		B23704181B0199F2004F1374 /* MyCocoaCurl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MyCocoaCurl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B237041B1B0199F2004F1374 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B237041C1B0199F2004F1374 /* MyCocoaCurl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyCocoaCurl.h; sourceTree = "<group>"; };
+		B23704221B0199F2004F1374 /* MyCocoaCurlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCocoaCurlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B237042A1B0199F2004F1374 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B237042B1B0199F2004F1374 /* MyCocoaCurlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyCocoaCurlTests.m; sourceTree = "<group>"; };
+		B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCurlCppD.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B23704441B01A16A004F1374 /* MyEasyCurl.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MyEasyCurl.m; sourceTree = "<group>"; };
+		B23704461B01A188004F1374 /* MyEasyCurl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyCurl.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,13 +108,40 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23EE84E1AFEBB7900D42B63 /* libcurl.dylib in Frameworks */,
+				B23EE84D1AFEBB6100D42B63 /* libc++.dylib in Frameworks */,
+				B237042F1B0199F2004F1374 /* MyCocoaCurl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B21D83761AFD725E004A3171 /* Frameworks */ = {
+		B23703FE1B018A78004F1374 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704141B0199F2004F1374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23704471B01AC10004F1374 /* libMyCurlCppD.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B237041F1B0199F2004F1374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23704231B0199F2004F1374 /* MyCocoaCurl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704391B019B13004F1374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B237044C1B01AF57004F1374 /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,8 +151,12 @@
 		B21D83571AFD725E004A3171 = {
 			isa = PBXGroup;
 			children = (
+				B22539EE1AFDE13B0081DD53 /* libc++.dylib */,
+				B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */,
+				B23704051B018AFB004F1374 /* MyCurlCpp */,
 				B21D83621AFD725E004A3171 /* CocoaCurl */,
-				B21D837C1AFD725E004A3171 /* CocoaCurlTests */,
+				B23704191B0199F2004F1374 /* MyCocoaCurl */,
+				B23704281B0199F2004F1374 /* MyCocoaCurlTests */,
 				B21D83611AFD725E004A3171 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,7 +165,10 @@
 			isa = PBXGroup;
 			children = (
 				B21D83601AFD725E004A3171 /* CocoaCurl.app */,
-				B21D83791AFD725E004A3171 /* CocoaCurlTests.xctest */,
+				B23704011B018A78004F1374 /* libMyCurlCpp.a */,
+				B23704181B0199F2004F1374 /* MyCocoaCurl.framework */,
+				B23704221B0199F2004F1374 /* MyCocoaCurlTests.xctest */,
+				B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,24 +197,83 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B21D837C1AFD725E004A3171 /* CocoaCurlTests */ = {
+		B23704051B018AFB004F1374 /* MyCurlCpp */ = {
 			isa = PBXGroup;
 			children = (
-				B21D837F1AFD725E004A3171 /* CocoaCurlTests.m */,
-				B21D837D1AFD725E004A3171 /* Supporting Files */,
+				B23704091B018C96004F1374 /* MyCurl.cpp */,
+				B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */,
+				B23704111B0198C0004F1374 /* MyCurlCppImpl.h */,
+				B237040A1B018C96004F1374 /* MyCurl.h */,
 			);
-			path = CocoaCurlTests;
+			name = MyCurlCpp;
+			path = CocoaCurl/MyCurlCpp;
 			sourceTree = "<group>";
 		};
-		B21D837D1AFD725E004A3171 /* Supporting Files */ = {
+		B23704191B0199F2004F1374 /* MyCocoaCurl */ = {
 			isa = PBXGroup;
 			children = (
-				B21D837E1AFD725E004A3171 /* Info.plist */,
+				B237041C1B0199F2004F1374 /* MyCocoaCurl.h */,
+				B23704461B01A188004F1374 /* MyEasyCurl.h */,
+				B23704441B01A16A004F1374 /* MyEasyCurl.m */,
+				B237041A1B0199F2004F1374 /* Supporting Files */,
+			);
+			path = MyCocoaCurl;
+			sourceTree = "<group>";
+		};
+		B237041A1B0199F2004F1374 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B237041B1B0199F2004F1374 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B23704281B0199F2004F1374 /* MyCocoaCurlTests */ = {
+			isa = PBXGroup;
+			children = (
+				B237042B1B0199F2004F1374 /* MyCocoaCurlTests.m */,
+				B23704291B0199F2004F1374 /* Supporting Files */,
+			);
+			path = MyCocoaCurlTests;
+			sourceTree = "<group>";
+		};
+		B23704291B0199F2004F1374 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B237042A1B0199F2004F1374 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B23703FF1B018A78004F1374 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23704511B01CC00004F1374 /* MyCurlCppImpl.h in Headers */,
+				B237040F1B018FD1004F1374 /* MyCurl.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704151B0199F2004F1374 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B237044D1B01C63C004F1374 /* MyEasyCurl.h in Headers */,
+				B237041D1B0199F2004F1374 /* MyCocoaCurl.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B237043A1B019B13004F1374 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		B21D835F1AFD725E004A3171 /* CocoaCurl */ = {
@@ -129,33 +283,88 @@
 				B21D835C1AFD725E004A3171 /* Sources */,
 				B21D835D1AFD725E004A3171 /* Frameworks */,
 				B21D835E1AFD725E004A3171 /* Resources */,
+				B23704341B0199F2004F1374 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B237042E1B0199F2004F1374 /* PBXTargetDependency */,
 			);
 			name = CocoaCurl;
 			productName = CocoaCurl;
 			productReference = B21D83601AFD725E004A3171 /* CocoaCurl.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B21D83781AFD725E004A3171 /* CocoaCurlTests */ = {
+		B23704001B018A78004F1374 /* MyCurlCpp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B21D83861AFD725E004A3171 /* Build configuration list for PBXNativeTarget "CocoaCurlTests" */;
+			buildConfigurationList = B23704041B018A78004F1374 /* Build configuration list for PBXNativeTarget "MyCurlCpp" */;
 			buildPhases = (
-				B21D83751AFD725E004A3171 /* Sources */,
-				B21D83761AFD725E004A3171 /* Frameworks */,
-				B21D83771AFD725E004A3171 /* Resources */,
+				B23703FD1B018A78004F1374 /* Sources */,
+				B23703FE1B018A78004F1374 /* Frameworks */,
+				B23703FF1B018A78004F1374 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B21D837B1AFD725E004A3171 /* PBXTargetDependency */,
 			);
-			name = CocoaCurlTests;
-			productName = CocoaCurlTests;
-			productReference = B21D83791AFD725E004A3171 /* CocoaCurlTests.xctest */;
+			name = MyCurlCpp;
+			productName = MyCurlCpp;
+			productReference = B23704011B018A78004F1374 /* libMyCurlCpp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B23704171B0199F2004F1374 /* MyCocoaCurl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B23704311B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurl" */;
+			buildPhases = (
+				B23704131B0199F2004F1374 /* Sources */,
+				B23704141B0199F2004F1374 /* Frameworks */,
+				B23704151B0199F2004F1374 /* Headers */,
+				B23704161B0199F2004F1374 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyCocoaCurl;
+			productName = MyCocoaCurl;
+			productReference = B23704181B0199F2004F1374 /* MyCocoaCurl.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B23704211B0199F2004F1374 /* MyCocoaCurlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B23704351B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurlTests" */;
+			buildPhases = (
+				B237041E1B0199F2004F1374 /* Sources */,
+				B237041F1B0199F2004F1374 /* Frameworks */,
+				B23704201B0199F2004F1374 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B23704251B0199F2004F1374 /* PBXTargetDependency */,
+				B23704271B0199F2004F1374 /* PBXTargetDependency */,
+			);
+			name = MyCocoaCurlTests;
+			productName = MyCocoaCurlTests;
+			productReference = B23704221B0199F2004F1374 /* MyCocoaCurlTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B237043B1B019B13004F1374 /* MyCurlCppD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B237043D1B019B14004F1374 /* Build configuration list for PBXNativeTarget "MyCurlCppD" */;
+			buildPhases = (
+				B23704381B019B13004F1374 /* Sources */,
+				B23704391B019B13004F1374 /* Frameworks */,
+				B237043A1B019B13004F1374 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyCurlCppD;
+			productName = MyCurlCppD;
+			productReference = B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
@@ -169,9 +378,18 @@
 					B21D835F1AFD725E004A3171 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
-					B21D83781AFD725E004A3171 = {
+					B23704001B018A78004F1374 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					B23704171B0199F2004F1374 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					B23704211B0199F2004F1374 = {
 						CreatedOnToolsVersion = 6.3.1;
 						TestTargetID = B21D835F1AFD725E004A3171;
+					};
+					B237043B1B019B13004F1374 = {
+						CreatedOnToolsVersion = 6.3.1;
 					};
 				};
 			};
@@ -189,7 +407,10 @@
 			projectRoot = "";
 			targets = (
 				B21D835F1AFD725E004A3171 /* CocoaCurl */,
-				B21D83781AFD725E004A3171 /* CocoaCurlTests */,
+				B23704001B018A78004F1374 /* MyCurlCpp */,
+				B23704171B0199F2004F1374 /* MyCocoaCurl */,
+				B23704211B0199F2004F1374 /* MyCocoaCurlTests */,
+				B237043B1B019B13004F1374 /* MyCurlCppD */,
 			);
 		};
 /* End PBXProject section */
@@ -199,16 +420,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B237044F1B01CBDF004F1374 /* Info.plist in Resources */,
 				B21D836F1AFD725E004A3171 /* Document.xib in Resources */,
 				B21D83711AFD725E004A3171 /* Images.xcassets in Resources */,
 				B21D83741AFD725E004A3171 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B21D83771AFD725E004A3171 /* Resources */ = {
+		B23704161B0199F2004F1374 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704201B0199F2004F1374 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B237044E1B01CBBE004F1374 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,21 +455,59 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B21D83751AFD725E004A3171 /* Sources */ = {
+		B23703FD1B018A78004F1374 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B21D83801AFD725E004A3171 /* CocoaCurlTests.m in Sources */,
+				B237040E1B018FCC004F1374 /* MyCurl.cpp in Sources */,
+				B23704501B01CBFB004F1374 /* MyCurlCppImpl.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704131B0199F2004F1374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23704451B01A16A004F1374 /* MyEasyCurl.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B237041E1B0199F2004F1374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B237042C1B0199F2004F1374 /* MyCocoaCurlTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B23704381B019B13004F1374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23704481B01AF2A004F1374 /* MyCurl.cpp in Sources */,
+				B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */,
+				B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */,
+				B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B21D837B1AFD725E004A3171 /* PBXTargetDependency */ = {
+		B23704251B0199F2004F1374 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B23704171B0199F2004F1374 /* MyCocoaCurl */;
+			targetProxy = B23704241B0199F2004F1374 /* PBXContainerItemProxy */;
+		};
+		B23704271B0199F2004F1374 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B21D835F1AFD725E004A3171 /* CocoaCurl */;
-			targetProxy = B21D837A1AFD725E004A3171 /* PBXContainerItemProxy */;
+			targetProxy = B23704261B0199F2004F1374 /* PBXContainerItemProxy */;
+		};
+		B237042E1B0199F2004F1374 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B23704171B0199F2004F1374 /* MyCocoaCurl */;
+			targetProxy = B237042D1B0199F2004F1374 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -267,7 +535,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -310,7 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -364,10 +632,76 @@
 			};
 			name = Release;
 		};
-		B21D83871AFD725E004A3171 /* Debug */ = {
+		B23704021B018A78004F1374 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B23704031B018A78004F1374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B23704321B0199F2004F1374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MyCocoaCurl/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B23704331B0199F2004F1374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = MyCocoaCurl/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B23704361B0199F2004F1374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -377,26 +711,52 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = CocoaCurlTests/Info.plist;
+				INFOPLIST_FILE = MyCocoaCurlTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CocoaCurl.app/Contents/MacOS/CocoaCurl";
 			};
 			name = Debug;
 		};
-		B21D83881AFD725E004A3171 /* Release */ = {
+		B23704371B0199F2004F1374 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = CocoaCurlTests/Info.plist;
+				INFOPLIST_FILE = MyCocoaCurlTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CocoaCurl.app/Contents/MacOS/CocoaCurl";
+			};
+			name = Release;
+		};
+		B237043E1B019B14004F1374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B237043F1B019B14004F1374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -419,12 +779,37 @@
 				B21D83851AFD725E004A3171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		B21D83861AFD725E004A3171 /* Build configuration list for PBXNativeTarget "CocoaCurlTests" */ = {
+		B23704041B018A78004F1374 /* Build configuration list for PBXNativeTarget "MyCurlCpp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B21D83871AFD725E004A3171 /* Debug */,
-				B21D83881AFD725E004A3171 /* Release */,
+				B23704021B018A78004F1374 /* Debug */,
+				B23704031B018A78004F1374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B23704311B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B23704321B0199F2004F1374 /* Debug */,
+				B23704331B0199F2004F1374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B23704351B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B23704361B0199F2004F1374 /* Debug */,
+				B23704371B0199F2004F1374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B237043D1B019B14004F1374 /* Build configuration list for PBXNativeTarget "MyCurlCppD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B237043E1B019B14004F1374 /* Debug */,
+				B237043F1B019B14004F1374 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
