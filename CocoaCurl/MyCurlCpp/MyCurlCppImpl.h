@@ -20,10 +20,13 @@ namespace MyCurlCpp {
         CURL* _conn;
         std::array<char, CURL_ERROR_SIZE> _errorBuffer;
         std::string _contentBuffer;
+        struct curl_slist* _headerList;
     public:
         MyCurlCppImpl();
         ~MyCurlCppImpl();
         void HelloCurl() const;
+        
+        void InitConnection();
         
         void Run(char const* url);
         
@@ -34,6 +37,7 @@ namespace MyCurlCpp {
     private:
         void InitErrorBuffer();
         void InitWriter();
+        void SetJsonForPut();
     };
 }
 

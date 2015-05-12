@@ -29,6 +29,8 @@ namespace MyCurlCpp {
         
         bool HelloCurl() const;
         
+        bool InitConnection();
+        
         bool Run(char const* url);
         
         std::string GetContent() const;
@@ -36,7 +38,7 @@ namespace MyCurlCpp {
         std::string GetError() const;
     };
 }
-#pragma GCC visibility pop
 
+#pragma GCC visibility pop
 
 #endif /* defined(__CocoaCurl__MyCurl__) */

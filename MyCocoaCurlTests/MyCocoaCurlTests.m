@@ -44,9 +44,12 @@
     
     XCTAssert([ content isEqualToString: @""], @"Pass with content empty");
     
-    BOOL ok = [libObj Run:@"www.example.com"];
+    BOOL ok = [libObj InitConnection];
+    XCTAssert(ok == TRUE, @"Connection initialised ok");
     
-    XCTAssert(ok == TRUE, @"Run passed with true return");
+    ok = [libObj Run:@"www.example.com"];
+    
+    XCTAssert(ok == TRUE, @"Run returned ok");
 
     content = [libObj GetContent];
 

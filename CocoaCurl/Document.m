@@ -27,12 +27,20 @@
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         
-        BOOL ok = [self->_curlCpp Run:self.url.title];
+        BOOL ok = [self->_curlCpp InitConnection];
+        
+        if (ok) {
+            ok = [self->_curlCpp Run:self.url.title];
+        }
         
         if (ok) {
             NSLog(@"Performing curl: %@", self.url.title);
             NSString* content = [self->_curlCpp GetContent];
             [self.content setTitle: content];
+        }
+        else {
+            NSString* error = [self->_curlCpp GetError];
+            [self.content setTitle: error];
         }
     }
 }

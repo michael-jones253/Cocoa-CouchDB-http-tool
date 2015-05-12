@@ -26,12 +26,19 @@
     impl->HelloCurl();
 }
 
+- (BOOL)InitConnection {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    
+    BOOL ret = impl->InitConnection();
+    
+    return ret;
+}
+
 - (BOOL)Run: (NSString*)url {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     const char* cUrl = [ url UTF8String];
     BOOL ret = impl->Run(cUrl);
-    
     
     return ret;
 }
@@ -45,6 +52,18 @@
     
     return ret;
 }
+
+- (NSString*)GetError {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    NSString* ret = nil;
+    
+    std::string curlStr = impl->GetError();
+    ret = [ [NSString alloc] initWithCString:curlStr.c_str() encoding:(NSUTF8StringEncoding)];
+    
+    return ret;
+    
+}
+
 
 - (id)init {
     self = [super init];

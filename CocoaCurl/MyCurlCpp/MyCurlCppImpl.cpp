@@ -28,7 +28,8 @@ namespace MyCurlCpp {
     MyCurlCppImpl::MyCurlCppImpl() :
     _conn{},
     _contentBuffer{},
-    _errorBuffer{} {
+    _errorBuffer{},
+    _headerList{} {
         // Not thread safe
         curl_global_init(CURL_GLOBAL_DEFAULT);
     }
@@ -60,9 +61,7 @@ namespace MyCurlCpp {
         }
     }
     
-    void MyCurlCppImpl::Run(char const* url) {
-        CURLcode res;
-        
+    void MyCurlCppImpl::InitConnection() {
         _conn = curl_easy_init();
         if(!_conn) {
             throw runtime_error("Failed to easy init");
@@ -70,6 +69,10 @@ namespace MyCurlCpp {
         
         InitErrorBuffer();
         InitWriter();
+    }
+    
+    void MyCurlCppImpl::Run(char const* url) {
+        CURLcode res;        
         
         curl_easy_setopt(_conn, CURLOPT_URL, url);
         
@@ -87,8 +90,14 @@ namespace MyCurlCpp {
             throw runtime_error(errStr);
         }
         
+        if (_headerList != nullptr) {
+            curl_slist_free_all(_headerList);
+            _headerList = nullptr;
+        }        
+        
         /* always cleanup */
         curl_easy_cleanup(_conn);
+        _conn = nullptr;
     }
     
     string MyCurlCppImpl::GetContent() const {
@@ -124,6 +133,23 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to set write buffer: ";
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
+    }
+    
+    void MyCurlCppImpl::SetJsonForPut() {
+        struct curl_slist *list = NULL;
+        if(_conn == nullptr) {
+            throw runtime_error("No CURL connection for set json content header");
+        }
+        
+        list = curl_slist_append(_headerList, "Content-Type: application/json");
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to json content header: ";
             errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);

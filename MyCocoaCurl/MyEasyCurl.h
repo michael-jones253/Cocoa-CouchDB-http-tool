@@ -20,9 +20,13 @@
 
 - (void)HelloCurl;
 
+- (BOOL)InitConnection;
+
 - (BOOL)Run: (NSString*)url;
 
 - (NSString*)GetContent;
+
+- (NSString*)GetError;
 
 - (id)init;
 

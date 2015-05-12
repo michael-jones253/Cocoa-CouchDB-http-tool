@@ -200,10 +200,10 @@
 		B23704051B018AFB004F1374 /* MyCurlCpp */ = {
 			isa = PBXGroup;
 			children = (
+				B237040A1B018C96004F1374 /* MyCurl.h */,
 				B23704091B018C96004F1374 /* MyCurl.cpp */,
 				B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */,
 				B23704111B0198C0004F1374 /* MyCurlCppImpl.h */,
-				B237040A1B018C96004F1374 /* MyCurl.h */,
 			);
 			name = MyCurlCpp;
 			path = CocoaCurl/MyCurlCpp;
