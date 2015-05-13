@@ -71,6 +71,32 @@ namespace MyCurlCpp {
         return ok;
     }
     
+    bool MyCurl::SetPutMethod() {
+        bool ok{};
+        try {
+            _impl->SetPuttMethod();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
+    
+    bool MyCurl::SetDeleteMethod() {
+        bool ok{};
+        try {
+            _impl->SetDeleteMethod();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+
+    
     bool MyCurl::SetPostData(char const* postData) {
         bool ok{};
         try {

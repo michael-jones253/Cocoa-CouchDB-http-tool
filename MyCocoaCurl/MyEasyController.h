@@ -13,7 +13,7 @@
 #import "MyEasyCurl.h"
 
 @interface MyEasyController : NSObject {
-    MyEasyCurl* _myImpl;
+    MyEasyCurl* _myEasyModel;
     BOOL _ok;
 }
 

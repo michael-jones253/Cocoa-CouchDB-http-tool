@@ -56,7 +56,7 @@
             [_curlCpp setHttpMethod:MyHttpMethodDelete];
         }
         
-        NSLog(@"HTTP GET selected: %@ %@", [sender stringValue], [buttonCell title]);
+        NSLog(@"HTTP method selected: %@ %@", [sender stringValue], [buttonCell title]);
     }
 }
 

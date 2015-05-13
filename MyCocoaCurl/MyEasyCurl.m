@@ -62,6 +62,20 @@
     return ret;
 }
 
+- (BOOL)SetPutMethod {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetPutMethod();
+    
+    return ret;
+}
+
+- (BOOL)SetDeleteMethod {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetDeleteMethod();
+    
+    return ret;
+}
+
 - (BOOL)SetPostData: (NSString*)data {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPostData([ data UTF8String]);

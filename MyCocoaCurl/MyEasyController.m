@@ -16,14 +16,14 @@
         self.httpMethod = MyHttpMethodGet;
         self.postData = @"{\"company\": \"Example, Inc.\"}";
         self->_ok = FALSE;
-        self->_myImpl = [[MyEasyCurl alloc]init];
+        self->_myEasyModel = [[MyEasyCurl alloc]init];
     }    
     
     return self;
 }
 
 - (void)Run: (NSString*)url {
-    self->_ok = [self->_myImpl InitConnection];
+    self->_ok = [self->_myEasyModel InitConnection];
     
     if (!self->_ok) {
         return;
@@ -31,19 +31,35 @@
     
     switch (self.httpMethod) {
         case MyHttpMethodGet:
-            self->_ok = [self->_myImpl SetGetMethod];
+            self->_ok = [self->_myEasyModel SetGetMethod];
             break;
             
         case MyHttpMethodPost:
-            self->_ok = [self->_myImpl SetPostMethod];
+            self->_ok = [self->_myEasyModel SetPostMethod];
             
             if (self->_ok) {
-                [self->_myImpl SetPostData:self.postData];
+                [self->_myEasyModel SetPostData:self.postData];
             }
             
             if (self->_ok) {
-                [self->_myImpl SetJsonContent];
+                [self->_myEasyModel SetJsonContent];
             }
+            break;
+            
+        case MyHttpMethodPut:
+            self->_ok = [self->_myEasyModel SetPutMethod];
+            
+            if (self->_ok) {
+                [self->_myEasyModel SetPostData:self.postData];
+            }
+            
+            if (self->_ok) {
+                [self->_myEasyModel SetJsonContent];
+            }
+            break;
+            
+        case MyHttpMethodDelete:
+            self->_ok = [self->_myEasyModel SetDeleteMethod];
             break;
             
         default:
@@ -51,16 +67,16 @@
     }
 
     if (self->_ok) {
-        self->_ok = [self->_myImpl Run:url];
+        self->_ok = [self->_myEasyModel Run:url];
     }
 }
 
 - (NSString*)GetResult {
     if (self->_ok) {
-        return [self->_myImpl GetContent];
+        return [self->_myEasyModel GetContent];
     }
     
-    return [self->_myImpl GetError];
+    return [self->_myEasyModel GetError];
 }
 
 @end

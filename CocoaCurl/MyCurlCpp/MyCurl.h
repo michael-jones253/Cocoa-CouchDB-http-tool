@@ -35,6 +35,10 @@ namespace MyCurlCpp {
         
         bool SetPostMethod();
         
+        bool SetPutMethod();
+        
+        bool SetDeleteMethod();
+        
         bool SetPostData(char const* postData);
         
         bool SetJsonContent();

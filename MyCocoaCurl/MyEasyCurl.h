@@ -27,6 +27,10 @@
 
 - (BOOL)SetPostMethod;
 
+- (BOOL)SetPutMethod;
+
+- (BOOL)SetDeleteMethod;
+
 - (BOOL)SetPostData: (NSString*)data;
 
 - (BOOL)SetJsonContent;

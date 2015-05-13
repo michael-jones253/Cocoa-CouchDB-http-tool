@@ -90,6 +90,24 @@ namespace MyCurlCpp {
         }
     }
     
+    void MyCurlCppImpl::SetPuttMethod() {
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_PUT, 1L);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPUT) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
+    void MyCurlCppImpl::SetDeleteMethod() {
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_CUSTOMREQUEST,"DELETE");
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPDELETE) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
     void MyCurlCppImpl::SetPostData(string const& data) {
         _postData = data;
         
