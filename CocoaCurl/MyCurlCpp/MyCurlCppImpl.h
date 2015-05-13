@@ -21,6 +21,7 @@ namespace MyCurlCpp {
         std::array<char, CURL_ERROR_SIZE> _errorBuffer;
         std::string _contentBuffer;
         struct curl_slist* _headerList;
+        std::string _postData;
     public:
         MyCurlCppImpl();
         ~MyCurlCppImpl();
@@ -31,6 +32,8 @@ namespace MyCurlCpp {
         void SetGetMethod();
         
         void SetPostMethod();
+        
+        void SetPostData(std::string const& data);
         
         void SetJsonContent();
 

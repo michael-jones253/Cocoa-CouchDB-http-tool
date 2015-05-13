@@ -29,7 +29,8 @@ namespace MyCurlCpp {
     _conn{},
     _contentBuffer{},
     _errorBuffer{},
-    _headerList{} {
+    _headerList{},
+    _postData{} {
         // Not thread safe
         curl_global_init(CURL_GLOBAL_DEFAULT);
     }
@@ -89,13 +90,33 @@ namespace MyCurlCpp {
         }
     }
     
+    void MyCurlCppImpl::SetPostData(string const& data) {
+        _postData = data;
+        
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_POSTFIELDSIZE, _postData.length());
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPOST size) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+        
+        
+        /* pass in a pointer to the data - libcurl will not copy */
+        res = curl_easy_setopt(_conn, CURLOPT_POSTFIELDS, _postData.data());
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPOST data) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
     void MyCurlCppImpl::SetJsonContent() {
-        struct curl_slist *list = NULL;
+        _headerList = nullptr;
         if(_conn == nullptr) {
             throw runtime_error("No CURL connection for set json content header");
         }
         
-        list = curl_slist_append(_headerList, "Content-Type: application/json");
+        _headerList = curl_slist_append(_headerList, "Content-Type: application/json");
         CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
         if (code != CURLE_OK)
         {

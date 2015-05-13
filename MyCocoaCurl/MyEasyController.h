@@ -18,6 +18,7 @@
 }
 
 @property MyHttpMethod httpMethod;
+@property NSString* postData;
 - (id)init;
 
 - (void)Run: (NSString*)url;

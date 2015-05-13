@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         self.httpMethod = MyHttpMethodGet;
+        self.postData = @"{\"company\": \"Example, Inc.\"}";
         self->_ok = FALSE;
         self->_myImpl = [[MyEasyCurl alloc]init];
     }    
@@ -35,6 +36,10 @@
             
         case MyHttpMethodPost:
             self->_ok = [self->_myImpl SetPostMethod];
+            
+            if (self->_ok) {
+                [self->_myImpl SetPostData:self.postData];
+            }
             
             if (self->_ok) {
                 [self->_myImpl SetJsonContent];

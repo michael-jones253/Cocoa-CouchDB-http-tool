@@ -65,10 +65,10 @@
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
     // NSArray *cellArray = [self.httpVerb cells];
     // [[cellArray objectAtIndex:0] setTitle:@"Apples"];
-    [self.httpVerb selectCellAtRow:1 column:0];
-    /*
+    [self.httpVerb selectCellAtRow:0 column:0];
+    
+    // FIX ME - this is error prone.
     [_curlCpp setHttpMethod:MyHttpMethodGet];
-     */
 }
 
 + (BOOL)autosavesInPlace {

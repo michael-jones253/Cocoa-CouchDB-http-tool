@@ -27,6 +27,8 @@
 
 - (BOOL)SetPostMethod;
 
+- (BOOL)SetPostData: (NSString*)data;
+
 - (BOOL)SetJsonContent;
 
 - (BOOL)Run: (NSString*)url;
