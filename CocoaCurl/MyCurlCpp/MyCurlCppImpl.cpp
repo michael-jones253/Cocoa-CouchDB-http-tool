@@ -63,12 +63,47 @@ namespace MyCurlCpp {
     
     void MyCurlCppImpl::InitConnection() {
         _conn = curl_easy_init();
-        if(!_conn) {
+        if(_conn == nullptr) {
             throw runtime_error("Failed to easy init");
         }
         
         InitErrorBuffer();
         InitWriter();
+    }
+    
+    void MyCurlCppImpl::SetGetMethod() {
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_HTTPGET, 1L);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPGET) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
+    void MyCurlCppImpl::SetPostMethod() {
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_HTTPPOST, 1L);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPOST) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
+    void MyCurlCppImpl::SetJsonContent() {
+        struct curl_slist *list = NULL;
+        if(_conn == nullptr) {
+            throw runtime_error("No CURL connection for set json content header");
+        }
+        
+        list = curl_slist_append(_headerList, "Content-Type: application/json");
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to json content header: ";
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
     }
     
     void MyCurlCppImpl::Run(char const* url) {
@@ -139,20 +174,4 @@ namespace MyCurlCpp {
         }
     }
     
-    void MyCurlCppImpl::SetJsonForPut() {
-        struct curl_slist *list = NULL;
-        if(_conn == nullptr) {
-            throw runtime_error("No CURL connection for set json content header");
-        }
-        
-        list = curl_slist_append(_headerList, "Content-Type: application/json");
-        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
-        if (code != CURLE_OK)
-        {
-            string errStr = "Failed to json content header: ";
-            errStr += _errorBuffer.data();
-            
-            throw runtime_error(errStr);
-        }
-    }
 }

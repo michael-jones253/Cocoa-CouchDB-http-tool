@@ -47,6 +47,42 @@ namespace MyCurlCpp {
         return ok;
     }
     
+    bool MyCurl::SetGetMethod() {
+        bool ok{};
+        try {
+            _impl->SetGetMethod();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
+    bool MyCurl::SetPostMethod() {
+        bool ok{};
+        try {
+            _impl->SetPostMethod();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
+    bool MyCurl::SetJsonContent() {
+        bool ok{};
+        try {
+            _impl->SetJsonContent();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
     bool MyCurl::Run(char const* url) {
         bool ok{};
         try {

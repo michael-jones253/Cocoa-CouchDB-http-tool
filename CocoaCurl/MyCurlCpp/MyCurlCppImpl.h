@@ -28,6 +28,12 @@ namespace MyCurlCpp {
         
         void InitConnection();
         
+        void SetGetMethod();
+        
+        void SetPostMethod();
+        
+        void SetJsonContent();
+
         void Run(char const* url);
         
         std::string GetContent() const;
@@ -37,7 +43,6 @@ namespace MyCurlCpp {
     private:
         void InitErrorBuffer();
         void InitWriter();
-        void SetJsonForPut();
     };
 }
 

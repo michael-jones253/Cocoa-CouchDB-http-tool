@@ -13,7 +13,7 @@
 #include <memory>
 #include <string>
 
-/* The classes below are not exported */
+/* The classes below are exported */
 #pragma GCC visibility push(default)
 
 namespace MyCurlCpp {
@@ -30,6 +30,12 @@ namespace MyCurlCpp {
         bool HelloCurl() const;
         
         bool InitConnection();
+        
+        bool SetGetMethod();
+        
+        bool SetPostMethod();
+        
+        bool SetJsonContent();
         
         bool Run(char const* url);
         

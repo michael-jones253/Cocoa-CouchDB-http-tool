@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B20B428E1B02F43D00F47FBA /* MyEasyCurlTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B20B428D1B02F37900F47FBA /* MyEasyCurlTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B21826DE1B0317BE00080AF8 /* MyEasyController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21826DD1B0317BE00080AF8 /* MyEasyController.m */; };
+		B21826E01B03288100080AF8 /* MyEasyController.h in Headers */ = {isa = PBXBuildFile; fileRef = B21826DF1B0317DF00080AF8 /* MyEasyController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B21D83671AFD725E004A3171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83661AFD725E004A3171 /* AppDelegate.m */; };
 		B21D83691AFD725E004A3171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83681AFD725E004A3171 /* main.m */; };
 		B21D836C1AFD725E004A3171 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D836B1AFD725E004A3171 /* Document.m */; };
@@ -75,6 +78,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B20B428D1B02F37900F47FBA /* MyEasyCurlTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyCurlTypes.h; sourceTree = "<group>"; };
+		B21826DD1B0317BE00080AF8 /* MyEasyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEasyController.m; sourceTree = "<group>"; };
+		B21826DF1B0317DF00080AF8 /* MyEasyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyController.h; sourceTree = "<group>"; };
 		B21D83601AFD725E004A3171 /* CocoaCurl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaCurl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21D83641AFD725E004A3171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B21D83651AFD725E004A3171 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -212,6 +218,9 @@
 		B23704191B0199F2004F1374 /* MyCocoaCurl */ = {
 			isa = PBXGroup;
 			children = (
+				B21826DD1B0317BE00080AF8 /* MyEasyController.m */,
+				B21826DF1B0317DF00080AF8 /* MyEasyController.h */,
+				B20B428D1B02F37900F47FBA /* MyEasyCurlTypes.h */,
 				B237041C1B0199F2004F1374 /* MyCocoaCurl.h */,
 				B23704461B01A188004F1374 /* MyEasyCurl.h */,
 				B23704441B01A16A004F1374 /* MyEasyCurl.m */,
@@ -261,6 +270,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21826E01B03288100080AF8 /* MyEasyController.h in Headers */,
+				B20B428E1B02F43D00F47FBA /* MyEasyCurlTypes.h in Headers */,
 				B237044D1B01C63C004F1374 /* MyEasyCurl.h in Headers */,
 				B237041D1B0199F2004F1374 /* MyCocoaCurl.h in Headers */,
 			);
@@ -469,6 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B23704451B01A16A004F1374 /* MyEasyCurl.m in Sources */,
+				B21826DE1B0317BE00080AF8 /* MyEasyController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +668,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -672,6 +685,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -681,6 +695,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -788,6 +803,7 @@
 				B23704031B018A78004F1374 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B23704311B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurl" */ = {
 			isa = XCConfigurationList;
@@ -796,6 +812,7 @@
 				B23704331B0199F2004F1374 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B23704351B0199F2004F1374 /* Build configuration list for PBXNativeTarget "MyCocoaCurlTests" */ = {
 			isa = XCConfigurationList;
@@ -804,6 +821,7 @@
 				B23704371B0199F2004F1374 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B237043D1B019B14004F1374 /* Build configuration list for PBXNativeTarget "MyCurlCppD" */ = {
 			isa = XCConfigurationList;
@@ -812,6 +830,7 @@
 				B237043F1B019B14004F1374 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

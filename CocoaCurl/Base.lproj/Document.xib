@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="Document">
             <connections>
                 <outlet property="content" destination="jfB-IQ-gFW" id="HSF-Gy-PMx"/>
+                <outlet property="httpVerb" destination="xt4-jM-N2E" id="Rne-QM-2h7"/>
                 <outlet property="url" destination="JDq-Ah-v2f" id="XFi-Rn-sdO"/>
                 <outlet property="window" destination="xOd-HO-29H" id="JIz-fz-R2o"/>
             </connections>
@@ -52,6 +53,39 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xt4-jM-N2E">
+                        <rect key="frame" x="367" y="360" width="58" height="78"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        <size key="cellSize" width="73" height="18"/>
+                        <size key="intercellSpacing" width="4" height="2"/>
+                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="sRS-7u-TR8">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <cells>
+                            <column>
+                                <buttonCell type="radio" title="GET" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="JSb-N8-cUj">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <buttonCell type="radio" title="POST" imagePosition="left" alignment="left" inset="2" id="m85-g5-7Ss">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <buttonCell type="radio" title="PUT" imagePosition="left" alignment="left" inset="2" id="PrH-OR-6XS">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <buttonCell type="radio" title="DELETE" imagePosition="left" alignment="left" inset="2" id="lNZ-ni-NdZ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </column>
+                        </cells>
+                        <connections>
+                            <action selector="httpMethodButtonSelected:" target="-1" id="n4O-XR-sD4"/>
+                        </connections>
+                    </matrix>
                 </subviews>
             </view>
             <connections>

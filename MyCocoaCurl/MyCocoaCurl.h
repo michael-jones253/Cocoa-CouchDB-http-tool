@@ -15,6 +15,9 @@ FOUNDATION_EXPORT double MyCocoaCurlVersionNumber;
 FOUNDATION_EXPORT const unsigned char MyCocoaCurlVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MyCocoaCurl/PublicHeader.h>
+#import "MyEasyCurlTypes.h"
 #import "MyEasyCurl.h"
+#import "MyEasyController.h"
+
 
 

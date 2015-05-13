@@ -9,6 +9,7 @@
 #ifndef CocoaCurl_MyEasyCurl_h
 #define CocoaCurl_MyEasyCurl_h
 #import <Foundation/Foundation.h>
+#import "MyEasyCurlTypes.h"
 
 @interface MyEasyCurl : NSObject {
     void* myImpl;
@@ -21,6 +22,12 @@
 - (void)HelloCurl;
 
 - (BOOL)InitConnection;
+
+- (BOOL)SetGetMethod;
+
+- (BOOL)SetPostMethod;
+
+- (BOOL)SetJsonContent;
 
 - (BOOL)Run: (NSString*)url;
 

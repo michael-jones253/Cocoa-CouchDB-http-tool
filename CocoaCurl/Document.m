@@ -18,7 +18,7 @@
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
-        self->_curlCpp = [[MyEasyCurl alloc]init];
+        self->_curlCpp = [[MyEasyController alloc]init];
     }
     return self;
 }
@@ -27,27 +27,48 @@
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         
-        BOOL ok = [self->_curlCpp InitConnection];
+        [self->_curlCpp Run:self.url.title];
         
-        if (ok) {
-            ok = [self->_curlCpp Run:self.url.title];
+        NSLog(@"Performing curl: %@", self.url.title);
+        NSString* content = [self->_curlCpp GetResult];
+        [self.content setTitle: content];
+    }
+}
+
+- (IBAction)httpMethodButtonSelected:(id) sender {
+    NSMatrix *myMatrix = sender;
+    NSString *name = [sender stringValue];
+    NSString *httpMatrixName = [self.httpVerb stringValue];
+    
+    if ([name isEqualToString:httpMatrixName]) {
+        NSInteger selectedRow = [myMatrix selectedRow];
+        NSButtonCell *buttonCell = [[self.httpVerb cells] objectAtIndex:selectedRow];
+        if ([[buttonCell title] isEqualToString:@"GET"]) {
+            [_curlCpp setHttpMethod:MyHttpMethodGet];
+        }
+        else if ([[buttonCell title] isEqualToString:@"POST"]) {
+            [_curlCpp setHttpMethod:MyHttpMethodPost];
+        }
+        else if ([[buttonCell title] isEqualToString:@"PUT"]) {
+            [_curlCpp setHttpMethod:MyHttpMethodPut];
+        }
+        else if ([[buttonCell title] isEqualToString:@"DELETE"]) {
+            [_curlCpp setHttpMethod:MyHttpMethodDelete];
         }
         
-        if (ok) {
-            NSLog(@"Performing curl: %@", self.url.title);
-            NSString* content = [self->_curlCpp GetContent];
-            [self.content setTitle: content];
-        }
-        else {
-            NSString* error = [self->_curlCpp GetError];
-            [self.content setTitle: error];
-        }
+        NSLog(@"HTTP GET selected: %@ %@", [sender stringValue], [buttonCell title]);
     }
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    // NSArray *cellArray = [self.httpVerb cells];
+    // [[cellArray objectAtIndex:0] setTitle:@"Apples"];
+    [self.httpVerb selectCellAtRow:1 column:0];
+    /*
+    [_curlCpp setHttpMethod:MyHttpMethodGet];
+     */
 }
 
 + (BOOL)autosavesInPlace {

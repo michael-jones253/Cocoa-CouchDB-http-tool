@@ -60,6 +60,16 @@
     XCTAssert(YES, @"Pass");
 }
 
+- (void)testController {
+    MyEasyController* controller = [[MyEasyController alloc]init];
+    
+    [controller Run:@"www.example.com"];
+    
+    NSString* result = [controller GetResult];
+    
+    XCTAssert([result containsString:@"Content"], @"Run Controller ok");
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

@@ -14,7 +14,21 @@
 @implementation MyEasyCurl
 
 @synthesize MyGreeting = myGreeting;
-// using namespace std;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        myGreeting = @"synthesised greeting";
+    }
+    
+    self->myImpl = new MyCurlCpp::MyCurl();
+    
+    return self;
+}
+
+- (void)dealloc {
+    delete (MyCurlCpp::MyCurl*)self->myImpl;
+}
 
 - (void)Greeting {
     NSLog(@"Objective Greeting %@", self.MyGreeting);
@@ -30,6 +44,27 @@
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     BOOL ret = impl->InitConnection();
+    
+    return ret;
+}
+
+- (BOOL)SetGetMethod {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetGetMethod();
+    
+    return ret;
+}
+
+- (BOOL)SetPostMethod {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetPostMethod();
+
+    return ret;
+}
+
+- (BOOL)SetJsonContent {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetJsonContent();
     
     return ret;
 }
@@ -62,22 +97,6 @@
     
     return ret;
     
-}
-
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        myGreeting = @"synthesised greeting";
-    }
-    
-    self->myImpl = new MyCurlCpp::MyCurl();
-    
-    return self;
-}
-
-- (void)dealloc {
-    delete (MyCurlCpp::MyCurl*)self->myImpl;
 }
 
 @end
