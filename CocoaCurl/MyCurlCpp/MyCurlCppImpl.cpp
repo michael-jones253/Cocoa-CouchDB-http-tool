@@ -12,15 +12,21 @@
 using namespace std;
 
 namespace  {
-    int writer(char *data, size_t size, size_t nmemb,
-               std::string *writerData)
-    {
+    int write_callback(char *data, size_t size, size_t nmemb,
+               std::string *writerData) {
         if (writerData == NULL)
             return 0;
         
         writerData->append(data, size*nmemb);
         
         return static_cast<int>(size * nmemb);
+    }
+    
+    size_t read_callback(char *buffer, size_t size, size_t nitems, void *instream) {
+        auto bufferStream = static_cast<MyCurlCpp::MyPutBufferStream*>(instream);
+        auto bytesRead = bufferStream->Read(buffer, size, nitems);
+
+        return bytesRead;
     }
 }
 
@@ -30,7 +36,8 @@ namespace MyCurlCpp {
     _contentBuffer{},
     _errorBuffer{},
     _headerList{},
-    _postData{} {
+    _postData{},
+    _putBufferStream{} {
         // Not thread safe
         curl_global_init(CURL_GLOBAL_DEFAULT);
     }
@@ -128,6 +135,26 @@ namespace MyCurlCpp {
         }
     }
     
+    void MyCurlCppImpl::SetPutData(std::string const& data) {
+        _putBufferStream.Load(data);
+        
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_READDATA, &_putBufferStream);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPPUT read data) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+        
+        
+        /* pass in a pointer to the data - libcurl will not copy */
+        res = curl_easy_setopt(_conn, CURLOPT_READFUNCTION, read_callback);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPUT read function) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+    
     void MyCurlCppImpl::SetJsonContent() {
         _headerList = nullptr;
         if(_conn == nullptr) {
@@ -194,7 +221,7 @@ namespace MyCurlCpp {
     }
     
     void MyCurlCppImpl::InitWriter() {
-        CURLcode code = curl_easy_setopt(_conn, CURLOPT_WRITEFUNCTION, writer);
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_WRITEFUNCTION, write_callback);
         if (code != CURLE_OK)
         {
             string errStr = "Failed to set writer: ";

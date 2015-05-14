@@ -37,6 +37,10 @@
 		B23704511B01CC00004F1374 /* MyCurlCppImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = B23704111B0198C0004F1374 /* MyCurlCppImpl.h */; };
 		B23EE84D1AFEBB6100D42B63 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EE1AFDE13B0081DD53 /* libc++.dylib */; };
 		B23EE84E1AFEBB7900D42B63 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */; };
+		B2F126691B0461DD005AEF38 /* MyPutBufferStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */; };
+		B2F1266A1B0461E8005AEF38 /* MyPutBufferStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F126671B045935005AEF38 /* MyPutBufferStream.h */; };
+		B2F1266B1B0461F2005AEF38 /* MyPutBufferStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F126671B045935005AEF38 /* MyPutBufferStream.h */; };
+		B2F1266C1B0461F8005AEF38 /* MyPutBufferStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +111,8 @@
 		B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCurlCppD.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		B23704441B01A16A004F1374 /* MyEasyCurl.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MyEasyCurl.m; sourceTree = "<group>"; };
 		B23704461B01A188004F1374 /* MyEasyCurl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyCurl.h; sourceTree = "<group>"; };
+		B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyPutBufferStream.cpp; sourceTree = "<group>"; };
+		B2F126671B045935005AEF38 /* MyPutBufferStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPutBufferStream.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				B237040A1B018C96004F1374 /* MyCurl.h */,
+				B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */,
+				B2F126671B045935005AEF38 /* MyPutBufferStream.h */,
 				B23704091B018C96004F1374 /* MyCurl.cpp */,
 				B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */,
 				B23704111B0198C0004F1374 /* MyCurlCppImpl.h */,
@@ -263,6 +271,7 @@
 			files = (
 				B23704511B01CC00004F1374 /* MyCurlCppImpl.h in Headers */,
 				B237040F1B018FD1004F1374 /* MyCurl.h in Headers */,
+				B2F1266A1B0461E8005AEF38 /* MyPutBufferStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +290,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F1266B1B0461F2005AEF38 /* MyPutBufferStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +482,7 @@
 			files = (
 				B237040E1B018FCC004F1374 /* MyCurl.cpp in Sources */,
 				B23704501B01CBFB004F1374 /* MyCurlCppImpl.cpp in Sources */,
+				B2F126691B0461DD005AEF38 /* MyPutBufferStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +509,7 @@
 			files = (
 				B23704481B01AF2A004F1374 /* MyCurl.cpp in Sources */,
 				B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */,
+				B2F1266C1B0461F8005AEF38 /* MyPutBufferStream.cpp in Sources */,
 				B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */,
 				B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */,
 			);

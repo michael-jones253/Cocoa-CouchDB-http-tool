@@ -33,6 +33,8 @@
 
 - (BOOL)SetPostData: (NSString*)data;
 
+- (BOOL)SetPutData: (NSString*)data;
+
 - (BOOL)SetJsonContent;
 
 - (BOOL)Run: (NSString*)url;

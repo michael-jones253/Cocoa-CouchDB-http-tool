@@ -52,7 +52,7 @@
             self->_ok = [self->_myEasyModel SetPutMethod];
             
             if (self->_ok) {
-                [self->_myEasyModel SetPostData:self.postData];
+                [self->_myEasyModel SetPutData:self.postData];
             }
             
             if (self->_ok) {

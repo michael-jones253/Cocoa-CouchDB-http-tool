@@ -83,6 +83,12 @@
     return ret;
 }
 
+- (BOOL)SetPutData: (NSString*)data {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetPutData([ data UTF8String]);
+    
+    return ret;
+}
 
 - (BOOL)SetJsonContent {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;

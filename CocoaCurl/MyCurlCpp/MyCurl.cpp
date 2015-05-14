@@ -107,8 +107,20 @@ namespace MyCurlCpp {
         }
         
         return ok;
-        
     }
+    
+    bool MyCurl::SetPutData(char const* postData) {
+        bool ok{};
+        try {
+            _impl->SetPutData(postData);
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+
     
     bool MyCurl::SetJsonContent() {
         bool ok{};

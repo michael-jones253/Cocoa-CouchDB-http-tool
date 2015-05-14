@@ -9,6 +9,7 @@
 #ifndef __CocoaCurl__MyCurlCppImpl__
 #define __CocoaCurl__MyCurlCppImpl__
 
+#include "MyPutBufferStream.h"
 #include <curl/curl.h>
 #include <stdio.h>
 #include <array>
@@ -22,6 +23,7 @@ namespace MyCurlCpp {
         std::string _contentBuffer;
         struct curl_slist* _headerList;
         std::string _postData;
+        MyPutBufferStream _putBufferStream;
     public:
         MyCurlCppImpl();
         ~MyCurlCppImpl();
@@ -38,6 +40,8 @@ namespace MyCurlCpp {
         void SetDeleteMethod();
 
         void SetPostData(std::string const& data);
+
+        void SetPutData(std::string const& data);
         
         void SetJsonContent();
 
