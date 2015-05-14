@@ -35,6 +35,21 @@
     }
 }
 
+- (IBAction)copyButtonPressed:(id)sender {
+    self.applicationData.placeholderString = self.content.title;
+    NSInteger selectedRow = [self.httpVerb selectedRow];
+    NSButtonCell *buttonCell = [[self.httpVerb cells] objectAtIndex:selectedRow];
+    if ([[buttonCell title] isEqualToString:@"POST"] || [[buttonCell title] isEqualToString:@"PUT"]) {
+        self.applicationData.title = self.applicationData.placeholderString;
+    }
+}
+
+- (IBAction)clearButtonPressed:(id)sender {
+    self.applicationData.placeholderString = @"";
+    self.applicationData.title = @"";
+}
+
+
 - (IBAction)httpMethodButtonSelected:(id) sender {
     NSMatrix *myMatrix = sender;
     NSString *name = [sender stringValue];
@@ -44,6 +59,11 @@
         NSInteger selectedRow = [myMatrix selectedRow];
         NSButtonCell *buttonCell = [[self.httpVerb cells] objectAtIndex:selectedRow];
         if ([[buttonCell title] isEqualToString:@"GET"]) {
+            // Application data is not applicable to GET, so we save what's there in the
+            // placeholder and blank it out.
+            self.applicationData.placeholderString = self.applicationData.title;
+            self.applicationData.title = @"";
+            
             [_curlCpp setHttpMethod:MyHttpMethodGet];
         }
         else if ([[buttonCell title] isEqualToString:@"POST"]) {
