@@ -22,12 +22,14 @@
     return self;
 }
 
-- (void)Run: (NSString*)url {
+- (void)RunUrl: (NSString*)url applicationData: (NSString*)data {
     self->_ok = [self->_myEasyModel InitConnection];
     
     if (!self->_ok) {
         return;
     }
+    
+    self.postData = data;
     
     switch (self.httpMethod) {
         case MyHttpMethodGet:

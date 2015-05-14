@@ -63,9 +63,11 @@
 - (void)testController {
     MyEasyController* controller = [[MyEasyController alloc]init];
     
-    [controller Run:@"www.example.com"];
+    [controller RunUrl:@"www.example.com" applicationData:@""];
     
     NSString* result = [controller GetResult];
+    
+    NSLog(@"Result: %@", result);
     
     XCTAssert([result containsString:@"Content"], @"Run Controller ok");
 }

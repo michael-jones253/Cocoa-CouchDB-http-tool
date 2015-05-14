@@ -16,6 +16,7 @@
 }
 
 @property (weak) IBOutlet NSTextFieldCell *url;
+@property (weak) IBOutlet NSTextFieldCell *applicationData;
 @property (weak) IBOutlet NSTextFieldCell *content;
 @property (weak) IBOutlet NSMatrix *httpVerb;
 

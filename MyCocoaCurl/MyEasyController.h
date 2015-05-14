@@ -21,7 +21,7 @@
 @property NSString* postData;
 - (id)init;
 
-- (void)Run: (NSString*)url;
+- (void)RunUrl: (NSString*)url applicationData: (NSString*)data;
 
 - (NSString*)GetResult;
 

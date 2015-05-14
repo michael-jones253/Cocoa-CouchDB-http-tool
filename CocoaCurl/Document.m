@@ -27,7 +27,7 @@
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         
-        [self->_curlCpp Run:self.url.title];
+        [self->_curlCpp RunUrl:self.url.title applicationData:self.applicationData.title];
         
         NSLog(@"Performing curl: %@", self.url.title);
         NSString* content = [self->_curlCpp GetResult];
@@ -47,9 +47,19 @@
             [_curlCpp setHttpMethod:MyHttpMethodGet];
         }
         else if ([[buttonCell title] isEqualToString:@"POST"]) {
+            
+            if ([self.applicationData.title isEqualToString:@""]) {
+                self.applicationData.title = self.applicationData.placeholderString;
+            }
+
             [_curlCpp setHttpMethod:MyHttpMethodPost];
         }
         else if ([[buttonCell title] isEqualToString:@"PUT"]) {
+            
+            if ([self.applicationData.title isEqualToString:@""]) {
+                self.applicationData.title = self.applicationData.placeholderString;
+            }
+
             [_curlCpp setHttpMethod:MyHttpMethodPut];
         }
         else if ([[buttonCell title] isEqualToString:@"DELETE"]) {
