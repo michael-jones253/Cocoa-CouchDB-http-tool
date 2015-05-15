@@ -35,7 +35,7 @@
                             <action selector="curlButtonTapped:" target="-1" id="46H-01-TW9"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mz7-V8-lM6">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mz7-V8-lM6">
                         <rect key="frame" x="20" y="-9" width="661" height="301"/>
                         <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="jfB-IQ-gFW">
                             <font key="font" metaFont="system"/>
@@ -87,7 +87,7 @@
                             <outlet property="delegate" destination="-2" id="EvZ-gA-BXW"/>
                         </connections>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ao9-F4-RbW">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ao9-F4-RbW">
                         <rect key="frame" x="20" y="326" width="661" height="143"/>
                         <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="{&quot;company&quot;: &quot;Example, Inc.&quot;}" drawsBackground="YES" id="o2N-oG-F3A">
                             <font key="font" metaFont="system"/>
@@ -113,6 +113,16 @@
                         </buttonCell>
                         <connections>
                             <action selector="clearButtonPressed:" target="-1" id="4Xt-If-GMP"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4qt-fE-CRw">
+                        <rect key="frame" x="194" y="293" width="112" height="32"/>
+                        <buttonCell key="cell" type="push" title="Example View" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HZK-J0-XaN">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="exampleViewButtonPressed:" target="-1" id="fgk-ER-h7j"/>
                         </connections>
                     </button>
                 </subviews>

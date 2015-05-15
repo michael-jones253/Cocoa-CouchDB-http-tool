@@ -49,6 +49,16 @@
     self.applicationData.title = @"";
 }
 
+- (IBAction)exampleViewButtonPressed:(id)sender {
+    NSString* urlAddOn = @"/_design/mydesign";
+    self.url.title = [self.url.title stringByAppendingString:urlAddOn];
+    
+    NSString* viewFormat = @"{\"views\":{\"company\":{\"map\":\"%@\"}}}";
+    NSString* mapFunction = @"function(doc) { if(doc.company) { emit(doc.company, doc);}}";
+    NSString* exampleView = [NSString stringWithFormat:viewFormat, mapFunction];
+    
+    self.applicationData.placeholderString = exampleView;
+}
 
 - (IBAction)httpMethodButtonSelected:(id) sender {
     NSMatrix *myMatrix = sender;

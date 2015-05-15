@@ -23,6 +23,7 @@
 - (IBAction)curlButtonTapped:(id)sender;
 - (IBAction)copyButtonPressed:(id)sender;
 - (IBAction)clearButtonPressed:(id)sender;
+- (IBAction)exampleViewButtonPressed:(id)sender;
 - (IBAction)httpMethodButtonSelected:(id)sender;
 
 @end
