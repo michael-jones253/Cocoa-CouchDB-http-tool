@@ -26,10 +26,16 @@
 - (IBAction)curlButtonTapped:(id) sender {
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
-        
-        [self->_curlCpp RunUrl:self.url.title applicationData:self.applicationData.title];
-        
         NSLog(@"Performing curl: %@", self.url.title);
+
+        NSError* runError = nil;
+        BOOL ok = [self->_curlCpp RunUrl:self.url.title applicationData:self.applicationData.title error:&runError];
+        
+        if (!ok) {
+            NSString *err = (runError != nil)? runError.localizedDescription : @"Unknown run error";
+            [self.content setTitle:err];
+        }
+        
         NSString* content = [self->_curlCpp GetResult];
         [self.content setTitle: content];
     }

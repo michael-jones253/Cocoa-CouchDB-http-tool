@@ -62,8 +62,8 @@
 
 - (void)testController {
     MyEasyController* controller = [[MyEasyController alloc]init];
-    
-    [controller RunUrl:@"www.example.com" applicationData:@""];
+    NSError* runError = nil;
+    [controller RunUrl:@"www.example.com" applicationData:@"" error:&runError];
     
     NSString* result = [controller GetResult];
     

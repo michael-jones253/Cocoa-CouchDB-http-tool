@@ -14,7 +14,6 @@
 
 @interface MyEasyController : NSObject {
     MyEasyCurl* _myEasyModel;
-    BOOL _ok;
 }
 
 @property MyHttpMethod httpMethod;
@@ -23,9 +22,11 @@
 
 - (id)init;
 
-- (void)RunUrl: (NSString*)url applicationData: (NSString*)data;
+- (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
 - (NSString*)GetResult;
+
+- (NSError*)MakeRunError: (NSString*const)message;
 
 @end
 
