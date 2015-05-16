@@ -19,6 +19,8 @@
 
 @property MyHttpMethod httpMethod;
 @property NSString* postData;
+@property BOOL isPlainTextAttachment;
+
 - (id)init;
 
 - (void)RunUrl: (NSString*)url applicationData: (NSString*)data;

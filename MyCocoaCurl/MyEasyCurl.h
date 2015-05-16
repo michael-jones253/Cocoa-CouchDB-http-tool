@@ -37,6 +37,8 @@
 
 - (BOOL)SetJsonContent;
 
+- (BOOL)SetPlainTextContent;
+
 - (BOOL)Run: (NSString*)url;
 
 - (NSString*)GetContent;

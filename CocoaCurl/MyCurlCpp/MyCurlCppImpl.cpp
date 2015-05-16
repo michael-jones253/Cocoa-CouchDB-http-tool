@@ -171,6 +171,22 @@ namespace MyCurlCpp {
             throw runtime_error(errStr);
         }
     }
+    void MyCurlCppImpl::SetPlainTextContent() {
+        _headerList = nullptr;
+        if(_conn == nullptr) {
+            throw runtime_error("No CURL connection for set plain text content header");
+        }
+        
+        _headerList = curl_slist_append(_headerList, "Content-Type: text/plain");
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to json content header: ";
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
+    }
     
     void MyCurlCppImpl::Run(char const* url) {
         CURLcode res;        

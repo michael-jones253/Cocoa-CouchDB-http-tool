@@ -15,6 +15,7 @@
     if (self) {
         self.httpMethod = MyHttpMethodGet;
         self.postData = @"{\"company\": \"Example, Inc.\"}";
+        self.isPlainTextAttachment = FALSE;
         self->_ok = FALSE;
         self->_myEasyModel = [[MyEasyCurl alloc]init];
     }    
@@ -26,6 +27,22 @@
     self->_ok = [self->_myEasyModel InitConnection];
     
     if (!self->_ok) {
+        // FIX ME return NSError
+        return;
+    }
+    
+    if (self.isPlainTextAttachment && self.httpMethod != MyHttpMethodPut) {
+        // FIX ME return NSError
+        return;
+    }
+
+    if (self.isPlainTextAttachment && ![url containsString:@"?rev="]) {
+        // FIX ME return NSError
+        return;
+    }
+
+    if (self.isPlainTextAttachment && ![url containsString:@"attachment"]) {
+        // FIX ME return NSError
         return;
     }
     
@@ -52,12 +69,20 @@
             self->_ok = [self->_myEasyModel SetPutMethod];
             
             if (self->_ok) {
-                [self->_myEasyModel SetPutData:self.postData];
+                self->_ok = [self->_myEasyModel SetPutData:self.postData];
             }
             
-            if (self->_ok) {
-                [self->_myEasyModel SetJsonContent];
+            if (!self->_ok) {
+                return;
             }
+            
+            if (self.isPlainTextAttachment) {
+                self->_ok = [self->_myEasyModel SetPlainTextContent];
+            }
+            else {
+                self->_ok = [self->_myEasyModel SetJsonContent];
+            }
+            
             break;
             
         case MyHttpMethodDelete:

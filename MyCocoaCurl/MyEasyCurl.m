@@ -97,6 +97,13 @@
     return ret;
 }
 
+- (BOOL)SetPlainTextContent {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetPlainTextContent();
+    
+    return ret;
+}
+
 - (BOOL)Run: (NSString*)url {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     

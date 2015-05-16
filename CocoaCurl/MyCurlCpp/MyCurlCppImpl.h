@@ -24,6 +24,7 @@ namespace MyCurlCpp {
         struct curl_slist* _headerList;
         std::string _postData;
         MyPutBufferStream _putBufferStream;
+        
     public:
         MyCurlCppImpl();
         ~MyCurlCppImpl();
@@ -44,6 +45,8 @@ namespace MyCurlCpp {
         void SetPutData(std::string const& data);
         
         void SetJsonContent();
+        
+        void SetPlainTextContent();
 
         void Run(char const* url);
         

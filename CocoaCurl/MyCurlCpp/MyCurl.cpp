@@ -134,6 +134,18 @@ namespace MyCurlCpp {
         return ok;
     }
     
+    bool MyCurl::SetPlainTextContent() {
+        bool ok{};
+        try {
+            _impl->SetPlainTextContent();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
     bool MyCurl::Run(char const* url) {
         bool ok{};
         try {

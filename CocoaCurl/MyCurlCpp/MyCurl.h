@@ -45,6 +45,8 @@ namespace MyCurlCpp {
         
         bool SetJsonContent();
         
+        bool SetPlainTextContent();
+        
         bool Run(char const* url);
         
         std::string GetContent() const;
