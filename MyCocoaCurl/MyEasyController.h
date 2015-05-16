@@ -26,8 +26,6 @@
 
 - (NSString*)GetResult;
 
-- (NSError*)MakeRunError: (NSString*const)message;
-
 @end
 
 

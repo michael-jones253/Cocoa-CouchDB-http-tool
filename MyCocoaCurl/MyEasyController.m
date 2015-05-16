@@ -8,6 +8,13 @@
 
 #import "MyEasyController.h"
 
+@interface MyEasyController()
+// Private.
+- (NSError*)MakeRunError: (NSString*const)message;
+
+@end
+
+
 @implementation MyEasyController
 
 - (id)init {
@@ -22,17 +29,6 @@
     return self;
 }
 
-
-- (NSError*)MakeRunError: (NSString*const)message {
-    NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
-    NSString *desc = NSLocalizedString(message, nil);
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
-    
-    NSError *error = [NSError errorWithDomain:domain
-                                         code:-101
-                                     userInfo:userInfo];
-    return error;
-}
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
     BOOL ok = FALSE;
@@ -134,6 +130,17 @@
 
 - (NSString*)GetResult {
     return [self->_myEasyModel GetContent];
+}
+
+- (NSError*)MakeRunError: (NSString*const)message {
+    NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
+    NSString *desc = NSLocalizedString(message, nil);
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+    
+    NSError *error = [NSError errorWithDomain:domain
+                                         code:-101
+                                     userInfo:userInfo];
+    return error;
 }
 
 @end
