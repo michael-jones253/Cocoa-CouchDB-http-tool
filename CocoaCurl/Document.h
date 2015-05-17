@@ -12,13 +12,14 @@
 #import <Foundation/Foundation.h>
 
 @interface Document : NSDocument {
-    MyEasyController* _curlCpp;
+    MyEasyController* _easyController;
 }
 
 @property (weak) IBOutlet NSTextFieldCell *url;
 @property (weak) IBOutlet NSTextFieldCell *applicationData;
 @property (weak) IBOutlet NSTextFieldCell *content;
 @property (weak) IBOutlet NSMatrix *httpVerb;
+@property (weak) IBOutlet NSButtonCell *attachAsPlainText;
 
 - (IBAction)curlButtonTapped:(id)sender;
 - (IBAction)copyButtonPressed:(id)sender;

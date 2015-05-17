@@ -18,25 +18,28 @@
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
-        self->_curlCpp = [[MyEasyController alloc]init];
+        self->_easyController = [[MyEasyController alloc]init];
     }
     return self;
 }
 
 - (IBAction)curlButtonTapped:(id) sender {
+    self->_easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? TRUE:FALSE;
+    
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         NSLog(@"Performing curl: %@", self.url.title);
 
         NSError* runError = nil;
-        BOOL ok = [self->_curlCpp RunUrl:self.url.title applicationData:self.applicationData.title error:&runError];
+        BOOL ok = [self->_easyController RunUrl:self.url.title applicationData:self.applicationData.title error:&runError];
         
         if (!ok) {
             NSString *err = (runError != nil)? runError.localizedDescription : @"Unknown run error";
             [self.content setTitle:err];
+            return;
         }
         
-        NSString* content = [self->_curlCpp GetResult];
+        NSString* content = [self->_easyController GetResult];
         [self.content setTitle: content];
     }
 }
@@ -80,7 +83,7 @@
             self.applicationData.placeholderString = self.applicationData.title;
             self.applicationData.title = @"";
             
-            [_curlCpp setHttpMethod:MyHttpMethodGet];
+            [_easyController setHttpMethod:MyHttpMethodGet];
         }
         else if ([[buttonCell title] isEqualToString:@"POST"]) {
             
@@ -88,7 +91,7 @@
                 self.applicationData.title = self.applicationData.placeholderString;
             }
 
-            [_curlCpp setHttpMethod:MyHttpMethodPost];
+            [_easyController setHttpMethod:MyHttpMethodPost];
         }
         else if ([[buttonCell title] isEqualToString:@"PUT"]) {
             
@@ -96,10 +99,10 @@
                 self.applicationData.title = self.applicationData.placeholderString;
             }
 
-            [_curlCpp setHttpMethod:MyHttpMethodPut];
+            [_easyController setHttpMethod:MyHttpMethodPut];
         }
         else if ([[buttonCell title] isEqualToString:@"DELETE"]) {
-            [_curlCpp setHttpMethod:MyHttpMethodDelete];
+            [_easyController setHttpMethod:MyHttpMethodDelete];
         }
         
         NSLog(@"HTTP method selected: %@ %@", [sender stringValue], [buttonCell title]);
@@ -114,7 +117,7 @@
     [self.httpVerb selectCellAtRow:0 column:0];
     
     // FIX ME - this is error prone.
-    [_curlCpp setHttpMethod:MyHttpMethodGet];
+    [_easyController setHttpMethod:MyHttpMethodGet];
 }
 
 + (BOOL)autosavesInPlace {

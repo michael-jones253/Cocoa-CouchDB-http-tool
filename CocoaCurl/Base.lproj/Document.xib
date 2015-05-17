@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="Document">
             <connections>
                 <outlet property="applicationData" destination="o2N-oG-F3A" id="cOI-zY-lvr"/>
+                <outlet property="attachAsPlainText" destination="HTY-do-BTG" id="HO4-bg-fEB"/>
                 <outlet property="content" destination="jfB-IQ-gFW" id="HSF-Gy-PMx"/>
                 <outlet property="httpVerb" destination="xt4-jM-N2E" id="Rne-QM-2h7"/>
                 <outlet property="url" destination="JDq-Ah-v2f" id="XFi-Rn-sdO"/>
@@ -124,6 +125,13 @@
                         <connections>
                             <action selector="exampleViewButtonPressed:" target="-1" id="fgk-ER-h7j"/>
                         </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bhk-Bl-hVv">
+                        <rect key="frame" x="484" y="512" width="88" height="42"/>
+                        <buttonCell key="cell" type="check" title="plain text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HTY-do-BTG">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
                     </button>
                 </subviews>
             </view>
