@@ -13,6 +13,7 @@
 
 @interface Document : NSDocument {
     MyEasyController* _easyController;
+    NSString* _docBuf;
 }
 
 @property (weak) IBOutlet NSTextFieldCell *url;

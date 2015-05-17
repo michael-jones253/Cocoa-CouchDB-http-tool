@@ -118,6 +118,12 @@
     
     // FIX ME - this is error prone.
     [_easyController setHttpMethod:MyHttpMethodGet];
+    
+    // Review: there must be a better way.
+    if (self->_docBuf != nil) {
+        self.applicationData.placeholderString = self->_docBuf;
+    }
+
 }
 
 + (BOOL)autosavesInPlace {
@@ -133,15 +139,32 @@
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
-    return nil;
+    // [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    
+    // Fix me to save from _docBuf.
+    NSData* doc = [self.applicationData.title dataUsingEncoding:NSUTF8StringEncoding];
+    if (doc == nil) {
+        // FIX ME - set error.
+    }
+    
+    return doc;
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
     // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    // [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    
+    NSString* buf = [[NSString alloc] initWithData: data encoding:NSUTF8StringEncoding];
+    if (buf == nil) {
+        // FIX ME - set outError.
+        return NO;
+    }
+    
+    self->_docBuf = buf;
+    NSLog(@"Loaded Data type: %@", typeName);
+    
     return YES;
 }
 
