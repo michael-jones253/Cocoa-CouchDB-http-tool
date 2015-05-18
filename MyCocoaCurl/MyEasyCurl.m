@@ -104,6 +104,13 @@
     return ret;
 }
 
+- (BOOL)SetDebugOn {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetDebugOn();
+    
+    return ret;
+}
+
 - (BOOL)Run: (NSString*)url {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
@@ -118,6 +125,16 @@
     NSString* ret = nil;
 
     std::string curlStr = impl->GetContent();
+    ret = [ [NSString alloc] initWithCString:curlStr.c_str() encoding:(NSUTF8StringEncoding)];
+    
+    return ret;
+}
+
+- (NSString*)GetDump {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    NSString* ret = nil;
+    
+    std::string const& curlStr = impl->GetDump();
     ret = [ [NSString alloc] initWithCString:curlStr.c_str() encoding:(NSUTF8StringEncoding)];
     
     return ret;

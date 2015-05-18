@@ -47,9 +47,13 @@ namespace MyCurlCpp {
         
         bool SetPlainTextContent();
         
+        bool SetDebugOn();
+        
         bool Run(char const* url);
         
         std::string GetContent() const;
+        
+        std::string const& GetDump() const;
         
         std::string GetError() const;
     };

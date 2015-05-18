@@ -39,9 +39,13 @@
 
 - (BOOL)SetPlainTextContent;
 
+- (BOOL)SetDebugOn;
+
 - (BOOL)Run: (NSString*)url;
 
 - (NSString*)GetContent;
+
+- (NSString*)GetDump;
 
 - (NSString*)GetError;
 

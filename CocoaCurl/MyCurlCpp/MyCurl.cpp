@@ -146,6 +146,18 @@ namespace MyCurlCpp {
         return ok;
     }
     
+    bool MyCurl::SetDebugOn() {
+        bool ok{};
+        try {
+            _impl->SetDebugOn();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
     bool MyCurl::Run(char const* url) {
         bool ok{};
         try {
@@ -164,5 +176,9 @@ namespace MyCurlCpp {
     
     string MyCurl::GetContent() const {
         return _impl->GetContent();
+    }
+    
+    string const& MyCurl::GetDump() const {
+        return _impl->GetDump();
     }
 }

@@ -23,6 +23,7 @@ namespace MyCurlCpp {
         std::string _contentBuffer;
         struct curl_slist* _headerList;
         std::string _postData;
+        std::string _dump;
         MyPutBufferStream _putBufferStream;
         
     public:
@@ -47,10 +48,14 @@ namespace MyCurlCpp {
         void SetJsonContent();
         
         void SetPlainTextContent();
+        
+        void SetDebugOn();
 
         void Run(char const* url);
         
         std::string GetContent() const;
+        
+        std::string const& GetDump() const;
         
         std::string GetError() const;
         

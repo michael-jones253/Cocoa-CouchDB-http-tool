@@ -8,6 +8,7 @@
 
 #include "MyCurlCppImpl.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -28,6 +29,20 @@ namespace  {
 
         return bytesRead;
     }
+    
+    int trace_callback(CURL *handle, curl_infotype type,
+                 char *data, size_t length,
+                       void *userp) {
+        
+        auto dumpStr = static_cast<string*>(userp);
+        
+        if (type == CURLINFO_HEADER_OUT) {
+            dumpStr->append(data, length);
+            dumpStr->append("\n");
+        }
+        
+        return 0;
+    }
 }
 
 namespace MyCurlCpp {
@@ -37,6 +52,7 @@ namespace MyCurlCpp {
     _errorBuffer{},
     _headerList{},
     _postData{},
+    _dump{},
     _putBufferStream{} {
         // Not thread safe
         curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -188,6 +204,33 @@ namespace MyCurlCpp {
         }
     }
     
+    void MyCurlCppImpl::SetDebugOn() {
+        if(_conn == nullptr) {
+            throw runtime_error("No CURL connection for set debug on");
+        }
+        
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_DEBUGDATA, &_dump);
+        
+        code = curl_easy_setopt(_conn, CURLOPT_DEBUGFUNCTION, trace_callback);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to debug function: ";
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
+        
+        /* the DEBUGFUNCTION has no effect until we enable VERBOSE */
+        code = curl_easy_setopt(_conn, CURLOPT_VERBOSE, 1L);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to debug verbose on: ";
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
+    }
+    
     void MyCurlCppImpl::Run(char const* url) {
         CURLcode res;        
         
@@ -219,6 +262,10 @@ namespace MyCurlCpp {
     
     string MyCurlCppImpl::GetContent() const {
         return _contentBuffer;
+    }
+    
+    string const& MyCurlCppImpl::GetDump() const {
+        return _dump;
     }
     
     string MyCurlCppImpl::GetError() const {

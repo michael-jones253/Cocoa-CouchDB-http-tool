@@ -57,7 +57,33 @@
     
     NSLog(@"Content: %@", content);
     
-    XCTAssert(YES, @"Pass");
+    NSString* emptyDump = [libObj GetDump];
+    
+    XCTAssert(emptyDump != nil, @"Got a dump ok");
+    
+    XCTAssert([emptyDump length] == 0, @"Dump length is 0 OK.");
+    
+    ok = [libObj InitConnection];
+    
+    XCTAssert(ok == YES, @"Second connection ok");
+    
+    ok = [libObj SetDebugOn];
+    
+    XCTAssert(ok == YES, @"Pass");
+    
+    ok = [libObj Run:@"www.example.com"];
+
+    XCTAssert(ok == YES, @"Ran with debug");
+    
+    NSString* dump = [libObj GetDump];
+    
+    XCTAssert(dump != nil, @"Got a dump ok");
+    
+    XCTAssert([dump length] > 0, @"Dump length > 0");
+    
+    NSLog(@"DUMP: %@", dump);
+    
+    
 }
 
 - (void)testController {
