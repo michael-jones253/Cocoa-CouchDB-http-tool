@@ -27,6 +27,7 @@
 - (IBAction)clearButtonPressed:(id)sender;
 - (IBAction)exampleViewButtonPressed:(id)sender;
 - (IBAction)httpMethodButtonSelected:(id)sender;
+- (IBAction)applicationDataSentAction:(id)sender;
 
 @end
 

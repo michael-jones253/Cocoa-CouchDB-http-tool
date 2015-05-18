@@ -29,7 +29,6 @@
     return self;
 }
 
-
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
     BOOL ok = FALSE;
     ok = [self->_myEasyModel InitConnection];
@@ -48,20 +47,20 @@
         return FALSE;
     }
 
-    if (self.isPlainTextAttachment && ![url containsString:@"?rev="]) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:@"Plain text attachment must specify document revision"];
-        }
-        return FALSE;
-    }
-
     if (self.isPlainTextAttachment && ![url containsString:@"attachment"]) {
         if (runError != nil) {
-            *runError = [self MakeRunError:@"Plain text attachment must have \"attachment\" in URI"];
+            *runError = [self MakeRunError:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
         }
         return FALSE;
     }
     
+    if (self.isPlainTextAttachment && ![url containsString:@"?rev="]) {
+        if (runError != nil) {
+            *runError = [self MakeRunError:@"Plain text attachment must specify document revision: ?rev=<revision>"];
+        }
+        return FALSE;
+    }
+
     self.postData = data;
     
     switch (self.httpMethod) {

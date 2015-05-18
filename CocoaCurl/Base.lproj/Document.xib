@@ -95,6 +95,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="applicationDataSentAction:" target="-1" id="nYs-Ev-OgQ"/>
+                        </connections>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lyM-VC-SVm">
                         <rect key="frame" x="14" y="293" width="82" height="32"/>

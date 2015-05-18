@@ -109,6 +109,11 @@
     }
 }
 
+- (IBAction)applicationDataSentAction:(id)sender {
+    // Application data edited.
+    self->_docBuf = [sender stringValue];
+}
+
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
@@ -141,10 +146,19 @@
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
     // [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
     
-    // Fix me to save from _docBuf.
-    NSData* doc = [self.applicationData.title dataUsingEncoding:NSUTF8StringEncoding];
-    if (doc == nil) {
-        // FIX ME - set error.
+    if (self->_docBuf == nil) {
+        return nil;
+    }
+    
+    NSData* doc = [self->_docBuf dataUsingEncoding:NSUTF8StringEncoding];
+    if (doc == nil && outError != nil) {
+        NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
+        NSString *desc = NSLocalizedString(@"Couldn't convert to UTF8", nil);
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+        
+        *outError = [NSError errorWithDomain:domain
+                                             code:-101
+                                         userInfo:userInfo];
     }
     
     return doc;
