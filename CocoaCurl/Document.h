@@ -21,6 +21,7 @@
 @property (weak) IBOutlet NSTextFieldCell *content;
 @property (weak) IBOutlet NSMatrix *httpVerb;
 @property (weak) IBOutlet NSButtonCell *attachAsPlainText;
+@property (weak) IBOutlet NSButtonCell *dump;
 
 - (IBAction)curlButtonTapped:(id)sender;
 - (IBAction)copyButtonPressed:(id)sender;

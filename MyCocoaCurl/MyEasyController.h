@@ -19,12 +19,15 @@
 @property MyHttpMethod httpMethod;
 @property NSString* postData;
 @property BOOL isPlainTextAttachment;
+@property BOOL isDumpOn;
 
 - (id)init;
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
 - (NSString*)GetResult;
+
+- (NSString*)GetDump;
 
 @end
 

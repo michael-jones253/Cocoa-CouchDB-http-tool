@@ -9,6 +9,7 @@
                 <outlet property="applicationData" destination="o2N-oG-F3A" id="cOI-zY-lvr"/>
                 <outlet property="attachAsPlainText" destination="HTY-do-BTG" id="HO4-bg-fEB"/>
                 <outlet property="content" destination="jfB-IQ-gFW" id="HSF-Gy-PMx"/>
+                <outlet property="dump" destination="leW-3u-oPp" id="Zuq-b1-5ms"/>
                 <outlet property="httpVerb" destination="xt4-jM-N2E" id="Rne-QM-2h7"/>
                 <outlet property="url" destination="JDq-Ah-v2f" id="XFi-Rn-sdO"/>
                 <outlet property="window" destination="xOd-HO-29H" id="JIz-fz-R2o"/>
@@ -132,6 +133,13 @@
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bhk-Bl-hVv">
                         <rect key="frame" x="484" y="512" width="88" height="42"/>
                         <buttonCell key="cell" type="check" title="plain text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HTY-do-BTG">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e8L-cB-e4C">
+                        <rect key="frame" x="484" y="492" width="79" height="18"/>
+                        <buttonCell key="cell" type="check" title="Dump" bezelStyle="regularSquare" imagePosition="left" inset="2" id="leW-3u-oPp">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

@@ -60,6 +60,16 @@
         }
         return FALSE;
     }
+    
+    if (self.isDumpOn) {
+        ok = [self->_myEasyModel SetDebugOn];
+        if (!ok) {
+            if (runError != nil) {
+                *runError = [self MakeRunError:@"Failed to set dump on"];
+            }
+            return FALSE;
+        }
+    }
 
     self.postData = data;
     
@@ -129,6 +139,10 @@
 
 - (NSString*)GetResult {
     return [self->_myEasyModel GetContent];
+}
+
+- (NSString*)GetDump {
+    return [self->_myEasyModel GetDump];
 }
 
 - (NSError*)MakeRunError: (NSString*const)message {

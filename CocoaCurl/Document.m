@@ -25,6 +25,7 @@
 
 - (IBAction)curlButtonTapped:(id) sender {
     self->_easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? TRUE:FALSE;
+    self->_easyController.isDumpOn = ([self.dump state] == NSOnState) ? TRUE:FALSE;
     
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
@@ -41,6 +42,12 @@
         
         NSString* content = [self->_easyController GetResult];
         [self.content setTitle: content];
+        
+        if ([self.dump state] == NSOnState) {
+            [self.content setTitle:[self.content.title stringByAppendingString:@"\n"]];
+            [self.content setTitle:[self.content.title stringByAppendingString:[self->_easyController GetDump]]];
+            NSLog(@"DUMP: %@", [self->_easyController GetDump]);
+        }
     }
 }
 

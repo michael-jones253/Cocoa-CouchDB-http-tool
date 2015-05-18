@@ -240,6 +240,7 @@ namespace MyCurlCpp {
         curl_easy_setopt(_conn, CURLOPT_FOLLOWLOCATION, 1L);
         
         _contentBuffer.clear();
+        _dump.clear();
         
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(_conn);

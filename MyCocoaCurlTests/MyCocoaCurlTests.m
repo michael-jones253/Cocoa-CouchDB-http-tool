@@ -95,6 +95,13 @@
     
     NSLog(@"Result: %@", result);
     
+    controller.isDumpOn = TRUE;
+    [controller RunUrl:@"www.example.com" applicationData:@"" error:&runError];
+    
+    NSString* dump = [controller GetDump];
+    NSLog(@"Controller dump: %@", dump);
+    XCTAssert(dump.length > 0, @"Got a dump ok");
+    
     XCTAssert([result containsString:@"Content"], @"Run Controller ok");
 }
 
