@@ -141,10 +141,8 @@
 
 - (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError {
     self.imageData = [self dataFromImageFile:fileName error:loadError];
-    const void* bytes = [self.imageData bytes];
-    NSUInteger length = [self.imageData length];
     
-    [self->_myEasyModel SetImageDataNoCache:bytes length:length];
+    [self->_myEasyModel SetImageDataNoCache:self.imageData];
 
     return self.imageData != nil;
 }

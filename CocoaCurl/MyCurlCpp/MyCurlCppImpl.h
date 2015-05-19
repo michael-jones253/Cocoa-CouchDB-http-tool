@@ -10,6 +10,7 @@
 #define __CocoaCurl__MyCurlCppImpl__
 
 #include "MyPutBufferStream.h"
+#include "MyPutNoCacheStream.h"
 #include <curl/curl.h>
 #include <stdio.h>
 #include <array>
@@ -25,6 +26,7 @@ namespace MyCurlCpp {
         std::string _postData;
         std::string _dump;
         MyPutBufferStream _putBufferStream;
+        MyPutNoCacheStream _putNoCacheStream;
         
     public:
         MyCurlCppImpl();
@@ -44,6 +46,8 @@ namespace MyCurlCpp {
         void SetPostData(std::string const& data);
 
         void SetPutData(std::string const& data);
+
+        void SetPutNoCacheData(char const* buffer, size_t length);
         
         void SetJsonContent();
         

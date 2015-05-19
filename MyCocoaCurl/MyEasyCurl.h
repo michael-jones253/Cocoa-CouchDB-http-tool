@@ -35,7 +35,7 @@
 
 - (BOOL)SetPutData: (NSString*)data;
 
-- (void)SetImageDataNoCache: (const void*) bytes length: (NSUInteger)length;
+- (BOOL)SetImageDataNoCache: (NSData*) data;
 
 - (BOOL)SetJsonContent;
 

@@ -172,6 +172,27 @@ namespace MyCurlCpp {
         }
     }
     
+    void MyCurlCppImpl::SetPutNoCacheData(char const* buffer, size_t length) {
+        _putNoCacheStream.Load(buffer, length);
+        
+        CURLcode res = curl_easy_setopt(_conn, CURLOPT_READDATA, &_putNoCacheStream);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPPUT read data) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+        
+        
+        /* pass in a pointer to the data - libcurl will not copy */
+        res = curl_easy_setopt(_conn, CURLOPT_READFUNCTION, read_callback);
+        if(res != CURLE_OK) {
+            string errStr = "curl_setopt(HTTPPUT read function) failed: ";
+            errStr += curl_easy_strerror(res);
+            throw runtime_error(errStr);
+        }
+    }
+
+    
     void MyCurlCppImpl::SetJsonContent() {
         SetContentType("application/json");
     }

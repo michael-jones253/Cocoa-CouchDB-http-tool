@@ -90,10 +90,16 @@
     return ret;
 }
 
-- (void)SetImageDataNoCache: (const void*) bytes length: (NSUInteger)length {
-    // FIX ME impl->SetImageDataNoCache(bytes, length);
-}
+- (BOOL)SetImageDataNoCache: (NSData*) data {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    
+    const void* bytes = [data bytes];
+    NSUInteger length = [data length];
 
+    BOOL ret = impl->SetPutNoCacheData(static_cast<char const*>(bytes), length);
+    
+    return ret;
+}
 
 - (BOOL)SetJsonContent {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;

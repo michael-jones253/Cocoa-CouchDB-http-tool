@@ -120,7 +120,18 @@ namespace MyCurlCpp {
         
         return ok;
     }
-
+    
+    bool MyCurl::SetPutNoCacheData(char const* buffer, size_t length) {
+        bool ok{};
+        try {
+            _impl->SetPutNoCacheData(buffer, length);
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
     
     bool MyCurl::SetJsonContent() {
         bool ok{};

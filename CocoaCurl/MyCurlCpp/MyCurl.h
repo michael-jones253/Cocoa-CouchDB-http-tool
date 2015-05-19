@@ -43,6 +43,8 @@ namespace MyCurlCpp {
 
         bool SetPutData(char const* postData);
         
+        bool SetPutNoCacheData(char const* buffer, size_t length);
+        
         bool SetJsonContent();
         
         bool SetPlainTextContent();

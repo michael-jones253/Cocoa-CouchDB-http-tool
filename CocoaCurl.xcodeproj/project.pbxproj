@@ -10,6 +10,10 @@
 		B20B428E1B02F43D00F47FBA /* MyEasyCurlTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B20B428D1B02F37900F47FBA /* MyEasyCurlTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B21826DE1B0317BE00080AF8 /* MyEasyController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21826DD1B0317BE00080AF8 /* MyEasyController.m */; };
 		B21826E01B03288100080AF8 /* MyEasyController.h in Headers */ = {isa = PBXBuildFile; fileRef = B21826DF1B0317DF00080AF8 /* MyEasyController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B21D122E1B0BF04E00A78313 /* MyPutNoCacheStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */; };
+		B21D122F1B0BF05200A78313 /* MyPutNoCacheStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */; };
+		B21D12301B0BF05A00A78313 /* MyPutNoCacheStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */; };
+		B21D12311B0BF06100A78313 /* MyPutNoCacheStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */; };
 		B21D83671AFD725E004A3171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83661AFD725E004A3171 /* AppDelegate.m */; };
 		B21D83691AFD725E004A3171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83681AFD725E004A3171 /* main.m */; };
 		B21D836C1AFD725E004A3171 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D836B1AFD725E004A3171 /* Document.m */; };
@@ -89,6 +93,8 @@
 		B20B428D1B02F37900F47FBA /* MyEasyCurlTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyCurlTypes.h; sourceTree = "<group>"; };
 		B21826DD1B0317BE00080AF8 /* MyEasyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEasyController.m; sourceTree = "<group>"; };
 		B21826DF1B0317DF00080AF8 /* MyEasyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyController.h; sourceTree = "<group>"; };
+		B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyPutNoCacheStream.cpp; sourceTree = "<group>"; };
+		B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPutNoCacheStream.h; sourceTree = "<group>"; };
 		B21D83601AFD725E004A3171 /* CocoaCurl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaCurl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21D83641AFD725E004A3171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B21D83651AFD725E004A3171 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -224,8 +230,10 @@
 				B2F126671B045935005AEF38 /* MyPutBufferStream.h */,
 				B2A83CDC1B0B2B0700FAD83F /* MyPutStream.cpp */,
 				B2A83CDD1B0B2B0700FAD83F /* MyPutStream.h */,
-				B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */,
+				B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */,
+				B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */,
 				B23704111B0198C0004F1374 /* MyCurlCppImpl.h */,
+				B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */,
 			);
 			name = MyCurlCpp;
 			path = CocoaCurl/MyCurlCpp;
@@ -281,6 +289,7 @@
 				B237040F1B018FD1004F1374 /* MyCurl.h in Headers */,
 				B2A83CE01B0B2C2F00FAD83F /* MyPutStream.h in Headers */,
 				B2F1266A1B0461E8005AEF38 /* MyPutBufferStream.h in Headers */,
+				B21D12301B0BF05A00A78313 /* MyPutNoCacheStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +310,7 @@
 			files = (
 				B2A83CE11B0B30D400FAD83F /* MyPutStream.h in Headers */,
 				B2F1266B1B0461F2005AEF38 /* MyPutBufferStream.h in Headers */,
+				B21D122F1B0BF05200A78313 /* MyPutNoCacheStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +503,7 @@
 				B237040E1B018FCC004F1374 /* MyCurl.cpp in Sources */,
 				B23704501B01CBFB004F1374 /* MyCurlCppImpl.cpp in Sources */,
 				B2F126691B0461DD005AEF38 /* MyPutBufferStream.cpp in Sources */,
+				B21D12311B0BF06100A78313 /* MyPutNoCacheStream.cpp in Sources */,
 				B2A83CDF1B0B2C2500FAD83F /* MyPutStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +533,7 @@
 				B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */,
 				B2F1266C1B0461F8005AEF38 /* MyPutBufferStream.cpp in Sources */,
 				B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */,
+				B21D122E1B0BF04E00A78313 /* MyPutNoCacheStream.cpp in Sources */,
 				B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */,
 				B2A83CE21B0B30D900FAD83F /* MyPutStream.cpp in Sources */,
 			);
