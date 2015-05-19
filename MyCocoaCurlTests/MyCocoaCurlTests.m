@@ -105,6 +105,22 @@
     XCTAssert([result containsString:@"Content"], @"Run Controller ok");
 }
 
+- (void)testLoadImage {
+    MyEasyController* controller = [[MyEasyController alloc]init];
+    NSError* myError = nil;
+    BOOL ok = [controller LoadImageFromFile:@"" error:&myError];
+    XCTAssert(!ok, @"Expected load image failure");
+    XCTAssert(myError != nil, @"Expected exception");
+    
+    // Set error to nil for next test.
+    myError = nil;
+
+    ok = [controller LoadImageFromFile:@"/Users/michaeljones/Pictures/Exported Photos/IMG_1564.jpg" error:&myError];
+    XCTAssert(ok, @"Expected load image success");
+    XCTAssert(myError == nil, @"Expected no exception");
+    
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

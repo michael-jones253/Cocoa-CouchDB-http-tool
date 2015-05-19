@@ -49,6 +49,8 @@ namespace MyCurlCpp {
         
         void SetPlainTextContent();
         
+        void SetJpegContent();
+        
         void SetDebugOn();
 
         void Run(char const* url);
@@ -62,6 +64,7 @@ namespace MyCurlCpp {
     private:
         void InitErrorBuffer();
         void InitWriter();
+        void SetContentType(std::string const& contentType);
     };
 }
 

@@ -20,10 +20,13 @@
 @property NSString* postData;
 @property BOOL isPlainTextAttachment;
 @property BOOL isDumpOn;
+@property NSData* imageData;
 
 - (id)init;
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
+
+- (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError;
 
 - (NSString*)GetResult;
 

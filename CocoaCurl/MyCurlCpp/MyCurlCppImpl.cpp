@@ -172,36 +172,15 @@ namespace MyCurlCpp {
     }
     
     void MyCurlCppImpl::SetJsonContent() {
-        _headerList = nullptr;
-        if(_conn == nullptr) {
-            throw runtime_error("No CURL connection for set json content header");
-        }
-        
-        _headerList = curl_slist_append(_headerList, "Content-Type: application/json");
-        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
-        if (code != CURLE_OK)
-        {
-            string errStr = "Failed to json content header: ";
-            errStr += _errorBuffer.data();
-            
-            throw runtime_error(errStr);
-        }
+        SetContentType("application/json");
     }
+
     void MyCurlCppImpl::SetPlainTextContent() {
-        _headerList = nullptr;
-        if(_conn == nullptr) {
-            throw runtime_error("No CURL connection for set plain text content header");
-        }
-        
-        _headerList = curl_slist_append(_headerList, "Content-Type: text/plain");
-        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
-        if (code != CURLE_OK)
-        {
-            string errStr = "Failed to json content header: ";
-            errStr += _errorBuffer.data();
-            
-            throw runtime_error(errStr);
-        }
+        SetContentType("text/plain");
+    }
+
+    void MyCurlCppImpl::SetJpegContent() {
+        SetContentType("image/jpg");
     }
     
     void MyCurlCppImpl::SetDebugOn() {
@@ -303,5 +282,26 @@ namespace MyCurlCpp {
             throw runtime_error(errStr);
         }
     }
+    
+    void MyCurlCppImpl::SetContentType(std::string const& contentType) {
+        auto contentHeader = string{"Content-Type: "};
+        contentHeader.append(contentType);
+        
+        _headerList = nullptr;
+        if(_conn == nullptr) {
+            throw runtime_error("No CURL connection for set header" + contentType);
+        }
+        
+        _headerList = curl_slist_append(_headerList, contentHeader.c_str());
+        CURLcode code = curl_easy_setopt(_conn, CURLOPT_HTTPHEADER, _headerList);
+        if (code != CURLE_OK)
+        {
+            string errStr = "Failed to set: " + contentHeader;
+            errStr += _errorBuffer.data();
+            
+            throw runtime_error(errStr);
+        }
+    }
+
     
 }

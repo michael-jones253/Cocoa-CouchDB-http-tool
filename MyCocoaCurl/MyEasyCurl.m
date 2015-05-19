@@ -90,6 +90,11 @@
     return ret;
 }
 
+- (void)SetImageDataNoCache: (const void*) bytes length: (NSUInteger)length {
+    // FIX ME impl->SetImageDataNoCache(bytes, length);
+}
+
+
 - (BOOL)SetJsonContent {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetJsonContent();

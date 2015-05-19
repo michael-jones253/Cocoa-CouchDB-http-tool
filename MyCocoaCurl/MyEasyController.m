@@ -12,6 +12,8 @@
 // Private.
 - (NSError*)MakeRunError: (NSString*const)message;
 
+- (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError;
+
 @end
 
 
@@ -137,6 +139,17 @@
     return TRUE;
 }
 
+- (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError {
+    self.imageData = [self dataFromImageFile:fileName error:loadError];
+    const void* bytes = [self.imageData bytes];
+    NSUInteger length = [self.imageData length];
+    
+    [self->_myEasyModel SetImageDataNoCache:bytes length:length];
+
+    return self.imageData != nil;
+}
+
+
 - (NSString*)GetResult {
     return [self->_myEasyModel GetContent];
 }
@@ -154,6 +167,11 @@
                                          code:-101
                                      userInfo:userInfo];
     return error;
+}
+
+- (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{
+    NSData* imageData = [NSData dataWithContentsOfFile:fileName options:NSDataReadingMappedAlways error:loadError];
+    return imageData;
 }
 
 @end
