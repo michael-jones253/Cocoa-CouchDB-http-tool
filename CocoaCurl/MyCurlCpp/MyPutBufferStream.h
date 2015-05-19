@@ -9,16 +9,18 @@
 #ifndef __CocoaCurl__MyPutBufferStream__
 #define __CocoaCurl__MyPutBufferStream__
 
+#include "MyPutStream.h"
 #include <string>
 
 namespace MyCurlCpp {
     
-    class MyPutBufferStream final {
+    class MyPutBufferStream final : public MyPutStream {
         std::string _buffer;
-        ssize_t _position;
     public:
         void Load(std::string const& putString);
-        ssize_t Read(void* dest, size_t size, size_t nitems);
+    private:
+        char const* Data() const override;
+        size_t Length() const override;
     };
 }
 

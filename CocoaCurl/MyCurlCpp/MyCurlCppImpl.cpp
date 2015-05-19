@@ -24,7 +24,8 @@ namespace  {
     }
     
     size_t read_callback(char *buffer, size_t size, size_t nitems, void *instream) {
-        auto bufferStream = static_cast<MyCurlCpp::MyPutBufferStream*>(instream);
+        // Cast to generic put stream.
+        auto bufferStream = static_cast<MyCurlCpp::MyPutStream*>(instream);
         auto bytesRead = bufferStream->Read(buffer, size, nitems);
 
         return bytesRead;
