@@ -49,6 +49,8 @@ namespace MyCurlCpp {
         
         bool SetPlainTextContent();
         
+        bool SetJpegContent();
+        
         bool SetDebugOn();
         
         bool Run(char const* url);

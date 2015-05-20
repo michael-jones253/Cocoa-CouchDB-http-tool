@@ -12,6 +12,8 @@
 // Private.
 - (NSError*)MakeRunError: (NSString*const)message;
 
+- (BOOL)ValidateSelection: (NSString*)url error: (NSError**)validationError;
+
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError;
 
 @end
@@ -42,26 +44,10 @@
         return FALSE;
     }
     
-    if (self.isPlainTextAttachment && self.httpMethod != MyHttpMethodPut) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:@"Plain text attachment must use PUT"];
-        }
-        return FALSE;
-    }
-
-    if (self.isPlainTextAttachment && ![url containsString:@"attachment"]) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
-        }
+    if (![self ValidateSelection:url error:runError]) {
         return FALSE;
     }
     
-    if (self.isPlainTextAttachment && ![url containsString:@"?rev="]) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:@"Plain text attachment must specify document revision: ?rev=<revision>"];
-        }
-        return FALSE;
-    }
     
     if (self.isDumpOn) {
         ok = [self->_myEasyModel SetDebugOn];
@@ -97,6 +83,13 @@
         case MyHttpMethodPut:
             ok = [self->_myEasyModel SetPutMethod];
             if (!ok) {
+                break;
+            }
+
+            if (self->_imageData != nil) {
+                [self->_myEasyModel SetImageDataNoCache:self.imageData];
+                ok = [self->_myEasyModel SetJpegContent];
+                // Image takes priority over plain text attachment.
                 break;
             }
             
@@ -140,10 +133,11 @@
 }
 
 - (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError {
-    self.imageData = [self dataFromImageFile:fileName error:loadError];
     
-    [self->_myEasyModel SetImageDataNoCache:self.imageData];
+    NSString *fullPath = [fileName stringByExpandingTildeInPath];
 
+    self.imageData = [self dataFromImageFile:fullPath error:loadError];
+    
     return self.imageData != nil;
 }
 
@@ -165,6 +159,42 @@
                                          code:-101
                                      userInfo:userInfo];
     return error;
+}
+
+- (BOOL)ValidateSelection: (NSString*)url error: (NSError**)validationError {
+    if (self.isPlainTextAttachment && self.httpMethod != MyHttpMethodPut) {
+        if (validationError != nil) {
+            *validationError = [self MakeRunError:@"Plain text attachment must use PUT"];
+        }
+        return FALSE;
+    }
+    
+    if (self.httpMethod != MyHttpMethodPut) {
+        self.imageData = nil;
+    }
+    
+    if (self.isPlainTextAttachment && ![url containsString:@"attachment"]) {
+        if (validationError != nil) {
+            *validationError = [self MakeRunError:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
+        }
+        return FALSE;
+    }
+    
+    if ((self.isPlainTextAttachment || self->_imageData != nil) && ![url containsString:@"?rev="]) {
+        if (validationError != nil) {
+            *validationError = [self MakeRunError:@"Attachment must specify document revision: ?rev=<revision>"];
+        }
+        return FALSE;
+    }
+    
+    if (self->_imageData != nil && ![url containsString:@".jpg"]) {
+        if (validationError != nil) {
+            *validationError = [self MakeRunError:@"Image attachment must specify image in URI"];
+        }
+        return FALSE;
+    }
+    
+    return TRUE;
 }
 
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
+        <plugIn identifier="com.apple.automator.AutomatorPalette" version="7702"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Document">
@@ -143,6 +144,27 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                    </button>
+                    <amPathPopUpButton verticalHuggingPriority="750" fixedFrame="YES" canChooseDirectories="YES" canChooseFiles="YES" canChooseExistingPaths="YES" displayPanelAsSheet="YES" showStandardPaths="YES" placeholder="No Selection" translatesAutoresizingMaskIntoConstraints="NO" id="beo-xa-yfN">
+                        <rect key="frame" x="159" y="498" width="173" height="26"/>
+                        <amVariablePopUpButtonCell key="cell" type="push" title="Desktop" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1001" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="ari-c3-D5I">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="jeb-jL-1Ic"/>
+                        </amVariablePopUpButtonCell>
+                        <connections>
+                            <binding destination="-2" name="path" keyPath="imagePath" id="VKb-VO-Oul"/>
+                        </connections>
+                    </amPathPopUpButton>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahu-cT-Rh3">
+                        <rect key="frame" x="336" y="494" width="138" height="32"/>
+                        <buttonCell key="cell" type="push" title="Load image" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3VA-ML-MEO">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="loadImageButtonTapped:" target="-1" id="4al-9j-v5O"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

@@ -115,6 +115,13 @@
     return ret;
 }
 
+- (BOOL)SetJpegContent {
+    MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
+    BOOL ret = impl->SetJpegContent();
+    
+    return ret;
+}
+
 - (BOOL)SetDebugOn {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetDebugOn();

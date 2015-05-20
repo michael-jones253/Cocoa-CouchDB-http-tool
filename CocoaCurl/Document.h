@@ -22,8 +22,10 @@
 @property (weak) IBOutlet NSMatrix *httpVerb;
 @property (weak) IBOutlet NSButtonCell *attachAsPlainText;
 @property (weak) IBOutlet NSButtonCell *dump;
+@property NSString* imagePath;
 
 - (IBAction)curlButtonTapped:(id)sender;
+- (IBAction)loadImageButtonTapped:(id)sender;
 - (IBAction)copyButtonPressed:(id)sender;
 - (IBAction)clearButtonPressed:(id)sender;
 - (IBAction)exampleViewButtonPressed:(id)sender;

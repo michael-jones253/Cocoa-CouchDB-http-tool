@@ -16,6 +16,10 @@ namespace MyCurlCpp {
         ssize_t _position;
     public:
         ssize_t Read(void* dest, size_t size, size_t nitems);
+        
+    protected:
+        void Reset() { _position = 0; };
+        
     private:
         virtual char const* Data() const = 0;
         virtual size_t Length() const = 0;

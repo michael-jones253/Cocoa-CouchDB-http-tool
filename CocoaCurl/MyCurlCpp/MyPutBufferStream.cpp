@@ -15,6 +15,7 @@ using namespace std;
 
 namespace MyCurlCpp {
     void MyPutBufferStream::Load(std::string const& putString) {
+        Reset();
         _buffer = putString;
     }
 

@@ -20,7 +20,7 @@ namespace MyCurlCpp {
         auto remaining = Length() - _position;
         auto amountToCopy = min(requestedSize, remaining);
         
-        memcpy(dest, Data(), amountToCopy);
+        memcpy(dest, Data() + _position, amountToCopy);
         _position += amountToCopy;
         
         assert(_position <= Length());

@@ -41,6 +41,8 @@
 
 - (BOOL)SetPlainTextContent;
 
+- (BOOL)SetJpegContent;
+
 - (BOOL)SetDebugOn;
 
 - (BOOL)Run: (NSString*)url;

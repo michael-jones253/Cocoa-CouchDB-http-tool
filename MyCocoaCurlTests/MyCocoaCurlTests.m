@@ -119,6 +119,15 @@
     XCTAssert(ok, @"Expected load image success");
     XCTAssert(myError == nil, @"Expected no exception");
     
+    NSString* homeDir = NSHomeDirectory();
+    NSLog(@"Home direcotry: %@", homeDir);
+    
+    NSString* shortPath = @"~/Pictures/Exported Photos/IMG_1564.jpg";
+    
+    ok = [controller LoadImageFromFile:shortPath error:&myError];
+    XCTAssert(ok, @"Expected load image success");
+    XCTAssert(myError == nil, @"Expected no exception");
+    
 }
 
 - (void)testPerformanceExample {

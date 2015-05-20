@@ -51,6 +51,20 @@
     }
 }
 
+- (IBAction)loadImageButtonTapped:(id) sender {
+    if ([self.imagePath hasSuffix:@"jpg"]) {
+        NSError* loadError = nil;
+        
+        BOOL loadedOk = [self->_easyController LoadImageFromFile:self.imagePath error:&loadError];
+        if (!loadedOk) {
+            NSString *err = (loadError != nil)? loadError.localizedDescription : @"Unknown run error";
+            [self.content setTitle:err];
+            return;
+        }
+    }
+
+}
+
 - (IBAction)copyButtonPressed:(id)sender {
     self.applicationData.placeholderString = self.content.title;
     NSInteger selectedRow = [self.httpVerb selectedRow];

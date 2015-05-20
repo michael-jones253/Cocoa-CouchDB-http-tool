@@ -157,6 +157,18 @@ namespace MyCurlCpp {
         return ok;
     }
     
+    bool MyCurl::SetJpegContent() {
+        bool ok{};
+        try {
+            _impl->SetJpegContent();
+            ok = true;
+        } catch (exception const& ex) {
+            cerr << "HelloCurl exception: " << ex.what() << endl;
+        }
+        
+        return ok;
+    }
+    
     bool MyCurl::SetDebugOn() {
         bool ok{};
         try {

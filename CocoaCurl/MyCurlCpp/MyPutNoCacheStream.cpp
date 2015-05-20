@@ -10,6 +10,7 @@
 
 namespace MyCurlCpp {
     void MyPutNoCacheStream::Load(char const* buffer, size_t length) {
+        Reset();
         _bufferPtr = buffer;
         _length = length;
     }

@@ -14,6 +14,7 @@
 		B21D122F1B0BF05200A78313 /* MyPutNoCacheStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */; };
 		B21D12301B0BF05A00A78313 /* MyPutNoCacheStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */; };
 		B21D12311B0BF06100A78313 /* MyPutNoCacheStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */; };
+		B21D12331B0BFFAB00A78313 /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B21D12321B0BFFAB00A78313 /* Automator.framework */; };
 		B21D83671AFD725E004A3171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83661AFD725E004A3171 /* AppDelegate.m */; };
 		B21D83691AFD725E004A3171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D83681AFD725E004A3171 /* main.m */; };
 		B21D836C1AFD725E004A3171 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = B21D836B1AFD725E004A3171 /* Document.m */; };
@@ -95,6 +96,7 @@
 		B21826DF1B0317DF00080AF8 /* MyEasyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyController.h; sourceTree = "<group>"; };
 		B21D122B1B0BF04400A78313 /* MyPutNoCacheStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyPutNoCacheStream.cpp; sourceTree = "<group>"; };
 		B21D122C1B0BF04400A78313 /* MyPutNoCacheStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPutNoCacheStream.h; sourceTree = "<group>"; };
+		B21D12321B0BFFAB00A78313 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = System/Library/Frameworks/Automator.framework; sourceTree = SDKROOT; };
 		B21D83601AFD725E004A3171 /* CocoaCurl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaCurl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21D83641AFD725E004A3171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B21D83651AFD725E004A3171 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B21D12331B0BFFAB00A78313 /* Automator.framework in Frameworks */,
 				B23EE84E1AFEBB7900D42B63 /* libcurl.dylib in Frameworks */,
 				B23EE84D1AFEBB6100D42B63 /* libc++.dylib in Frameworks */,
 				B237042F1B0199F2004F1374 /* MyCocoaCurl.framework in Frameworks */,
@@ -175,6 +178,7 @@
 		B21D83571AFD725E004A3171 = {
 			isa = PBXGroup;
 			children = (
+				B21D12321B0BFFAB00A78313 /* Automator.framework */,
 				B22539EE1AFDE13B0081DD53 /* libc++.dylib */,
 				B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */,
 				B23704051B018AFB004F1374 /* MyCurlCpp */,
