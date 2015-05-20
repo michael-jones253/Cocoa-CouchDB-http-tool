@@ -26,7 +26,7 @@
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
-- (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError;
+- (BOOL)LoadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
 
 - (NSString*)GetResult;
 

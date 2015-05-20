@@ -108,26 +108,31 @@
 - (void)testLoadImage {
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
-    BOOL ok = [controller LoadImageFromFile:@"" error:&myError];
+    NSUInteger imageLength = 0;
+    BOOL ok = [controller LoadImageFromFile:@"" imageSize:&imageLength error:&myError];
     XCTAssert(!ok, @"Expected load image failure");
     XCTAssert(myError != nil, @"Expected exception");
+    XCTAssert(imageLength == 0, @"Image length not modified ok");
     
     // Set error to nil for next test.
     myError = nil;
 
-    ok = [controller LoadImageFromFile:@"/Users/michaeljones/Pictures/Exported Photos/IMG_1564.jpg" error:&myError];
+    ok = [controller LoadImageFromFile:@"/Users/michaeljones/Pictures/Exported Photos/IMG_1564.jpg"
+                             imageSize:&imageLength
+                                 error:&myError];
     XCTAssert(ok, @"Expected load image success");
+    XCTAssert(imageLength > 0, @"Image length set ok");
     XCTAssert(myError == nil, @"Expected no exception");
     
     NSString* homeDir = NSHomeDirectory();
     NSLog(@"Home direcotry: %@", homeDir);
     
     NSString* shortPath = @"~/Pictures/Exported Photos/IMG_1564.jpg";
-    
-    ok = [controller LoadImageFromFile:shortPath error:&myError];
+    imageLength = 0;
+    ok = [controller LoadImageFromFile:shortPath imageSize:&imageLength error:&myError];
     XCTAssert(ok, @"Expected load image success");
     XCTAssert(myError == nil, @"Expected no exception");
-    
+    XCTAssert(imageLength > 0, @"Image length set ok");
 }
 
 - (void)testPerformanceExample {

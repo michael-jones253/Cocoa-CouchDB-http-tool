@@ -132,11 +132,14 @@
     return TRUE;
 }
 
-- (BOOL)LoadImageFromFile: (NSString*) fileName error: (NSError**)loadError {
+- (BOOL)LoadImageFromFile: (NSString*) fileName  imageSize: (NSUInteger*)length error: (NSError**)loadError {
     
     NSString *fullPath = [fileName stringByExpandingTildeInPath];
 
     self.imageData = [self dataFromImageFile:fullPath error:loadError];
+    if (self.imageData != nil) {
+        *length = [self.imageData length];
+    }
     
     return self.imageData != nil;
 }
