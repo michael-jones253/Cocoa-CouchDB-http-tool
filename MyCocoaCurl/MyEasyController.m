@@ -132,6 +132,48 @@
     return TRUE;
 }
 
+- (BOOL)PushReplicate: (NSString*)sourceUrl destinationUrl: (NSString*)destinationUrl error: (NSError**)runError {
+    BOOL ok = FALSE;
+    ok = [self->_myEasyModel InitConnection];
+    
+    if (!ok) {
+        if (runError != nil) {
+            *runError = [self MakeRunError:[self->_myEasyModel GetError]];
+        }
+        return FALSE;
+    }
+    
+    ok = [self->_myEasyModel SetPostMethod];
+    if (ok) {
+        ok = [self->_myEasyModel SetJsonContent];
+    }
+    
+    // Get the name of the database which is the identifier after the last '/'.
+    NSRange range = [sourceUrl rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [sourceUrl length])];
+    NSUInteger dbIndex = range.location + 1;
+    
+    NSString* sourceDb = [sourceUrl substringFromIndex:dbIndex];
+    
+    NSString* sourceHost = [sourceUrl substringToIndex:dbIndex];
+    
+    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"targetUrl\":\"%@\"}", sourceDb, destinationUrl];
+    
+    NSString* replicateUrl = [sourceHost stringByAppendingString:@"_replicate"];
+    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
+    
+    if (ok) {
+        ok = [self->_myEasyModel SetPostData:postString];
+    }
+    
+    /*
+     curl -vX POST http://127.0.0.1:5984/_replicate -d '{"source":"albums","target":"albums-replica"}' -H "Content-Type: application/json"
+     */
+
+
+    return TRUE;
+}
+
+
 - (BOOL)LoadImageFromFile: (NSString*) fileName  imageSize: (NSUInteger*)length error: (NSError**)loadError {
     
     NSString *fullPath = [fileName stringByExpandingTildeInPath];

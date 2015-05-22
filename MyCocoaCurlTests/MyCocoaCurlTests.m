@@ -135,6 +135,14 @@
     XCTAssert(imageLength > 0, @"Image length set ok");
 }
 
+- (void)testReplicate {
+    MyEasyController* controller = [[MyEasyController alloc]init];
+    NSError* myError = nil;
+    BOOL ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
+    XCTAssert(ok, @"Expected replicate");
+
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{
