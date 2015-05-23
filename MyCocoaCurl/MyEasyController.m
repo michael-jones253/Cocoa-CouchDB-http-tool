@@ -16,6 +16,8 @@
 
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError;
 
+- (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError;
+
 @end
 
 
@@ -34,13 +36,9 @@
 }
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
-    BOOL ok = FALSE;
-    ok = [self->_myEasyModel InitConnection];
+    BOOL ok = [self->_myEasyModel InitConnection: runError];
     
     if (!ok) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:[self->_myEasyModel GetError]];
-        }
         return FALSE;
     }
     
@@ -67,17 +65,17 @@
             break;
             
         case MyHttpMethodPost:
-            ok = [self->_myEasyModel SetPostMethod];
+            ok = [self->_myEasyModel SetPostMethod: runError];
             if (!ok) {
                 break;
             }
             
-            ok = [self->_myEasyModel SetPostData:self.postData];
+            ok = [self->_myEasyModel SetPostData:self.postData error:runError];
             if (!ok) {
                 break;
             }
             
-            ok = [self->_myEasyModel SetJsonContent];
+            ok = [self->_myEasyModel SetJsonContent: runError];
             break;
             
         case MyHttpMethodPut:
@@ -103,7 +101,7 @@
                 ok = [self->_myEasyModel SetPlainTextContent];
             }
             else {
-                ok = [self->_myEasyModel SetJsonContent];
+                ok = [self->_myEasyModel SetJsonContent: runError];
             }
             
             break;
@@ -116,59 +114,55 @@
             break;
     }
 
-    if (ok) {
-        ok = [self->_myEasyModel Run:url];
+    if (!ok) {
+        return FALSE;
     }
     
-    // Note to self: this error object Vs exception throwing control flow can get a bit messy.
-    if (!ok) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:[self->_myEasyModel GetError]];
-        }
-        
+    if(![self->_myEasyModel Run:url error: runError]) {
         return FALSE;
     }
     
     return TRUE;
 }
 
-- (BOOL)PushReplicate: (NSString*)sourceUrl destinationUrl: (NSString*)destinationUrl error: (NSError**)runError {
-    BOOL ok = FALSE;
-    ok = [self->_myEasyModel InitConnection];
-    
-    if (!ok) {
-        if (runError != nil) {
-            *runError = [self MakeRunError:[self->_myEasyModel GetError]];
-        }
+- (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+    if (![self->_myEasyModel InitConnection: replicateError]) {
         return FALSE;
     }
     
-    ok = [self->_myEasyModel SetPostMethod];
-    if (ok) {
-        ok = [self->_myEasyModel SetJsonContent];
+    if (![self->_myEasyModel SetPostMethod: replicateError]) {
+        return FALSE;
+    }
+    
+    if (![self->_myEasyModel SetJsonContent: replicateError]) {
+        return FALSE;
     }
     
     // Get the name of the database which is the identifier after the last '/'.
-    NSRange range = [sourceUrl rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [sourceUrl length])];
-    NSUInteger dbIndex = range.location + 1;
+    NSString* localDb = nil;
+    NSString* localHost = nil;
     
-    NSString* sourceDb = [sourceUrl substringFromIndex:dbIndex];
-    
-    NSString* sourceHost = [sourceUrl substringToIndex:dbIndex];
-    
-    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"targetUrl\":\"%@\"}", sourceDb, destinationUrl];
-    
-    NSString* replicateUrl = [sourceHost stringByAppendingString:@"_replicate"];
-    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
-    
-    if (ok) {
-        ok = [self->_myEasyModel SetPostData:postString];
+    if (![self ParseDbUrl:localUrl host:&localHost dbName:&localDb error:replicateError]) {
+        return FALSE;
     }
     
     /*
+     We want something like this:
      curl -vX POST http://127.0.0.1:5984/_replicate -d '{"source":"albums","target":"albums-replica"}' -H "Content-Type: application/json"
      */
 
+    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\"}", localDb, remoteUrl];
+    
+    NSString* replicateUrl = [localHost stringByAppendingString:@"_replicate"];
+    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
+    
+    if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
+        return FALSE;
+    }
+    
+    if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
+        return FALSE;
+    }
 
     return TRUE;
 }
@@ -245,6 +239,27 @@
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{
     NSData* imageData = [NSData dataWithContentsOfFile:fileName options:NSDataReadingMappedAlways error:loadError];
     return imageData;
+}
+
+- (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError {
+    
+    // Get the name of the database which is the identifier after the last '/'.
+    NSRange range = [url rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [url length])];
+    NSUInteger dbIndex = range.location + 1;
+    
+    *host = [url substringToIndex:dbIndex];
+    if (*host == nil) {
+        *parseError = [self MakeRunError:@"Unable to parse host from URL"];
+        return FALSE;
+    }
+    
+    *dbName = [url substringFromIndex:dbIndex];
+    if (*dbName == nil) {
+        *parseError = [self MakeRunError:@"Unable to parse database name from URL"];
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 @end

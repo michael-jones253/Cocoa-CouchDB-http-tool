@@ -44,12 +44,16 @@
     
     XCTAssert([ content isEqualToString: @""], @"Pass with content empty");
     
-    BOOL ok = [libObj InitConnection];
-    XCTAssert(ok == TRUE, @"Connection initialised ok");
+    NSError* runError;
     
-    ok = [libObj Run:@"www.example.com"];
+    BOOL ok = [libObj InitConnection: &runError];
+    XCTAssert(ok == TRUE, @"Connection initialised ok");
+    XCTAssert(runError == nil, @"Connection initialised no error");
+    
+    ok = [libObj Run:@"www.example.com" error:&runError];
     
     XCTAssert(ok == TRUE, @"Run returned ok");
+    XCTAssert(runError == nil, @"Run no error");
 
     content = [libObj GetContent];
 
@@ -63,17 +67,20 @@
     
     XCTAssert([emptyDump length] == 0, @"Dump length is 0 OK.");
     
-    ok = [libObj InitConnection];
+    ok = [libObj InitConnection: &runError];
     
     XCTAssert(ok == YES, @"Second connection ok");
+    XCTAssert(runError == nil, @"Second Connection initialised no error");
     
     ok = [libObj SetDebugOn];
     
     XCTAssert(ok == YES, @"Pass");
     
-    ok = [libObj Run:@"www.example.com"];
+    ok = [libObj Run:@"www.example.com" error:&runError];
 
     XCTAssert(ok == YES, @"Ran with debug");
+    XCTAssert(runError == nil, @"Run with debug no error");
+
     
     NSString* dump = [libObj GetDump];
     
@@ -139,8 +146,8 @@
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
     BOOL ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
-    XCTAssert(ok, @"Expected replicate");
-
+    XCTAssert(!ok, @"Expected replicate failure");
+    XCTAssert(myError != nil, @"Expected replicate error");
 }
 
 - (void)testPerformanceExample {

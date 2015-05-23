@@ -11,6 +11,11 @@
 #import "MyEasyCurl.h"
 #import "MyCurl.h"
 
+@interface MyEasyCurl()
+// Private.
+- (void)CurlError: (NSError**)curlError;
+@end
+
 @implementation MyEasyCurl
 
 @synthesize MyGreeting = myGreeting;
@@ -40,10 +45,14 @@
     impl->HelloCurl();
 }
 
-- (BOOL)InitConnection {
+- (BOOL)InitConnection: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     BOOL ret = impl->InitConnection();
+    
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -55,9 +64,12 @@
     return ret;
 }
 
-- (BOOL)SetPostMethod {
+- (BOOL)SetPostMethod: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPostMethod();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
 
     return ret;
 }
@@ -76,9 +88,12 @@
     return ret;
 }
 
-- (BOOL)SetPostData: (NSString*)data {
+- (BOOL)SetPostData: (NSString*)data error: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPostData([ data UTF8String]);
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -101,9 +116,12 @@
     return ret;
 }
 
-- (BOOL)SetJsonContent {
+- (BOOL)SetJsonContent: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetJsonContent();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -129,11 +147,14 @@
     return ret;
 }
 
-- (BOOL)Run: (NSString*)url {
+- (BOOL)Run: (NSString*)url error: (NSError**)curlError{
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     const char* cUrl = [ url UTF8String];
     BOOL ret = impl->Run(cUrl);
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -167,6 +188,22 @@
     
     return ret;
     
+}
+
+- (void)CurlError: (NSError**)curlError {
+    if (curlError == nil) {
+        return;
+    }
+    
+    NSString* message = [self GetError];
+    
+    NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
+    NSString *desc = NSLocalizedString(message, nil);
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+    
+    *curlError = [NSError errorWithDomain:domain
+                                         code:-101
+                                     userInfo:userInfo];
 }
 
 @end

@@ -26,7 +26,7 @@
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
-- (BOOL)PushReplicate: (NSString*)sourceUrl destinationUrl: (NSString*)destinationUrl error: (NSError**)runError;
+- (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)runError;
 
 - (BOOL)LoadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
 

@@ -21,23 +21,23 @@
 
 - (void)HelloCurl;
 
-- (BOOL)InitConnection;
+- (BOOL)InitConnection: (NSError**)curlError;
 
 - (BOOL)SetGetMethod;
 
-- (BOOL)SetPostMethod;
+- (BOOL)SetPostMethod: (NSError**)curlError;
 
 - (BOOL)SetPutMethod;
 
 - (BOOL)SetDeleteMethod;
 
-- (BOOL)SetPostData: (NSString*)data;
+- (BOOL)SetPostData: (NSString*)data error: (NSError**)curlError;
 
 - (BOOL)SetPutData: (NSString*)data;
 
 - (BOOL)SetImageDataNoCache: (NSData*) data;
 
-- (BOOL)SetJsonContent;
+- (BOOL)SetJsonContent: (NSError**)curlError;
 
 - (BOOL)SetPlainTextContent;
 
@@ -45,7 +45,7 @@
 
 - (BOOL)SetDebugOn;
 
-- (BOOL)Run: (NSString*)url;
+- (BOOL)Run: (NSString*)url error: (NSError**)curlError;
 
 - (NSString*)GetContent;
 
