@@ -222,9 +222,31 @@
 - (void)testReplicate {
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
+    
+    NSArray* dbNames = [controller GetDbNamesForHost:@"127.0.0.1" error:&myError];
+    XCTAssert([dbNames count] >= 2, @"Localhost is running and contains at least the default databases");
+    
+    BOOL isReplicatorThere = FALSE;
+    BOOL isUsersThere = FALSE;
+    for (NSInteger index = 0; index < [dbNames count]; ++index) {
+        NSString* dbName = [dbNames objectAtIndex:index];
+        NSLog(@"Database: %@", dbName);
+        if ([dbName isEqualToString:@"_replicator"]) {
+            isReplicatorThere = TRUE;
+        }
+        
+        if ([dbName isEqualToString:@"_users"]) {
+            isUsersThere = TRUE;
+        }
+    }
+    
+    XCTAssert(isReplicatorThere, @"Replicator found");
+    XCTAssert(isUsersThere, @"Users database found");
+
     BOOL ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
     XCTAssert(!ok, @"Expected replicate failure");
     XCTAssert(myError != nil, @"Expected replicate error");
+
 }
 
 - (void)testPerformanceExample {

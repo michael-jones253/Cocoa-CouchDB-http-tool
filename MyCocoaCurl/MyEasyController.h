@@ -34,6 +34,9 @@
 
 - (NSString*)GetDump;
 
+// Replication stuff
+- (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError;
+
 @end
 
 

@@ -46,6 +46,8 @@
 		B2A83CE01B0B2C2F00FAD83F /* MyPutStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2A83CDD1B0B2B0700FAD83F /* MyPutStream.h */; };
 		B2A83CE11B0B30D400FAD83F /* MyPutStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2A83CDD1B0B2B0700FAD83F /* MyPutStream.h */; };
 		B2A83CE21B0B30D900FAD83F /* MyPutStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2A83CDC1B0B2B0700FAD83F /* MyPutStream.cpp */; };
+		B2B8585A1B1049270010B35F /* ReplicateWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B858591B1049270010B35F /* ReplicateWindow.m */; };
+		B2B8585D1B105ADE0010B35F /* ReplicateWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B8585C1B105ADE0010B35F /* ReplicateWindow.xib */; };
 		B2F126691B0461DD005AEF38 /* MyPutBufferStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */; };
 		B2F1266A1B0461E8005AEF38 /* MyPutBufferStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F126671B045935005AEF38 /* MyPutBufferStream.h */; };
 		B2F1266B1B0461F2005AEF38 /* MyPutBufferStream.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F126671B045935005AEF38 /* MyPutBufferStream.h */; };
@@ -125,6 +127,9 @@
 		B23704461B01A188004F1374 /* MyEasyCurl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyEasyCurl.h; sourceTree = "<group>"; };
 		B2A83CDC1B0B2B0700FAD83F /* MyPutStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyPutStream.cpp; sourceTree = "<group>"; };
 		B2A83CDD1B0B2B0700FAD83F /* MyPutStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPutStream.h; sourceTree = "<group>"; };
+		B2B858591B1049270010B35F /* ReplicateWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplicateWindow.m; sourceTree = "<group>"; };
+		B2B8585B1B1049450010B35F /* ReplicateWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReplicateWindow.h; sourceTree = "<group>"; };
+		B2B8585C1B105ADE0010B35F /* ReplicateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplicateWindow.xib; sourceTree = "<group>"; };
 		B2F126661B045934005AEF38 /* MyPutBufferStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyPutBufferStream.cpp; sourceTree = "<group>"; };
 		B2F126671B045935005AEF38 /* MyPutBufferStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPutBufferStream.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +211,9 @@
 			children = (
 				B21D83651AFD725E004A3171 /* AppDelegate.h */,
 				B21D83661AFD725E004A3171 /* AppDelegate.m */,
+				B2B8585B1B1049450010B35F /* ReplicateWindow.h */,
+				B2B858591B1049270010B35F /* ReplicateWindow.m */,
+				B2B8585C1B105ADE0010B35F /* ReplicateWindow.xib */,
 				B21D836A1AFD725E004A3171 /* Document.h */,
 				B21D836B1AFD725E004A3171 /* Document.m */,
 				B21D836D1AFD725E004A3171 /* Document.xib */,
@@ -467,6 +475,7 @@
 			files = (
 				B237044F1B01CBDF004F1374 /* Info.plist in Resources */,
 				B21D836F1AFD725E004A3171 /* Document.xib in Resources */,
+				B2B8585D1B105ADE0010B35F /* ReplicateWindow.xib in Resources */,
 				B21D83711AFD725E004A3171 /* Images.xcassets in Resources */,
 				B21D83741AFD725E004A3171 /* MainMenu.xib in Resources */,
 			);
@@ -495,6 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B21D836C1AFD725E004A3171 /* Document.m in Sources */,
+				B2B8585A1B1049270010B35F /* ReplicateWindow.m in Sources */,
 				B21D83691AFD725E004A3171 /* main.m in Sources */,
 				B21D83671AFD725E004A3171 /* AppDelegate.m in Sources */,
 			);

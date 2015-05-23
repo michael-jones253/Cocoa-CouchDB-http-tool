@@ -190,6 +190,22 @@
     return [self->_myEasyModel GetDump];
 }
 
+- (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError {
+    
+    NSString* getRequest = [NSString stringWithFormat:@"http://%@:5984/_all_dbs", host];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:getRequest]];
+    
+    NSData *response = [NSURLConnection sendSynchronousRequest:request
+                                             returningResponse:nil error:getError];
+    
+    NSArray *databaseNames = [NSJSONSerialization JSONObjectWithData:response
+                                                             options:0 error:getError];
+    
+    return databaseNames;
+}
+
+
 - (NSError*)MakeRunError: (NSString*const)message {
     NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
     NSString *desc = NSLocalizedString(message, nil);
