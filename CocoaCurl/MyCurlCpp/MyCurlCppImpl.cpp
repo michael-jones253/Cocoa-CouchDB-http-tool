@@ -216,7 +216,6 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to debug function: ";
-            errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);
         }
@@ -226,7 +225,6 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to debug verbose on: ";
-            errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);
         }
@@ -270,7 +268,7 @@ namespace MyCurlCpp {
         return _dump;
     }
     
-    string MyCurlCppImpl::GetError() const {
+    string MyCurlCppImpl::GetErrorBuffer() const {
         return _errorBuffer.data();
     }
     
@@ -290,7 +288,6 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to set writer: ";
-            errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);
         }
@@ -299,7 +296,6 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to set write buffer: ";
-            errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);
         }
@@ -319,11 +315,9 @@ namespace MyCurlCpp {
         if (code != CURLE_OK)
         {
             string errStr = "Failed to set: " + contentHeader;
-            errStr += _errorBuffer.data();
             
             throw runtime_error(errStr);
         }
     }
-
     
 }

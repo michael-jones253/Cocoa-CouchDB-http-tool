@@ -63,7 +63,7 @@ namespace MyCurlCpp {
         
         std::string const& GetDump() const;
         
-        std::string GetError() const;
+        std::string GetErrorBuffer() const;
         
     private:
         void InitErrorBuffer();

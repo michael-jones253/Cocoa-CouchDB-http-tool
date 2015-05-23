@@ -14,7 +14,9 @@
 using namespace std;
 
 namespace MyCurlCpp {
-    MyCurl::MyCurl() {
+    MyCurl::MyCurl():
+    _impl{},
+    _exceptionText{} {
         _impl = make_unique<MyCurlCppImpl>();
     }
     
@@ -22,14 +24,15 @@ namespace MyCurlCpp {
         
     }
     
-    bool MyCurl::HelloCurl() const {
+    bool MyCurl::HelloCurl() {
         bool ok{};
         
         try {
+            _exceptionText.clear();
             _impl->HelloCurl();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -38,10 +41,11 @@ namespace MyCurlCpp {
     bool MyCurl::InitConnection() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->InitConnection();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -50,10 +54,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetGetMethod() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetGetMethod();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -62,10 +67,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPostMethod() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPostMethod();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -74,10 +80,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPutMethod() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPuttMethod();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -87,10 +94,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetDeleteMethod() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetDeleteMethod();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -100,10 +108,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPostData(char const* postData) {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPostData(postData);
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -112,10 +121,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPutData(char const* postData) {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPutData(postData);
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -124,10 +134,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPutNoCacheData(char const* buffer, size_t length) {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPutNoCacheData(buffer, length);
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -136,10 +147,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetJsonContent() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetJsonContent();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -148,10 +160,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetPlainTextContent() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetPlainTextContent();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -160,10 +173,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetJpegContent() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetJpegContent();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -172,10 +186,11 @@ namespace MyCurlCpp {
     bool MyCurl::SetDebugOn() {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->SetDebugOn();
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
@@ -184,17 +199,25 @@ namespace MyCurlCpp {
     bool MyCurl::Run(char const* url) {
         bool ok{};
         try {
+            _exceptionText.clear();
             _impl->Run(url);
             ok = true;
         } catch (exception const& ex) {
-            cerr << "HelloCurl exception: " << ex.what() << endl;
+            _exceptionText = ex.what();
         }
         
         return ok;
     }
     
     string MyCurl::GetError() const {
-        return _impl->GetError();
+        auto message = _exceptionText;
+        if (message.length() > 0) {
+            message += ": ";
+        }
+        
+        message += _impl->GetErrorBuffer();
+        
+        return message;
     }
     
     string MyCurl::GetContent() const {

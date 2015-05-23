@@ -22,12 +22,13 @@ namespace MyCurlCpp {
     
     class MyCurl final {
         std::unique_ptr<MyCurlCppImpl> _impl;
+        std::string _exceptionText;
         
     public:
         MyCurl();
         ~MyCurl();
         
-        bool HelloCurl() const;
+        bool HelloCurl();
         
         bool InitConnection();
         
