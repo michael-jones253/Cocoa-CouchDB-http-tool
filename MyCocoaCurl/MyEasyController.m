@@ -36,23 +36,17 @@
 }
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
-    BOOL ok = [self->_myEasyModel InitConnection: runError];
-    
-    if (!ok) {
+    if (![self->_myEasyModel InitConnection: runError]) {
         return FALSE;
     }
     
-    if (![self ValidateSelection:url error:runError]) {
+    if (![self ValidateSelection:url error: runError]) {
         return FALSE;
     }
     
     
     if (self.isDumpOn) {
-        ok = [self->_myEasyModel SetDebugOn];
-        if (!ok) {
-            if (runError != nil) {
-                *runError = [self MakeRunError:@"Failed to set dump on"];
-            }
+        if (![self->_myEasyModel SetDebugOn: runError]) {
             return FALSE;
         }
     }
@@ -61,63 +55,70 @@
     
     switch (self.httpMethod) {
         case MyHttpMethodGet:
-            ok = [self->_myEasyModel SetGetMethod];
+            if (![self->_myEasyModel SetGetMethod: runError]) {
+                return FALSE;
+            }
             break;
             
         case MyHttpMethodPost:
-            ok = [self->_myEasyModel SetPostMethod: runError];
-            if (!ok) {
-                break;
+            if (![self->_myEasyModel SetPostMethod: runError]) {
+                return FALSE;
             }
             
-            ok = [self->_myEasyModel SetPostData:self.postData error:runError];
-            if (!ok) {
-                break;
+            if (![self->_myEasyModel SetPostData:self.postData error:runError]) {
+                return FALSE;
             }
             
-            ok = [self->_myEasyModel SetJsonContent: runError];
+            if (![self->_myEasyModel SetJsonContent: runError]) {
+                return FALSE;
+            }
             break;
             
         case MyHttpMethodPut:
-            ok = [self->_myEasyModel SetPutMethod];
-            if (!ok) {
-                break;
+            if (![self->_myEasyModel SetPutMethod: runError]) {
+                return FALSE;
             }
 
             if (self->_imageData != nil) {
-                [self->_myEasyModel SetImageDataNoCache:self.imageData];
-                ok = [self->_myEasyModel SetJpegContent];
+                if (![self->_myEasyModel SetImageDataNoCache:self.imageData error: runError]) {
+                    return FALSE;
+                }
+                
+                if (![self->_myEasyModel SetJpegContent: runError]) {
+                    return FALSE;
+                }
+                
                 // Image takes priority over plain text attachment.
                 break;
             }
             
-            ok = [self->_myEasyModel SetPutData:self.postData];
-            
-            if (!ok) {
-                break;
+            if (![self->_myEasyModel SetPutData: self.postData error: runError]) {
+                return FALSE;
             }
             
             if (self.isPlainTextAttachment) {
-                ok = [self->_myEasyModel SetPlainTextContent];
+                if (![self->_myEasyModel SetPlainTextContent: runError]) {
+                    return FALSE;
+                }
             }
             else {
-                ok = [self->_myEasyModel SetJsonContent: runError];
+                if(![self->_myEasyModel SetJsonContent: runError]) {
+                    return FALSE;
+                }
             }
             
             break;
             
         case MyHttpMethodDelete:
-            ok = [self->_myEasyModel SetDeleteMethod];
+            if (![self->_myEasyModel SetDeleteMethod: runError]) {
+                return FALSE;
+            }
             break;
             
         default:
             break;
     }
 
-    if (!ok) {
-        return FALSE;
-    }
-    
     if(![self->_myEasyModel Run:url error: runError]) {
         return FALSE;
     }

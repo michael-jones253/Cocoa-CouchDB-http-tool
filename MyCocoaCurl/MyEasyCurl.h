@@ -23,27 +23,27 @@
 
 - (BOOL)InitConnection: (NSError**)curlError;
 
-- (BOOL)SetGetMethod;
+- (BOOL)SetGetMethod: (NSError**)curlError;
 
 - (BOOL)SetPostMethod: (NSError**)curlError;
 
-- (BOOL)SetPutMethod;
+- (BOOL)SetPutMethod: (NSError**)curlError;
 
-- (BOOL)SetDeleteMethod;
+- (BOOL)SetDeleteMethod: (NSError**)curlError;
 
 - (BOOL)SetPostData: (NSString*)data error: (NSError**)curlError;
 
-- (BOOL)SetPutData: (NSString*)data;
+- (BOOL)SetPutData: (NSString*)data error: (NSError**)curlError;
 
-- (BOOL)SetImageDataNoCache: (NSData*) data;
+- (BOOL)SetImageDataNoCache: (NSData*) data error: (NSError**)curlError;
 
 - (BOOL)SetJsonContent: (NSError**)curlError;
 
-- (BOOL)SetPlainTextContent;
+- (BOOL)SetPlainTextContent: (NSError**)curlError;
 
-- (BOOL)SetJpegContent;
+- (BOOL)SetJpegContent: (NSError**)curlError;
 
-- (BOOL)SetDebugOn;
+- (BOOL)SetDebugOn: (NSError**)curlError;
 
 - (BOOL)Run: (NSString*)url error: (NSError**)curlError;
 

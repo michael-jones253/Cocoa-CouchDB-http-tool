@@ -57,9 +57,12 @@
     return ret;
 }
 
-- (BOOL)SetGetMethod {
+- (BOOL)SetGetMethod: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetGetMethod();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -74,16 +77,22 @@
     return ret;
 }
 
-- (BOOL)SetPutMethod {
+- (BOOL)SetPutMethod: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPutMethod();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
 
-- (BOOL)SetDeleteMethod {
+- (BOOL)SetDeleteMethod: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetDeleteMethod();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -98,20 +107,26 @@
     return ret;
 }
 
-- (BOOL)SetPutData: (NSString*)data {
+- (BOOL)SetPutData: (NSString*)data error: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPutData([ data UTF8String]);
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
 
-- (BOOL)SetImageDataNoCache: (NSData*) data {
+- (BOOL)SetImageDataNoCache: (NSData*) data error: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     const void* bytes = [data bytes];
     NSUInteger length = [data length];
 
     BOOL ret = impl->SetPutNoCacheData(static_cast<char const*>(bytes), length);
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
@@ -126,23 +141,32 @@
     return ret;
 }
 
-- (BOOL)SetPlainTextContent {
+- (BOOL)SetPlainTextContent: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPlainTextContent();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
 
-- (BOOL)SetJpegContent {
+- (BOOL)SetJpegContent: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetJpegContent();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
 
-- (BOOL)SetDebugOn {
+- (BOOL)SetDebugOn: (NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetDebugOn();
+    if (!ret) {
+        [self CurlError: curlError];
+    }
     
     return ret;
 }
