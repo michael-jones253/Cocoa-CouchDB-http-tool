@@ -224,6 +224,8 @@
     NSError* myError = nil;
     
     NSArray* dbNames = [controller GetDbNamesForHost:@"127.0.0.1" error:&myError];
+    
+    XCTAssert(dbNames != nil, @"Localhost CouchDB running");
     XCTAssert([dbNames count] >= 2, @"Localhost is running and contains at least the default databases");
     
     BOOL isReplicatorThere = FALSE;
@@ -242,10 +244,35 @@
     
     XCTAssert(isReplicatorThere, @"Replicator found");
     XCTAssert(isUsersThere, @"Users database found");
+    
+    dbNames = [controller GetDbNamesForHost:@"www.example.com" error:&myError];
+    XCTAssert(myError != nil, @"Expected error from getting databases at example.com");
+    
+    isReplicatorThere = FALSE;
+    isUsersThere = FALSE;
+    for (NSInteger index = 0; index < [dbNames count]; ++index) {
+        NSString* dbName = [dbNames objectAtIndex:index];
+        NSLog(@"Database: %@", dbName);
+        if ([dbName isEqualToString:@"_replicator"]) {
+            isReplicatorThere = TRUE;
+        }
+        
+        if ([dbName isEqualToString:@"_users"]) {
+            isUsersThere = TRUE;
+        }
+    }
+    
+    XCTAssert(!isReplicatorThere, @"Replicator found");
+    XCTAssert(!isUsersThere, @"Users database found");
 
     BOOL ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
     XCTAssert(!ok, @"Expected replicate failure");
     XCTAssert(myError != nil, @"Expected replicate error");
+    
+    myError = nil;
+    ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
+    XCTAssert(ok, @"Expected replicate ok");
+    XCTAssert(myError == nil, @"Expected no replicate error");
 
 }
 

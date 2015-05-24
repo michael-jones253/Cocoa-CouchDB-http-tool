@@ -152,7 +152,7 @@
      curl -vX POST http://127.0.0.1:5984/_replicate -d '{"source":"albums","target":"albums-replica"}' -H "Content-Type: application/json"
      */
 
-    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\"}", localDb, remoteUrl];
+    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\", \"create_target\":true}", localDb, remoteUrl];
     
     NSString* replicateUrl = [localHost stringByAppendingString:@"_replicate"];
     NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
@@ -217,6 +217,14 @@
     NSURLResponse* httpResponse;
     NSData *allDbsData = [NSURLConnection sendSynchronousRequest:request
                                              returningResponse:&httpResponse error:getError];
+    
+    if (httpResponse == nil) {
+        if (getError != nil && *getError == nil) {
+            *getError = [self MakeRunError:@"empty http response"];
+        }
+        
+        return nil;
+    }
     
     NSArray* httpResponseInformation = [httpResponse attributeKeys];
     
