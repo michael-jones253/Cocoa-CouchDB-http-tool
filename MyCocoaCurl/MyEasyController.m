@@ -164,6 +164,23 @@
     if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
         return FALSE;
     }
+    
+    NSString* response = [self->_myEasyModel GetContent];
+    
+    NSData* responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSObject* replicateResponse = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:replicateError];
+    
+    if (![replicateResponse isKindOfClass:[NSDictionary class]]) {
+        *replicateError = [self MakeRunError:@"Replicate response not a json dictionary"];
+        return FALSE;
+    }
+    
+    NSDictionary *responseKeyValues = (NSDictionary*)replicateResponse;
+    if ([responseKeyValues objectForKey:@"error"] != nil) {
+        *replicateError = [self MakeRunError:[responseKeyValues objectForKey:@"error"]];
+        return FALSE;
+    }
 
     return TRUE;
 }
@@ -196,10 +213,14 @@
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:getRequest]];
     
-    NSData *response = [NSURLConnection sendSynchronousRequest:request
-                                             returningResponse:nil error:getError];
     
-    NSArray *databaseNames = [NSJSONSerialization JSONObjectWithData:response
+    NSURLResponse* httpResponse;
+    NSData *allDbsData = [NSURLConnection sendSynchronousRequest:request
+                                             returningResponse:&httpResponse error:getError];
+    
+    NSArray* httpResponseInformation = [httpResponse attributeKeys];
+    
+    NSArray *databaseNames = [NSJSONSerialization JSONObjectWithData:allDbsData
                                                              options:0 error:getError];
     
     return databaseNames;
