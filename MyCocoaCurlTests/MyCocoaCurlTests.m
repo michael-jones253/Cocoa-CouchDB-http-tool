@@ -244,7 +244,7 @@
     
     XCTAssert(isReplicatorThere, @"Replicator found");
     XCTAssert(isUsersThere, @"Users database found");
-    
+
     dbNames = [controller GetDbNamesForHost:@"www.example.com" error:&myError];
     XCTAssert(myError != nil, @"Expected error from getting databases at example.com");
     

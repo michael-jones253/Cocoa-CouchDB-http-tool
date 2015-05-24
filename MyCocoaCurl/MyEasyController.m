@@ -226,11 +226,13 @@
     
     NSString* getRequest = [NSString stringWithFormat:@"http://%@:5984/_all_dbs", host];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:getRequest]];
+    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getRequest]];
+    NSTimeInterval timeout = 5;
+    [urlRequest setTimeoutInterval:timeout];
     
-    
-    NSURLResponse* httpResponse;
-    NSData *allDbsData = [NSURLConnection sendSynchronousRequest:request
+    //NSURLResponse* httpResponse;
+    NSHTTPURLResponse* httpResponse;
+    NSData *allDbsData = [NSURLConnection sendSynchronousRequest:urlRequest
                                              returningResponse:&httpResponse error:getError];
     
     if (httpResponse == nil) {
@@ -241,8 +243,12 @@
         return nil;
     }
     
-    NSArray* httpResponseInformation = [httpResponse attributeKeys];
-    // FIX ME - parse the above response.
+    NSInteger statusCode = [httpResponse statusCode];
+    if (statusCode != 200) {
+        NSString* unexpectedStatus = [NSHTTPURLResponse localizedStringForStatusCode: statusCode];
+        *getError = [self MakeRunError: unexpectedStatus];
+        return nil;
+    }    
     
     NSArray *databaseNames = [NSJSONSerialization JSONObjectWithData:allDbsData
                                                              options:0 error:getError];
