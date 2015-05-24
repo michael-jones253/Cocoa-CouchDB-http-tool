@@ -28,6 +28,8 @@
 
 - (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)runError;
 
+- (BOOL)PullReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
+
 - (BOOL)LoadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
 
 - (NSString*)GetResult;

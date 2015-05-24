@@ -16,7 +16,17 @@
 
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError;
 
+- (BOOL)Replicate: (NSString*)localUrl
+   destinationUrl: (NSString*)remoteUrl
+     createTarget: (BOOL) createTarget
+             push: (BOOL) push
+            error: (NSError**)replicateError;
+
+- (BOOL)SetupConnectionForJsonPost: (NSError**)connectionError;
+
 - (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError;
+
+- (BOOL)CheckResponseOk: (NSString*)response error: (NSError**)parseError;
 
 @end
 
@@ -127,64 +137,22 @@
 }
 
 - (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
-    if (![self->_myEasyModel InitConnection: replicateError]) {
-        return FALSE;
-    }
-    
-    if (![self->_myEasyModel SetPostMethod: replicateError]) {
-        return FALSE;
-    }
-    
-    if (![self->_myEasyModel SetJsonContent: replicateError]) {
-        return FALSE;
-    }
-    
-    // Get the name of the database which is the identifier after the last '/'.
-    NSString* localDb = nil;
-    NSString* localHost = nil;
-    
-    if (![self ParseDbUrl:localUrl host:&localHost dbName:&localDb error:replicateError]) {
-        return FALSE;
-    }
-    
-    /*
-     We want something like this:
-     curl -vX POST http://127.0.0.1:5984/_replicate -d '{"source":"albums","target":"albums-replica"}' -H "Content-Type: application/json"
-     */
 
-    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\", \"create_target\":true}", localDb, remoteUrl];
-    
-    NSString* replicateUrl = [localHost stringByAppendingString:@"_replicate"];
-    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
-    
-    if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:TRUE push:TRUE error:replicateError]) {
         return FALSE;
     }
     
-    if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
-        return FALSE;
-    }
-    
-    NSString* response = [self->_myEasyModel GetContent];
-    
-    NSData* responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSObject* replicateResponse = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:replicateError];
-    
-    if (![replicateResponse isKindOfClass:[NSDictionary class]]) {
-        *replicateError = [self MakeRunError:@"Replicate response not a json dictionary"];
-        return FALSE;
-    }
-    
-    NSDictionary *responseKeyValues = (NSDictionary*)replicateResponse;
-    if ([responseKeyValues objectForKey:@"error"] != nil) {
-        *replicateError = [self MakeRunError:[responseKeyValues objectForKey:@"error"]];
-        return FALSE;
-    }
-
     return TRUE;
 }
 
+- (BOOL)PullReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+    
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:TRUE push:FALSE error:replicateError]) {
+        return FALSE;
+    }
+    
+    return TRUE;
+}
 
 - (BOOL)LoadImageFromFile: (NSString*) fileName  imageSize: (NSUInteger*)length error: (NSError**)loadError {
     
@@ -207,6 +175,53 @@
     return [self->_myEasyModel GetDump];
 }
 
+- (BOOL)Replicate: (NSString*)localUrl
+   destinationUrl: (NSString*)remoteUrl
+     createTarget: (BOOL) createTarget
+             push: (BOOL) push
+            error: (NSError**)replicateError {
+    if (![self SetupConnectionForJsonPost:replicateError]) {
+        return FALSE;
+    }
+    
+    // Get the name of the database which is the identifier after the last '/'.
+    NSString* localDb = nil;
+    NSString* localHost = nil;
+    
+    if (![self ParseDbUrl:localUrl host:&localHost dbName:&localDb error:replicateError]) {
+        return FALSE;
+    }
+    
+    NSString* source = push ? localDb : remoteUrl;
+    NSString* destination = push ? remoteUrl : localDb;
+    
+    /*
+     We want something like this:
+     curl -vX POST http://127.0.0.1:5984/_replicate -d '{"source":"albums","target":"example.com:5984/albums-replica"}' -H "Content-Type: application/json"
+     */
+    NSString* createInstruction = createTarget? @", \"create_target\":true" : @"";
+    NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\"%@}",
+                            source, destination, createInstruction];
+    
+    NSString* replicateUrl = [localHost stringByAppendingString:@"_replicate"];
+    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
+    
+    if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
+        return FALSE;
+    }
+    
+    if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
+        return FALSE;
+    }
+    
+    NSString* response = [self->_myEasyModel GetContent];
+    
+    if (![self CheckResponseOk:response error:replicateError]) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
 - (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError {
     
     NSString* getRequest = [NSString stringWithFormat:@"http://%@:5984/_all_dbs", host];
@@ -227,6 +242,7 @@
     }
     
     NSArray* httpResponseInformation = [httpResponse attributeKeys];
+    // FIX ME - parse the above response.
     
     NSArray *databaseNames = [NSJSONSerialization JSONObjectWithData:allDbsData
                                                              options:0 error:getError];
@@ -285,6 +301,43 @@
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{
     NSData* imageData = [NSData dataWithContentsOfFile:fileName options:NSDataReadingMappedAlways error:loadError];
     return imageData;
+}
+
+- (BOOL)SetupConnectionForJsonPost: (NSError**)connectionError {
+    if (![self->_myEasyModel InitConnection: connectionError]) {
+        return FALSE;
+    }
+    
+    if (![self->_myEasyModel SetPostMethod: connectionError]) {
+        return FALSE;
+    }
+    
+    if (![self->_myEasyModel SetJsonContent: connectionError]) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+- (BOOL)CheckResponseOk: (NSString*)response error: (NSError**)parseError {
+    
+    NSData* responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSObject* parsedJson = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:parseError];
+    
+    if (![parsedJson isKindOfClass:[NSDictionary class]]) {
+        *parseError = [self MakeRunError:@"Response not a json dictionary"];
+        return FALSE;
+    }
+    
+    NSDictionary *responseKeyValues = (NSDictionary*)parsedJson;
+    if ([responseKeyValues objectForKey:@"error"] != nil) {
+        *parseError = [self MakeRunError:[responseKeyValues objectForKey:@"error"]];
+        return FALSE;
+    }
+    
+    return TRUE;
+
 }
 
 - (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError {

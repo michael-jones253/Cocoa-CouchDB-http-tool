@@ -273,6 +273,11 @@
     ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
     XCTAssert(ok, @"Expected replicate ok");
     XCTAssert(myError == nil, @"Expected no replicate error");
+    
+    myError = nil;
+    ok = [controller PullReplicate:@"http://localhost:5984/hello-rep-pulled" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
+    XCTAssert(ok, @"Expected replicate ok");
+    XCTAssert(myError == nil, @"Expected no replicate error");
 
 }
 
