@@ -173,16 +173,16 @@
 - (void)testController {
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* runError = nil;
-    [controller RunUrl:@"www.example.com" applicationData:@"" error:&runError];
+    [controller runUrl:@"www.example.com" applicationData:@"" error:&runError];
     
-    NSString* result = [controller GetResult];
+    NSString* result = [controller getResult];
     
     NSLog(@"Result: %@", result);
     
     controller.isDumpOn = TRUE;
-    [controller RunUrl:@"www.example.com" applicationData:@"" error:&runError];
+    [controller runUrl:@"www.example.com" applicationData:@"" error:&runError];
     
-    NSString* dump = [controller GetDump];
+    NSString* dump = [controller getDump];
     NSLog(@"Controller dump: %@", dump);
     XCTAssert(dump.length > 0, @"Got a dump ok");
     
@@ -193,7 +193,7 @@
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
     NSUInteger imageLength = 0;
-    BOOL ok = [controller LoadImageFromFile:@"" imageSize:&imageLength error:&myError];
+    BOOL ok = [controller loadImageFromFile:@"" imageSize:&imageLength error:&myError];
     XCTAssert(!ok, @"Expected load image failure");
     XCTAssert(myError != nil, @"Expected exception");
     XCTAssert(imageLength == 0, @"Image length not modified ok");
@@ -201,7 +201,7 @@
     // Set error to nil for next test.
     myError = nil;
 
-    ok = [controller LoadImageFromFile:@"/Users/michaeljones/Pictures/Exported Photos/IMG_1564.jpg"
+    ok = [controller loadImageFromFile:@"/Users/michaeljones/Pictures/Exported Photos/IMG_1564.jpg"
                              imageSize:&imageLength
                                  error:&myError];
     XCTAssert(ok, @"Expected load image success");
@@ -213,7 +213,7 @@
     
     NSString* shortPath = @"~/Pictures/Exported Photos/IMG_1564.jpg";
     imageLength = 0;
-    ok = [controller LoadImageFromFile:shortPath imageSize:&imageLength error:&myError];
+    ok = [controller loadImageFromFile:shortPath imageSize:&imageLength error:&myError];
     XCTAssert(ok, @"Expected load image success");
     XCTAssert(myError == nil, @"Expected no exception");
     XCTAssert(imageLength > 0, @"Image length set ok");
@@ -265,17 +265,17 @@
     XCTAssert(!isReplicatorThere, @"Replicator found");
     XCTAssert(!isUsersThere, @"Users database found");
 
-    BOOL ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
+    BOOL ok = [controller pushReplicateUrl:@"http://localhost:5984/hello" destinationUrl:@"http://example.com:5984/hello-rep" error:&myError];
     XCTAssert(!ok, @"Expected replicate failure");
     XCTAssert(myError != nil, @"Expected replicate error");
     
     myError = nil;
-    ok = [controller PushReplicate:@"http://localhost:5984/hello" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
+    ok = [controller pushReplicateUrl:@"http://localhost:5984/hello" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
     XCTAssert(ok, @"Expected replicate ok");
     XCTAssert(myError == nil, @"Expected no replicate error");
     
     myError = nil;
-    ok = [controller PullReplicate:@"http://localhost:5984/hello-rep-pulled" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
+    ok = [controller pullReplicateUrl:@"http://localhost:5984/hello-rep-pulled" destinationUrl:@"http://127.0.0.1:5984/hello-rep" error:&myError];
     XCTAssert(ok, @"Expected replicate ok");
     XCTAssert(myError == nil, @"Expected no replicate error");
 

@@ -10,23 +10,24 @@
 
 @interface MyEasyController()
 // Private.
-- (NSError*)MakeRunError: (NSString*const)message;
 
-- (BOOL)ValidateSelection: (NSString*)url error: (NSError**)validationError;
+- (BOOL)ValidateSelection:(NSString*)url error:(NSError**)validationError;
 
-- (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError;
+- (NSData*) dataFromImageFile:(NSString*)fileName error:(NSError**)loadError;
 
-- (BOOL)Replicate: (NSString*)localUrl
-   destinationUrl: (NSString*)remoteUrl
-     createTarget: (BOOL) createTarget
-             push: (BOOL) push
-            error: (NSError**)replicateError;
+- (BOOL)Replicate:(NSString*)localUrl
+   destinationUrl:(NSString*)remoteUrl
+     createTarget:(BOOL) createTarget
+             push:(BOOL) push
+            error:(NSError**)replicateError;
 
-- (BOOL)SetupConnectionForJsonPost: (NSError**)connectionError;
+- (BOOL)SetupConnectionForJsonPost:(NSError**)connectionError;
 
-- (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError;
+- (BOOL)ParseDbUrl:(NSString*)url host:(NSString**)host dbName:(NSString**)dbName error:(NSError**)parseError;
 
-- (BOOL)CheckResponseOk: (NSString*)response error: (NSError**)parseError;
+- (BOOL)CheckReplicateParameters:(NSString*) sourceDb destinationDb:(NSString*)destinationDb error:(NSError**)error;
+
+- (BOOL)CheckResponseOk:(NSString*)response error:(NSError**)parseError;
 
 @end
 
@@ -45,7 +46,7 @@
     return self;
 }
 
-- (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
+- (BOOL)runUrl:(NSString*)url applicationData:(NSString*)data error:(NSError**)runError {
     if (![self->_myEasyModel InitConnection: runError]) {
         return NO;
     }
@@ -136,7 +137,7 @@
     return YES;
 }
 
-- (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+- (BOOL)pushReplicateUrl:(NSString*)localUrl destinationUrl:(NSString*)remoteUrl error:(NSError**)replicateError {
 
     if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:YES error:replicateError]) {
         return NO;
@@ -145,7 +146,7 @@
     return YES;
 }
 
-- (BOOL)PullReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+- (BOOL)pullReplicateUrl:(NSString*)localUrl destinationUrl:(NSString*)remoteUrl error:(NSError**)replicateError {
     
     if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:NO error:replicateError]) {
         return NO;
@@ -154,7 +155,7 @@
     return YES;
 }
 
-- (BOOL)LoadImageFromFile: (NSString*) fileName  imageSize: (NSUInteger*)length error: (NSError**)loadError {
+- (BOOL)loadImageFromFile:(NSString*) fileName  imageSize:(NSUInteger*)length error:(NSError**)loadError {
     
     NSString *fullPath = [fileName stringByExpandingTildeInPath];
 
@@ -167,19 +168,19 @@
 }
 
 
-- (NSString*)GetResult {
+- (NSString*)getResult {
     return [self->_myEasyModel GetContent];
 }
 
-- (NSString*)GetDump {
+- (NSString*)getDump {
     return [self->_myEasyModel GetDump];
 }
 
-- (BOOL)Replicate: (NSString*)localUrl
-   destinationUrl: (NSString*)remoteUrl
-     createTarget: (BOOL) createTarget
-             push: (BOOL) push
-            error: (NSError**)replicateError {
+- (BOOL)Replicate:(NSString*)localUrl
+   destinationUrl:(NSString*)remoteUrl
+     createTarget:(BOOL) createTarget
+             push:(BOOL) push
+            error:(NSError**)replicateError {
     if (![self SetupConnectionForJsonPost:replicateError]) {
         return NO;
     }
@@ -222,7 +223,7 @@
     return YES;
 }
 
-- (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError {
+- (NSArray*)GetDbNamesForHost:(NSString*)host error:(NSError**)getError {
     
     NSString* getRequest = [NSString stringWithFormat:@"http://%@:5984/_all_dbs", host];
     
@@ -237,7 +238,15 @@
     
     if (httpResponse == nil) {
         if (getError != nil && *getError == nil) {
-            *getError = [self MakeRunError:@"empty http response"];
+            [MyEasyController setRunError:getError withMessage:@"No http response"];
+        }
+        
+        return nil;
+    }
+    
+    if (allDbsData == nil) {
+        if (getError != nil && *getError == nil) {
+            [MyEasyController setRunError:getError withMessage:@"Empty http response"];
         }
         
         return nil;
@@ -246,7 +255,7 @@
     NSInteger statusCode = [httpResponse statusCode];
     if (statusCode != 200) {
         NSString* unexpectedStatus = [NSHTTPURLResponse localizedStringForStatusCode: statusCode];
-        *getError = [self MakeRunError: unexpectedStatus];
+        [MyEasyController setRunError:getError withMessage:unexpectedStatus];
         return nil;
     }    
     
@@ -257,22 +266,23 @@
 }
 
 
-- (NSError*)MakeRunError: (NSString*const)message {
++ (void)setRunError:(NSError**) runError withMessage:(NSString*)message {
+    if (runError == nil) {
+        return;
+    }
+    
     NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
     NSString *desc = NSLocalizedString(message, nil);
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
     
-    NSError *error = [NSError errorWithDomain:domain
+    *runError = [NSError errorWithDomain:domain
                                          code:-101
                                      userInfo:userInfo];
-    return error;
 }
 
-- (BOOL)ValidateSelection: (NSString*)url error: (NSError**)validationError {
+- (BOOL)ValidateSelection:(NSString*)url error:(NSError**)validationError {
     if (self.isPlainTextAttachment && self.httpMethod != MyHttpMethodPut) {
-        if (validationError != nil) {
-            *validationError = [self MakeRunError:@"Plain text attachment must use PUT"];
-        }
+        [MyEasyController setRunError:validationError withMessage:@"Plain text attachment must use PUT"];
         return NO;
     }
     
@@ -281,35 +291,29 @@
     }
     
     if (self.isPlainTextAttachment && ![url containsString:@"attachment"]) {
-        if (validationError != nil) {
-            *validationError = [self MakeRunError:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
-        }
+        [MyEasyController setRunError:validationError withMessage:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
         return NO;
     }
     
     if ((self.isPlainTextAttachment || self->_imageData != nil) && ![url containsString:@"?rev="]) {
-        if (validationError != nil) {
-            *validationError = [self MakeRunError:@"Attachment must specify document revision: ?rev=<revision>"];
-        }
+        [MyEasyController setRunError:validationError withMessage:@"Attachment must specify document revision: ?rev=<revision>"];
         return NO;
     }
     
     if (self->_imageData != nil && ![url containsString:@".jpg"]) {
-        if (validationError != nil) {
-            *validationError = [self MakeRunError:@"Image attachment must specify image in URI"];
-        }
+        [MyEasyController setRunError:validationError withMessage:@"Image attachment must specify image in URI"];
         return NO;
     }
     
     return YES;
 }
 
-- (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{
+- (NSData*) dataFromImageFile:(NSString*)fileName error:(NSError**)loadError{
     NSData* imageData = [NSData dataWithContentsOfFile:fileName options:NSDataReadingMappedAlways error:loadError];
     return imageData;
 }
 
-- (BOOL)SetupConnectionForJsonPost: (NSError**)connectionError {
+- (BOOL)SetupConnectionForJsonPost:(NSError**)connectionError {
     if (![self->_myEasyModel InitConnection: connectionError]) {
         return NO;
     }
@@ -325,20 +329,20 @@
     return YES;
 }
 
-- (BOOL)CheckResponseOk: (NSString*)response error: (NSError**)parseError {
+- (BOOL)CheckResponseOk:(NSString*)response error:(NSError**)parseError {
     
     NSData* responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
     
     NSObject* parsedJson = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:parseError];
     
     if (![parsedJson isKindOfClass:[NSDictionary class]]) {
-        *parseError = [self MakeRunError:@"Response not a json dictionary"];
+        [MyEasyController setRunError:parseError withMessage:@"Response not a json dictionary"];
         return NO;
     }
     
     NSDictionary *responseKeyValues = (NSDictionary*)parsedJson;
     if ([responseKeyValues objectForKey:@"error"] != nil) {
-        *parseError = [self MakeRunError:[responseKeyValues objectForKey:@"error"]];
+        [MyEasyController setRunError:parseError withMessage:[responseKeyValues objectForKey:@"error"]];
         return NO;
     }
     
@@ -346,7 +350,7 @@
 
 }
 
-- (BOOL)ParseDbUrl: (NSString*)url host: (NSString**)host dbName: (NSString**)dbName error: (NSError**)parseError {
+- (BOOL)ParseDbUrl:(NSString*)url host:(NSString**)host dbName:(NSString**)dbName error:(NSError**)parseError {
     
     // Get the name of the database which is the identifier after the last '/'.
     NSRange range = [url rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [url length])];
@@ -354,17 +358,22 @@
     
     *host = [url substringToIndex:dbIndex];
     if (*host == nil) {
-        *parseError = [self MakeRunError:@"Unable to parse host from URL"];
+        [MyEasyController setRunError:parseError withMessage:@"Unable to parse host from URL"];
         return NO;
     }
     
     *dbName = [url substringFromIndex:dbIndex];
     if (*dbName == nil) {
-        *parseError = [self MakeRunError:@"Unable to parse database name from URL"];
+        [MyEasyController setRunError:parseError withMessage:@"Unable to parse database name from URL"];
         return NO;
     }
 
     return YES;
 }
+
+- (BOOL)CheckReplicateParameters:(NSString*) sourceDb destinationDb:(NSString*)destinationDb error:(NSError**)error {
+    return YES;
+}
+
 
 @end

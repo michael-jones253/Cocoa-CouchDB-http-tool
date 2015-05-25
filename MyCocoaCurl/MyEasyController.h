@@ -22,19 +22,21 @@
 @property BOOL isDumpOn;
 @property NSData* imageData;
 
++ (void)setRunError:(NSError**) runError withMessage:(NSString*)message;
+
 - (id)init;
 
-- (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
+- (BOOL)runUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
-- (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)runError;
+- (BOOL)pushReplicateUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)runError;
 
-- (BOOL)PullReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
+- (BOOL)pullReplicateUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
 
-- (BOOL)LoadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
+- (BOOL)loadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
 
-- (NSString*)GetResult;
+- (NSString*)getResult;
 
-- (NSString*)GetDump;
+- (NSString*)getDump;
 
 // Replication stuff
 - (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError;

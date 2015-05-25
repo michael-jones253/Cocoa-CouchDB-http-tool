@@ -15,7 +15,11 @@
 @property MyEasyController* easyController;
 @property enum ReplicateOperation replicateOperation;
 
+- (BOOL)validateUserSelection:(NSError**) selectionError;
+
 - (void)determineOperation;
+
+- (void)SetReplicateError:(NSString*const)message error:(NSError**)replicateError;
 
 @end
 
@@ -89,14 +93,14 @@
     
     switch (_replicateOperation) {
         case PushCreate:
-            ok = [_easyController PushReplicate:localUrl destinationUrl:remoteUrl error:&replicateError];
+            ok = [_easyController pushReplicateUrl:localUrl destinationUrl:remoteUrl error:&replicateError];
             break;
             
         case PushSync:
             break;
             
         case PullCreate:
-            ok = [_easyController PullReplicate:localUrl destinationUrl:remoteUrl error:&replicateError];
+            ok = [_easyController pullReplicateUrl:localUrl destinationUrl:remoteUrl error:&replicateError];
             break;
             
         case PullSync:
@@ -181,12 +185,96 @@
     }
 }
 
+- (BOOL)validateUserSelection:(NSError**) selectionError {
+    NSInteger remoteTargetIndex = [self.remoteDbs indexOfItemWithObjectValue:[self.remoteDbName stringValue]];
+    NSInteger localTargetIndex = [self.localDbs indexOfItemWithObjectValue:[self.localDbName stringValue]];
+    
+    BOOL sourceDestEqual = [[self.localDbName stringValue] isEqualToString:[self.remoteDbName stringValue]];
+    
+    // Need to test for ip resolving to this machine too.
+    BOOL destIsLocalHost = [[self.remoteHost stringValue] isEqualToString:@"127.0.0.1"] ||
+                            [[self.remoteHost stringValue] isEqualToString:@"localhost"];
+    
+    if (sourceDestEqual && destIsLocalHost) {
+        [self SetReplicateError:@"Source DB must be different from destination DB" error:selectionError];
+        return NO;
+    }
+    
+    // Now check that selected database name doesn't begin with '_'.
+    BOOL localSystemDbSelected = [[self.localDbName stringValue] hasPrefix:@"_"];
+    BOOL remoteSystemDbSelected = [[self.remoteDbName stringValue] hasPrefix:@"_"];
+    if (localSystemDbSelected || remoteSystemDbSelected) {
+        [self SetReplicateError:@"Cannot replicate system databases" error:selectionError];
+        return NO;
+    }
+    
+    if ([[self.localDbName stringValue] isEqualToString:@""]) {
+        [self SetReplicateError:@"Local DB must be specified" error: selectionError];
+        return NO;
+    }
+    
+    if ([[self.remoteDbName stringValue] isEqualToString:@""]) {
+        [self SetReplicateError:@"Remote DB must be specified" error:selectionError];
+        return NO;
+    }
+    
+    switch (_replicateOperation) {
+        case PushCreate:
+            if (remoteTargetIndex != NSNotFound) {
+                [self SetReplicateError:@"Remote target DB exists - choose sync option" error:selectionError];
+                return NO;
+            }
+            break;
+            
+        case PushSync:
+            if (remoteTargetIndex == NSNotFound) {
+                [self SetReplicateError:@"Remote target DB not present - choose create option" error:selectionError];
+                return NO;
+            }
+            break;
+            
+        case PullCreate:
+            if (localTargetIndex != NSNotFound) {
+                [self SetReplicateError:@"Local target DB exists - choose sync option" error:selectionError];
+                return NO;
+            }
+            break;
+            
+        case PullSync:
+            if (localTargetIndex == NSNotFound) {
+                [self SetReplicateError:@"Local target DB not present - choose create option" error:selectionError];
+                return NO;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return YES;
+}
+
 - (void)determineOperation {
     NSInteger selectedRow = [self.operation selectedRow];
     _replicateOperation = (enum ReplicateOperation)selectedRow;
     
     NSAssert(_replicateOperation >= PushCreate && _replicateOperation <= PullSync, @"Replicate selection not valid.");
 }
+
+- (void)SetReplicateError:(NSString*const)message error:(NSError**)replicateError {
+    if (replicateError == nil) {
+        return;
+    }
+    
+    NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
+    NSString *desc = NSLocalizedString(message, nil);
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+    
+    *replicateError = [NSError errorWithDomain:domain
+                                         code:-101
+                                     userInfo:userInfo];
+}
+
 
 @end
 

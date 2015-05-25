@@ -37,7 +37,7 @@
         NSLog(@"Performing curl: %@", self.url.title);
 
         NSError* runError = nil;
-        BOOL ok = [self->_easyController RunUrl:self.url.title applicationData:self.applicationData.title error:&runError];
+        BOOL ok = [self->_easyController runUrl:self.url.title applicationData:self.applicationData.title error:&runError];
         
         if (!ok) {
             NSString *err = (runError != nil)? runError.localizedDescription : @"Unknown run error";
@@ -45,13 +45,13 @@
             return;
         }
         
-        NSString* content = [self->_easyController GetResult];
+        NSString* content = [self->_easyController getResult];
         [self.content setTitle: content];
         
         if ([self.dump state] == NSOnState) {
             [self.content setTitle:[self.content.title stringByAppendingString:@"\n"]];
-            [self.content setTitle:[self.content.title stringByAppendingString:[self->_easyController GetDump]]];
-            NSLog(@"DUMP: %@", [self->_easyController GetDump]);
+            [self.content setTitle:[self.content.title stringByAppendingString:[self->_easyController getDump]]];
+            NSLog(@"DUMP: %@", [self->_easyController getDump]);
         }
     }
 }
@@ -61,7 +61,7 @@
         NSError* loadError = nil;
         
         NSUInteger imageLength = 0;
-        BOOL loadedOk = [self->_easyController LoadImageFromFile:self.imagePath imageSize:&imageLength error:&loadError];
+        BOOL loadedOk = [self->_easyController loadImageFromFile:self.imagePath imageSize:&imageLength error:&loadError];
         if (!loadedOk) {
             NSString *err = (loadError != nil)? loadError.localizedDescription : @"Unknown run error";
             [self.content setTitle:err];
