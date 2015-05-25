@@ -31,6 +31,7 @@
 - (IBAction)exampleViewButtonPressed:(id)sender;
 - (IBAction)httpMethodButtonSelected:(id)sender;
 - (IBAction)applicationDataSentAction:(id)sender;
+- (IBAction)popupReplicateWindow:(id)sender;
 
 @end
 

@@ -7,8 +7,13 @@
 //
 
 #import "Document.h"
+#import "ReplicateWindow.h"
 
-@interface Document ()
+@interface Document () {
+    NSWindowController* myReplicateWindowController;
+}
+
+@property NSWindowController* replicateWindowController;
 
 @end
 
@@ -138,6 +143,29 @@
 - (IBAction)applicationDataSentAction:(id)sender {
     // Application data edited.
     self->_docBuf = [sender stringValue];
+}
+
+- (IBAction)popupReplicateWindow:(id)sender {
+    // To Avoid loading nib every time every time.
+    // From: http://www.cocoabuilder.com/archive/cocoa/133809-nswindowcontroller-window-always-nil.html
+    /*
+     > I can't figure out why [self window] always return nil, even if the
+     > window has already been displayed. Am I missing something?
+     
+     Have you dragged the connection from the window controller (files
+     owner) and the window in the nib file?
+     MJ Note: click on files owner and select NSWindowController as the class in the identity inspector.
+     This will make a window outlet appear in the connections inspector.
+     Then drag window outlet to the window in the interface builder GUI.
+     (i.e the graphical cocoa window not the Window icon in the left column).
+     */
+
+    if (myReplicateWindowController == nil) {
+        // Lazy loading.
+        myReplicateWindowController = [[NSWindowController alloc] initWithWindowNibName: @"ReplicateWindow" owner:self];
+    }
+    
+    [myReplicateWindowController showWindow:self];
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {

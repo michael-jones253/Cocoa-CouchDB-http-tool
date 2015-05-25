@@ -32,8 +32,6 @@
 		B23704471B01AC10004F1374 /* libMyCurlCppD.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B237043C1B019B13004F1374 /* libMyCurlCppD.dylib */; };
 		B23704481B01AF2A004F1374 /* MyCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704091B018C96004F1374 /* MyCurl.cpp */; };
 		B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B23704101B0198C0004F1374 /* MyCurlCppImpl.cpp */; };
-		B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */ = {isa = PBXBuildFile; fileRef = B23704111B0198C0004F1374 /* MyCurlCppImpl.h */; };
-		B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */ = {isa = PBXBuildFile; fileRef = B237040A1B018C96004F1374 /* MyCurl.h */; };
 		B237044C1B01AF57004F1374 /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B22539EC1AFDDF9B0081DD53 /* libcurl.dylib */; };
 		B237044D1B01C63C004F1374 /* MyEasyCurl.h in Headers */ = {isa = PBXBuildFile; fileRef = B23704461B01A188004F1374 /* MyEasyCurl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B237044E1B01CBBE004F1374 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B237042A1B0199F2004F1374 /* Info.plist */; };
@@ -546,9 +544,7 @@
 				B23704481B01AF2A004F1374 /* MyCurl.cpp in Sources */,
 				B23704491B01AF2A004F1374 /* MyCurlCppImpl.cpp in Sources */,
 				B2F1266C1B0461F8005AEF38 /* MyPutBufferStream.cpp in Sources */,
-				B237044A1B01AF2A004F1374 /* MyCurlCppImpl.h in Sources */,
 				B21D122E1B0BF04E00A78313 /* MyPutNoCacheStream.cpp in Sources */,
-				B237044B1B01AF2A004F1374 /* MyCurl.h in Sources */,
 				B2A83CE21B0B30D900FAD83F /* MyPutStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
