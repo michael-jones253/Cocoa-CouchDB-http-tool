@@ -29,8 +29,8 @@
 }
 
 - (IBAction)curlButtonTapped:(id) sender {
-    self->_easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? TRUE:FALSE;
-    self->_easyController.isDumpOn = ([self.dump state] == NSOnState) ? TRUE:FALSE;
+    self->_easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? YES:NO;
+    self->_easyController.isDumpOn = ([self.dump state] == NSOnState) ? YES:NO;
     
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {

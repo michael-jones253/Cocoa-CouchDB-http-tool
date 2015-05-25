@@ -38,7 +38,7 @@
     if (self) {
         self.httpMethod = MyHttpMethodGet;
         self.postData = @"{\"company\": \"Example, Inc.\"}";
-        self.isPlainTextAttachment = FALSE;
+        self.isPlainTextAttachment = NO;
         self->_myEasyModel = [[MyEasyCurl alloc]init];
     }    
     
@@ -47,17 +47,17 @@
 
 - (BOOL)RunUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError {
     if (![self->_myEasyModel InitConnection: runError]) {
-        return FALSE;
+        return NO;
     }
     
     if (![self ValidateSelection:url error: runError]) {
-        return FALSE;
+        return NO;
     }
     
     
     if (self.isDumpOn) {
         if (![self->_myEasyModel SetDebugOn: runError]) {
-            return FALSE;
+            return NO;
         }
     }
 
@@ -66,36 +66,36 @@
     switch (self.httpMethod) {
         case MyHttpMethodGet:
             if (![self->_myEasyModel SetGetMethod: runError]) {
-                return FALSE;
+                return NO;
             }
             break;
             
         case MyHttpMethodPost:
             if (![self->_myEasyModel SetPostMethod: runError]) {
-                return FALSE;
+                return NO;
             }
             
             if (![self->_myEasyModel SetPostData:self.postData error:runError]) {
-                return FALSE;
+                return NO;
             }
             
             if (![self->_myEasyModel SetJsonContent: runError]) {
-                return FALSE;
+                return NO;
             }
             break;
             
         case MyHttpMethodPut:
             if (![self->_myEasyModel SetPutMethod: runError]) {
-                return FALSE;
+                return NO;
             }
 
             if (self->_imageData != nil) {
                 if (![self->_myEasyModel SetImageDataNoCache:self.imageData error: runError]) {
-                    return FALSE;
+                    return NO;
                 }
                 
                 if (![self->_myEasyModel SetJpegContent: runError]) {
-                    return FALSE;
+                    return NO;
                 }
                 
                 // Image takes priority over plain text attachment.
@@ -103,17 +103,17 @@
             }
             
             if (![self->_myEasyModel SetPutData: self.postData error: runError]) {
-                return FALSE;
+                return NO;
             }
             
             if (self.isPlainTextAttachment) {
                 if (![self->_myEasyModel SetPlainTextContent: runError]) {
-                    return FALSE;
+                    return NO;
                 }
             }
             else {
                 if(![self->_myEasyModel SetJsonContent: runError]) {
-                    return FALSE;
+                    return NO;
                 }
             }
             
@@ -121,7 +121,7 @@
             
         case MyHttpMethodDelete:
             if (![self->_myEasyModel SetDeleteMethod: runError]) {
-                return FALSE;
+                return NO;
             }
             break;
             
@@ -130,28 +130,28 @@
     }
 
     if(![self->_myEasyModel Run:url error: runError]) {
-        return FALSE;
+        return NO;
     }
     
-    return TRUE;
+    return YES;
 }
 
 - (BOOL)PushReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
 
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:TRUE push:TRUE error:replicateError]) {
-        return FALSE;
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:YES error:replicateError]) {
+        return NO;
     }
     
-    return TRUE;
+    return YES;
 }
 
 - (BOOL)PullReplicate: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
     
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:TRUE push:FALSE error:replicateError]) {
-        return FALSE;
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:NO error:replicateError]) {
+        return NO;
     }
     
-    return TRUE;
+    return YES;
 }
 
 - (BOOL)LoadImageFromFile: (NSString*) fileName  imageSize: (NSUInteger*)length error: (NSError**)loadError {
@@ -181,7 +181,7 @@
              push: (BOOL) push
             error: (NSError**)replicateError {
     if (![self SetupConnectionForJsonPost:replicateError]) {
-        return FALSE;
+        return NO;
     }
     
     // Get the name of the database which is the identifier after the last '/'.
@@ -189,7 +189,7 @@
     NSString* localHost = nil;
     
     if (![self ParseDbUrl:localUrl host:&localHost dbName:&localDb error:replicateError]) {
-        return FALSE;
+        return NO;
     }
     
     NSString* source = push ? localDb : remoteUrl;
@@ -207,19 +207,19 @@
     NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
     
     if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
-        return FALSE;
+        return NO;
     }
     
     if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
-        return FALSE;
+        return NO;
     }
     
     NSString* response = [self->_myEasyModel GetContent];
     
     if (![self CheckResponseOk:response error:replicateError]) {
-        return FALSE;
+        return NO;
     }
-    return TRUE;
+    return YES;
 }
 
 - (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError {
@@ -273,7 +273,7 @@
         if (validationError != nil) {
             *validationError = [self MakeRunError:@"Plain text attachment must use PUT"];
         }
-        return FALSE;
+        return NO;
     }
     
     if (self.httpMethod != MyHttpMethodPut) {
@@ -284,24 +284,24 @@
         if (validationError != nil) {
             *validationError = [self MakeRunError:@"Plain text attachment must have \"attachment?rev=<revision>\" in URI"];
         }
-        return FALSE;
+        return NO;
     }
     
     if ((self.isPlainTextAttachment || self->_imageData != nil) && ![url containsString:@"?rev="]) {
         if (validationError != nil) {
             *validationError = [self MakeRunError:@"Attachment must specify document revision: ?rev=<revision>"];
         }
-        return FALSE;
+        return NO;
     }
     
     if (self->_imageData != nil && ![url containsString:@".jpg"]) {
         if (validationError != nil) {
             *validationError = [self MakeRunError:@"Image attachment must specify image in URI"];
         }
-        return FALSE;
+        return NO;
     }
     
-    return TRUE;
+    return YES;
 }
 
 - (NSData*) dataFromImageFile: (NSString*)fileName error: (NSError**)loadError{
@@ -311,18 +311,18 @@
 
 - (BOOL)SetupConnectionForJsonPost: (NSError**)connectionError {
     if (![self->_myEasyModel InitConnection: connectionError]) {
-        return FALSE;
+        return NO;
     }
     
     if (![self->_myEasyModel SetPostMethod: connectionError]) {
-        return FALSE;
+        return NO;
     }
     
     if (![self->_myEasyModel SetJsonContent: connectionError]) {
-        return FALSE;
+        return NO;
     }
 
-    return TRUE;
+    return YES;
 }
 
 - (BOOL)CheckResponseOk: (NSString*)response error: (NSError**)parseError {
@@ -333,16 +333,16 @@
     
     if (![parsedJson isKindOfClass:[NSDictionary class]]) {
         *parseError = [self MakeRunError:@"Response not a json dictionary"];
-        return FALSE;
+        return NO;
     }
     
     NSDictionary *responseKeyValues = (NSDictionary*)parsedJson;
     if ([responseKeyValues objectForKey:@"error"] != nil) {
         *parseError = [self MakeRunError:[responseKeyValues objectForKey:@"error"]];
-        return FALSE;
+        return NO;
     }
     
-    return TRUE;
+    return YES;
 
 }
 
@@ -355,16 +355,16 @@
     *host = [url substringToIndex:dbIndex];
     if (*host == nil) {
         *parseError = [self MakeRunError:@"Unable to parse host from URL"];
-        return FALSE;
+        return NO;
     }
     
     *dbName = [url substringFromIndex:dbIndex];
     if (*dbName == nil) {
         *parseError = [self MakeRunError:@"Unable to parse database name from URL"];
-        return FALSE;
+        return NO;
     }
 
-    return TRUE;
+    return YES;
 }
 
 @end

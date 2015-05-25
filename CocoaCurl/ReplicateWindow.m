@@ -7,10 +7,12 @@
 //
 #import "ReplicateWindow.h"
 #import "MyEasyController.h"
+#import "ReplicateOperation.h"
 #import <Foundation/Foundation.h>
 
 @interface ReplicateWindow ()
 @property MyEasyController* easyController;
+@property enum ReplicateOperation replicateOperation;
 @end
 
 @implementation ReplicateWindow
@@ -69,6 +71,29 @@
 }
 
 - (IBAction)replicateButtonPressed:(id)sender {
+    switch (_replicateOperation) {
+        case PushCreate:
+            break;
+            
+        case PushSync:
+            break;
+            
+        case PullCreate:
+            break;
+            
+        case PullSync:
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (IBAction)replicateOperationSelected:(id)sender {
+    [self determinOperation];
+}
+
+- (IBAction)dbChoiceSelected:(id)sender {
     // TO DO.
     NSComboBoxCell* cell = [self.localDbs selectedCell];
     NSString* localDbName = [cell stringValue];
@@ -76,7 +101,29 @@
     cell = [self.remoteDbs selectedCell];
     NSString* remoteDbName = [cell stringValue];
     
+    switch (_replicateOperation) {
+        case PushCreate:
+            break;
+            
+        case PushSync:
+            break;
+            
+        case PullCreate:
+            break;
+            
+        case PullSync:
+            break;
+            
+        default:
+            break;
+    }
+}
 
+- (void)determinOperation {
+    NSInteger selectedRow = [self.operation selectedRow];
+    _replicateOperation = (enum ReplicateOperation)selectedRow;
+    
+    NSAssert(_replicateOperation >= PushCreate && _replicateOperation <= PullSync, @"Replicate selection not valid.");
 }
 
 @end
