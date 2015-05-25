@@ -210,8 +210,8 @@
 			children = (
 				B21D83651AFD725E004A3171 /* AppDelegate.h */,
 				B21D83661AFD725E004A3171 /* AppDelegate.m */,
-				B2B8585B1B1049450010B35F /* ReplicateWindow.h */,
 				B2EEA14E1B12C1190052500D /* ReplicateOperation.h */,
+				B2B8585B1B1049450010B35F /* ReplicateWindow.h */,
 				B2B858591B1049270010B35F /* ReplicateWindow.m */,
 				B2B8585C1B105ADE0010B35F /* ReplicateWindow.xib */,
 				B21D836A1AFD725E004A3171 /* Document.h */,

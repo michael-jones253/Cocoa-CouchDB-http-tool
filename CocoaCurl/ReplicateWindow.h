@@ -24,7 +24,7 @@
 - (IBAction)getDbsButtonPressed:(id)sender;
 - (IBAction)replicateButtonPressed:(id)sender;
 - (IBAction)replicateOperationSelected:(id)sender;
-- (IBAction)dbChoiceSelected:(id)sender
+- (IBAction)dbChoiceSelected:(id)sender;
 
 @end
 
