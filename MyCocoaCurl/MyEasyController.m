@@ -10,6 +10,8 @@
 
 @interface MyEasyController()
 // Private.
+@property MyEasyCurl* myEasyModel;
+
 
 - (BOOL)ValidateSelection:(NSString*)url error:(NSError**)validationError;
 
@@ -44,14 +46,14 @@
         self.httpMethod = MyHttpMethodGet;
         self.postData = @"{\"company\": \"Example, Inc.\"}";
         self.isPlainTextAttachment = NO;
-        self->_myEasyModel = [[MyEasyCurl alloc]init];
+        self.myEasyModel = [[MyEasyCurl alloc]init];
     }    
     
     return self;
 }
 
 - (BOOL)runUrl:(NSString*)url applicationData:(NSString*)data error:(NSError**)runError {
-    if (![self->_myEasyModel InitConnection: runError]) {
+    if (![self.myEasyModel InitConnection: runError]) {
         return NO;
     }
     
@@ -61,7 +63,7 @@
     
     
     if (self.isDumpOn) {
-        if (![self->_myEasyModel SetDebugOn: runError]) {
+        if (![self.myEasyModel SetDebugOn: runError]) {
             return NO;
         }
     }
@@ -70,36 +72,36 @@
     
     switch (self.httpMethod) {
         case MyHttpMethodGet:
-            if (![self->_myEasyModel SetGetMethod: runError]) {
+            if (![self.myEasyModel SetGetMethod: runError]) {
                 return NO;
             }
             break;
             
         case MyHttpMethodPost:
-            if (![self->_myEasyModel SetPostMethod: runError]) {
+            if (![self.myEasyModel SetPostMethod: runError]) {
                 return NO;
             }
             
-            if (![self->_myEasyModel SetPostData:self.postData error:runError]) {
+            if (![self.myEasyModel SetPostData:self.postData error:runError]) {
                 return NO;
             }
             
-            if (![self->_myEasyModel SetJsonContent: runError]) {
+            if (![self.myEasyModel SetJsonContent: runError]) {
                 return NO;
             }
             break;
             
         case MyHttpMethodPut:
-            if (![self->_myEasyModel SetPutMethod: runError]) {
+            if (![self.myEasyModel SetPutMethod: runError]) {
                 return NO;
             }
 
             if (self->_imageData != nil) {
-                if (![self->_myEasyModel SetImageDataNoCache:self.imageData error: runError]) {
+                if (![self.myEasyModel SetImageDataNoCache:self.imageData error: runError]) {
                     return NO;
                 }
                 
-                if (![self->_myEasyModel SetJpegContent: runError]) {
+                if (![self.myEasyModel SetJpegContent: runError]) {
                     return NO;
                 }
                 
@@ -107,17 +109,17 @@
                 break;
             }
             
-            if (![self->_myEasyModel SetPutData: self.postData error: runError]) {
+            if (![self.myEasyModel SetPutData: self.postData error: runError]) {
                 return NO;
             }
             
             if (self.isPlainTextAttachment) {
-                if (![self->_myEasyModel SetPlainTextContent: runError]) {
+                if (![self.myEasyModel SetPlainTextContent: runError]) {
                     return NO;
                 }
             }
             else {
-                if(![self->_myEasyModel SetJsonContent: runError]) {
+                if(![self.myEasyModel SetJsonContent: runError]) {
                     return NO;
                 }
             }
@@ -125,7 +127,7 @@
             break;
             
         case MyHttpMethodDelete:
-            if (![self->_myEasyModel SetDeleteMethod: runError]) {
+            if (![self.myEasyModel SetDeleteMethod: runError]) {
                 return NO;
             }
             break;
@@ -134,7 +136,7 @@
             break;
     }
 
-    if(![self->_myEasyModel Run:url error: runError]) {
+    if(![self.myEasyModel Run:url error: runError]) {
         return NO;
     }
     
@@ -173,11 +175,11 @@
 
 
 - (NSString*)getResult {
-    return [self->_myEasyModel GetContent];
+    return [self.myEasyModel GetContent];
 }
 
 - (NSString*)getDump {
-    return [self->_myEasyModel GetDump];
+    return [self.myEasyModel GetDump];
 }
 
 - (BOOL)Replicate:(NSString*)localUrl
@@ -221,15 +223,15 @@
     NSString* replicateUrl = [localHostUrl stringByAppendingString:@"_replicate"];
     NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
     
-    if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
+    if (![self.myEasyModel SetPostData:postString error:replicateError]) {
         return NO;
     }
     
-    if (![self->_myEasyModel Run:replicateUrl error:replicateError]) {
+    if (![self.myEasyModel Run:replicateUrl error:replicateError]) {
         return NO;
     }
     
-    NSString* response = [self->_myEasyModel GetContent];
+    NSString* response = [self.myEasyModel GetContent];
     
     if (![self CheckResponseOk:response error:replicateError]) {
         return NO;
@@ -237,7 +239,7 @@
     return YES;
 }
 
-- (NSArray*)GetDbNamesForHost:(NSString*)host error:(NSError**)getError {
+- (NSArray*)getDbNamesForHost:(NSString*)host error:(NSError**)getError {
     
     NSString* getRequest = [NSString stringWithFormat:@"http://%@:5984/_all_dbs", host];
     
@@ -363,15 +365,15 @@
 }
 
 - (BOOL)SetupConnectionForJsonPost:(NSError**)connectionError {
-    if (![self->_myEasyModel InitConnection: connectionError]) {
+    if (![self.myEasyModel InitConnection: connectionError]) {
         return NO;
     }
     
-    if (![self->_myEasyModel SetPostMethod: connectionError]) {
+    if (![self.myEasyModel SetPostMethod: connectionError]) {
         return NO;
     }
     
-    if (![self->_myEasyModel SetJsonContent: connectionError]) {
+    if (![self.myEasyModel SetJsonContent: connectionError]) {
         return NO;
     }
 

@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #import "MyEasyCurl.h"
-#import "MyCurl.h"
+
+// C++
+#include "MyCurl.h"
 
 @interface MyEasyCurl()
 // Private.

@@ -9,9 +9,9 @@
 #import "Document.h"
 #import "ReplicateWindow.h"
 
-@interface Document () {
-    NSWindowController* myReplicateWindowController;
-}
+@interface Document ()
+
+@property MyEasyController* easyController;
 
 @property NSWindowController* replicateWindowController;
 
@@ -23,21 +23,21 @@
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
-        self->_easyController = [[MyEasyController alloc]init];
+        self.easyController = [[MyEasyController alloc]init];
     }
     return self;
 }
 
 - (IBAction)curlButtonTapped:(id) sender {
-    self->_easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? YES:NO;
-    self->_easyController.isDumpOn = ([self.dump state] == NSOnState) ? YES:NO;
+    self.easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? YES:NO;
+    self.easyController.isDumpOn = ([self.dump state] == NSOnState) ? YES:NO;
     
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         NSLog(@"Performing curl: %@", self.url.title);
 
         NSError* runError = nil;
-        BOOL ok = [self->_easyController runUrl:self.url.title applicationData:self.applicationData.title error:&runError];
+        BOOL ok = [self.easyController runUrl:self.url.title applicationData:self.applicationData.title error:&runError];
         
         if (!ok) {
             NSString *err = (runError != nil)? runError.localizedDescription : @"Unknown run error";
@@ -45,13 +45,13 @@
             return;
         }
         
-        NSString* content = [self->_easyController getResult];
+        NSString* content = [self.easyController getResult];
         [self.content setTitle: content];
         
         if ([self.dump state] == NSOnState) {
             [self.content setTitle:[self.content.title stringByAppendingString:@"\n"]];
-            [self.content setTitle:[self.content.title stringByAppendingString:[self->_easyController getDump]]];
-            NSLog(@"DUMP: %@", [self->_easyController getDump]);
+            [self.content setTitle:[self.content.title stringByAppendingString:[self.easyController getDump]]];
+            NSLog(@"DUMP: %@", [self.easyController getDump]);
         }
     }
 }
@@ -61,7 +61,7 @@
         NSError* loadError = nil;
         
         NSUInteger imageLength = 0;
-        BOOL loadedOk = [self->_easyController loadImageFromFile:self.imagePath imageSize:&imageLength error:&loadError];
+        BOOL loadedOk = [self.easyController loadImageFromFile:self.imagePath imageSize:&imageLength error:&loadError];
         if (!loadedOk) {
             NSString *err = (loadError != nil)? loadError.localizedDescription : @"Unknown run error";
             [self.content setTitle:err];
@@ -160,12 +160,12 @@
      (i.e the graphical cocoa window not the Window icon in the left column).
      */
 
-    if (myReplicateWindowController == nil) {
+    if (_replicateWindowController == nil) {
         // Lazy loading.
-        myReplicateWindowController = [[NSWindowController alloc] initWithWindowNibName: @"ReplicateWindow" owner:self];
+        _replicateWindowController = [[NSWindowController alloc] initWithWindowNibName: @"ReplicateWindow" owner:self];
     }
     
-    [myReplicateWindowController showWindow:self];
+    [_replicateWindowController showWindow:self];
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {

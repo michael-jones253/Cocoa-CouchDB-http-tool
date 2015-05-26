@@ -12,9 +12,7 @@
 #import "MyEasyCurlTypes.h"
 #import "MyEasyCurl.h"
 
-@interface MyEasyController : NSObject {
-    MyEasyCurl* _myEasyModel;
-}
+@interface MyEasyController : NSObject
 
 @property MyHttpMethod httpMethod;
 @property NSString* postData;
@@ -39,7 +37,7 @@
 - (NSString*)getDump;
 
 // Replication stuff
-- (NSArray*)GetDbNamesForHost: (NSString*)host error: (NSError**)getError;
+- (NSArray*)getDbNamesForHost: (NSString*)host error: (NSError**)getError;
 
 @end
 

@@ -13,6 +13,7 @@
 @interface ReplicateWindow ()
 
 @property MyEasyController* easyController;
+
 @property enum ReplicateOperation replicateOperation;
 
 - (BOOL)validateUserSelection:(NSError**) selectionError;
@@ -61,7 +62,7 @@
     [self.remoteDbs removeAllItems];
     
     NSError* getError;
-    NSArray *databaseNames = [_easyController GetDbNamesForHost:@"127.0.0.1" error:&getError];
+    NSArray *databaseNames = [_easyController getDbNamesForHost:@"127.0.0.1" error:&getError];
     
     if (getError != nil) {
         NSAlert *alert = [NSAlert alertWithError:getError];
@@ -72,7 +73,7 @@
     [self.localDbs addItemsWithObjectValues:databaseNames];
 
     NSString* remoteHostName = [self.remoteHost stringValue];
-    databaseNames = [_easyController GetDbNamesForHost:remoteHostName error:&getError];
+    databaseNames = [_easyController getDbNamesForHost:remoteHostName error:&getError];
     if (getError != nil) {
         NSAlert *alert = [NSAlert alertWithError:getError];
         [alert runModal];

@@ -13,13 +13,13 @@
 
 @interface ReplicateWindow : NSWindow
 
-@property (nonatomic) IBOutlet NSMatrix* operation;
-@property (nonatomic) IBOutlet NSTextField *remoteHost;
-@property (nonatomic) IBOutlet NSTextFieldCell *localDbName;
-@property (nonatomic) IBOutlet NSTextFieldCell *remoteDbName;
+@property(weak, nonatomic) IBOutlet NSMatrix* operation;
+@property(weak, nonatomic) IBOutlet NSTextField *remoteHost;
+@property(weak, nonatomic) IBOutlet NSTextFieldCell *localDbName;
+@property(weak, nonatomic) IBOutlet NSTextFieldCell *remoteDbName;
 
-@property (nonatomic) IBOutlet NSComboBox* localDbs;
-@property (nonatomic) IBOutlet NSComboBox* remoteDbs;
+@property(weak, nonatomic) IBOutlet NSComboBox* localDbs;
+@property(weak, nonatomic) IBOutlet NSComboBox* remoteDbs;
 
 - (IBAction)getDbsButtonPressed:(id)sender;
 - (IBAction)replicateButtonPressed:(id)sender;

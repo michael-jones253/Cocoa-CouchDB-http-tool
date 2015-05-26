@@ -12,6 +12,8 @@
 #import "MyEasyCurlTypes.h"
 
 @interface MyEasyCurl : NSObject {
+    
+    // C++
     void* myImpl;
 }
 

@@ -223,7 +223,7 @@
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
     
-    NSArray* dbNames = [controller GetDbNamesForHost:@"127.0.0.1" error:&myError];
+    NSArray* dbNames = [controller getDbNamesForHost:@"127.0.0.1" error:&myError];
     
     XCTAssert(dbNames != nil, @"Localhost CouchDB running");
     XCTAssert([dbNames count] >= 2, @"Localhost is running and contains at least the default databases");
@@ -245,7 +245,7 @@
     XCTAssert(isReplicatorThere, @"Replicator found");
     XCTAssert(isUsersThere, @"Users database found");
 
-    dbNames = [controller GetDbNamesForHost:@"www.example.com" error:&myError];
+    dbNames = [controller getDbNamesForHost:@"www.example.com" error:&myError];
     XCTAssert(myError != nil, @"Expected error from getting databases at example.com");
     
     isReplicatorThere = FALSE;

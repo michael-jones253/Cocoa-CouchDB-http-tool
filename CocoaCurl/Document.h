@@ -12,16 +12,15 @@
 #import <Foundation/Foundation.h>
 
 @interface Document : NSDocument {
-    MyEasyController* _easyController;
     NSString* _docBuf;
 }
 
-@property (weak) IBOutlet NSTextFieldCell *url;
-@property (weak) IBOutlet NSTextFieldCell *applicationData;
-@property (weak) IBOutlet NSTextFieldCell *content;
-@property (weak) IBOutlet NSMatrix *httpVerb;
-@property (weak) IBOutlet NSButtonCell *attachAsPlainText;
-@property (weak) IBOutlet NSButtonCell *dump;
+@property(weak, nonatomic) IBOutlet NSTextFieldCell *url;
+@property(weak, nonatomic) IBOutlet NSTextFieldCell *applicationData;
+@property(weak, nonatomic) IBOutlet NSTextFieldCell *content;
+@property(weak, nonatomic) IBOutlet NSMatrix *httpVerb;
+@property(weak, nonatomic) IBOutlet NSButtonCell *attachAsPlainText;
+@property(weak, nonatomic) IBOutlet NSButtonCell *dump;
 @property NSString* imagePath;
 
 - (IBAction)curlButtonTapped:(id)sender;
