@@ -23,9 +23,13 @@
 
 - (BOOL)SetupConnectionForJsonPost:(NSError**)connectionError;
 
-- (BOOL)ParseDbUrl:(NSString*)url host:(NSString**)host dbName:(NSString**)dbName error:(NSError**)parseError;
+- (BOOL)parseDbUrl:(NSString*)url toHostUrl:(NSString**)host toDbName:(NSString**)dbName error:(NSError**)parseError;
 
-- (BOOL)CheckReplicateParameters:(NSString*) sourceDb destinationDb:(NSString*)destinationDb error:(NSError**)error;
+- (BOOL)validateReplicateForRemoteHostUrl:(NSString*) remoteHostUrl
+                           localDbName:(NSString*) localDbName
+                          remoteDbName:(NSString*)remoteDbName
+                                 error:(NSError**) error;
+
 
 - (BOOL)CheckResponseOk:(NSString*)response error:(NSError**)parseError;
 
@@ -186,15 +190,25 @@
     }
     
     // Get the name of the database which is the identifier after the last '/'.
-    NSString* localDb = nil;
-    NSString* localHost = nil;
+    NSString* localDbName;
+    NSString* localHostUrl;
     
-    if (![self ParseDbUrl:localUrl host:&localHost dbName:&localDb error:replicateError]) {
+    if (![self parseDbUrl:localUrl toHostUrl:&localHostUrl toDbName:&localDbName error:replicateError]) {
         return NO;
     }
     
-    NSString* source = push ? localDb : remoteUrl;
-    NSString* destination = push ? remoteUrl : localDb;
+    NSString* remoteDbName;
+    NSString* remoteHostUrl;
+    if (![self parseDbUrl:remoteUrl toHostUrl:&remoteHostUrl toDbName:&remoteDbName error:replicateError]) {
+        return NO;
+    }
+    
+    NSString* source = push ? localDbName : remoteUrl;
+    NSString* destination = push ? remoteUrl : localDbName;
+    
+    if (![self validateReplicateForRemoteHostUrl:remoteHostUrl localDbName:localDbName remoteDbName:remoteDbName error:replicateError]) {
+        return NO;
+    }
     
     /*
      We want something like this:
@@ -204,7 +218,7 @@
     NSString* postString = [NSString stringWithFormat:@"{\"source\":\"%@\", \"target\":\"%@\"%@}",
                             source, destination, createInstruction];
     
-    NSString* replicateUrl = [localHost stringByAppendingString:@"_replicate"];
+    NSString* replicateUrl = [localHostUrl stringByAppendingString:@"_replicate"];
     NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
     
     if (![self->_myEasyModel SetPostData:postString error:replicateError]) {
@@ -263,6 +277,41 @@
                                                              options:0 error:getError];
     
     return databaseNames;
+}
+
+- (BOOL)validateReplicateForRemoteHostUrl:(NSString*) remoteHostUrl
+                           localDbName:(NSString*) localDbName
+                          remoteDbName:(NSString*)remoteDbName
+                                 error:(NSError**) error {
+    BOOL sourceDestEqual = [localDbName isEqualToString:remoteDbName];
+    
+    // FIX ME Need to test for ip resolving to this machine too.
+    BOOL destIsLocalHost = [remoteHostUrl containsString:@"127.0.0.1"] || [remoteHostUrl containsString:@"localhost"];
+    
+    if (sourceDestEqual && destIsLocalHost) {
+        [MyEasyController setRunError:error withMessage:@"Source DB must be different from destination DB"];
+        return NO;
+    }
+    
+    // Now check that selected database name doesn't begin with '_'.
+    BOOL localSystemDbSelected = [localDbName hasPrefix:@"_"];
+    BOOL remoteSystemDbSelected = [remoteDbName hasPrefix:@"_"];
+    if (localSystemDbSelected || remoteSystemDbSelected) {
+        [MyEasyController setRunError:error withMessage:@"Cannot replicate system databases"];
+        return NO;
+    }
+    
+    if ([localDbName isEqualToString:@""]) {
+        [MyEasyController setRunError:error withMessage:@"Local DB must be specified"];
+        return NO;
+    }
+    
+    if ([remoteDbName isEqualToString:@""]) {
+        [MyEasyController setRunError:error withMessage:@"Remote DB must be specified"];
+        return NO;
+    }
+
+    return YES;
 }
 
 
@@ -350,7 +399,7 @@
 
 }
 
-- (BOOL)ParseDbUrl:(NSString*)url host:(NSString**)host dbName:(NSString**)dbName error:(NSError**)parseError {
+- (BOOL)parseDbUrl:(NSString*)url toHostUrl:(NSString**)host toDbName:(NSString**)dbName error:(NSError**)parseError {
     
     // Get the name of the database which is the identifier after the last '/'.
     NSRange range = [url rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [url length])];
@@ -370,10 +419,5 @@
 
     return YES;
 }
-
-- (BOOL)CheckReplicateParameters:(NSString*) sourceDb destinationDb:(NSString*)destinationDb error:(NSError**)error {
-    return YES;
-}
-
 
 @end

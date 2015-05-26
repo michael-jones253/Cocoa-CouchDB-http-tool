@@ -188,36 +188,7 @@
 - (BOOL)validateUserSelection:(NSError**) selectionError {
     NSInteger remoteTargetIndex = [self.remoteDbs indexOfItemWithObjectValue:[self.remoteDbName stringValue]];
     NSInteger localTargetIndex = [self.localDbs indexOfItemWithObjectValue:[self.localDbName stringValue]];
-    
-    BOOL sourceDestEqual = [[self.localDbName stringValue] isEqualToString:[self.remoteDbName stringValue]];
-    
-    // Need to test for ip resolving to this machine too.
-    BOOL destIsLocalHost = [[self.remoteHost stringValue] isEqualToString:@"127.0.0.1"] ||
-                            [[self.remoteHost stringValue] isEqualToString:@"localhost"];
-    
-    if (sourceDestEqual && destIsLocalHost) {
-        [self SetReplicateError:@"Source DB must be different from destination DB" error:selectionError];
-        return NO;
-    }
-    
-    // Now check that selected database name doesn't begin with '_'.
-    BOOL localSystemDbSelected = [[self.localDbName stringValue] hasPrefix:@"_"];
-    BOOL remoteSystemDbSelected = [[self.remoteDbName stringValue] hasPrefix:@"_"];
-    if (localSystemDbSelected || remoteSystemDbSelected) {
-        [self SetReplicateError:@"Cannot replicate system databases" error:selectionError];
-        return NO;
-    }
-    
-    if ([[self.localDbName stringValue] isEqualToString:@""]) {
-        [self SetReplicateError:@"Local DB must be specified" error: selectionError];
-        return NO;
-    }
-    
-    if ([[self.remoteDbName stringValue] isEqualToString:@""]) {
-        [self SetReplicateError:@"Remote DB must be specified" error:selectionError];
-        return NO;
-    }
-    
+        
     switch (_replicateOperation) {
         case PushCreate:
             if (remoteTargetIndex != NSNotFound) {
