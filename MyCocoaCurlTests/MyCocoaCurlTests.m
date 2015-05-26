@@ -285,17 +285,7 @@
     MyEasyController* controller = [[MyEasyController alloc]init];
     NSError* myError = nil;
 
-    BOOL ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
-                  destinationUrl:@"http://localhost:5984/hello"
-                           error:&myError];
-    ok = [controller pullReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
-                            destinationUrl:@"http://localhost:5984/hello"
-                                     error:&myError];
-    
-    XCTAssert(!ok, @"expected failure due to pre-existing target for replicate");
-    NSLog(@"Pre-existing target error: %@", [myError localizedDescription]);
-    
-    ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/_hello-rep"
+    BOOL ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/_hello-rep"
                             destinationUrl:@"http://localhost:5984/hello"
                                      error:&myError];
     XCTAssert(!ok, @"expected failure due to source having system prefix.");
@@ -324,6 +314,30 @@
                            error:&myError];
     XCTAssert(!ok, @"expected failure due to target having system prefix.");
     NSLog(@"System prefix target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pushSyncUrl:@"http://127.0.0.1:5984/hello-rep"
+                  destinationUrl:@"http://localhost:5984/hello-does-not-exist"
+                           error:&myError];
+    XCTAssert(!ok, @"expected failure for sync requiring pre-existing source and target.");
+    NSLog(@"Sync target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pushSyncUrl:@"http://127.0.0.1:5984/hello-does-not-exist"
+                  destinationUrl:@"http://localhost:5984/hello-rep"
+                           error:&myError];
+    XCTAssert(!ok, @"expected failure for sync requiring pre-existing source and target.");
+    NSLog(@"Sync source error: %@", [myError localizedDescription]);
+    
+    ok = [controller pullSyncUrl:@"http://127.0.0.1:5984/hello-rep"
+                  destinationUrl:@"http://localhost:5984/hello-does-not-exist"
+                           error:&myError];
+    XCTAssert(!ok, @"expected failure for sync requiring pre-existing source and target.");
+    NSLog(@"Sync target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pullSyncUrl:@"http://127.0.0.1:5984/hello-does-not-exist"
+                  destinationUrl:@"http://localhost:5984/hello-rep"
+                           error:&myError];
+    XCTAssert(!ok, @"expected failure for sync requiring pre-existing source and target.");
+    NSLog(@"Sync source error: %@", [myError localizedDescription]);
 }
 
 - (void)testPerformanceExample {
