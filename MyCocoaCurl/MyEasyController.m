@@ -417,20 +417,20 @@
 
 }
 
-- (BOOL)parseDbUrl:(NSString*)url toHostUrl:(NSString**)host toDbName:(NSString**)dbName error:(NSError**)parseError {
+- (BOOL)parseDbUrl:(NSString*)url toHostUrl:(NSString**)hostUrl toDbName:(NSString**)dbName error:(NSError**)parseError {
     
     // Get the name of the database which is the identifier after the last '/'.
     NSRange range = [url rangeOfString:@"/" options:NSBackwardsSearch range:NSMakeRange(0, [url length])];
     NSUInteger dbIndex = range.location + 1;
     
-    *host = [url substringToIndex:dbIndex];
-    if (*host == nil) {
+    *hostUrl = [url substringToIndex:dbIndex];
+    if (*hostUrl == nil || [*hostUrl isEqualToString:@""]) {
         [MyEasyController setRunError:parseError withMessage:@"Unable to parse host from URL"];
         return NO;
     }
     
     *dbName = [url substringFromIndex:dbIndex];
-    if (*dbName == nil) {
+    if (*dbName == nil || [*dbName isEqualToString:@""]) {
         [MyEasyController setRunError:parseError withMessage:@"Unable to parse database name from URL"];
         return NO;
     }

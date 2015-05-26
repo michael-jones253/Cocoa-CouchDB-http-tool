@@ -85,6 +85,13 @@
 
 - (IBAction)replicateButtonPressed:(id)sender {
     NSError* replicateError;
+    
+    if (![self validateUserSelection:&replicateError]) {
+        NSAlert *alert = [NSAlert alertWithError:replicateError];
+        [alert runModal];
+        return;
+    }
+
     NSString* localUrl = [NSString stringWithFormat:@"http://127.0.0.1:5984/%@", [self.localDbName stringValue]];
     NSString* remoteUrl = [NSString stringWithFormat:@"http://%@:5984/%@",
                            [self.remoteHost stringValue],
@@ -189,6 +196,12 @@
 }
 
 - (BOOL)validateUserSelection:(NSError**) selectionError {
+    
+    if ([[self.remoteHost stringValue] isEqualToString:@""]) {
+        [self SetReplicateError:@"Remote host must be specified." error:selectionError];
+        return NO;
+    }
+    
     NSInteger remoteTargetIndex = [self.remoteDbs indexOfItemWithObjectValue:[self.remoteDbName stringValue]];
     NSInteger localTargetIndex = [self.localDbs indexOfItemWithObjectValue:[self.localDbName stringValue]];
         
