@@ -1,10 +1,12 @@
 # Cocoa-CouchDB-http-tool
-An OS X Cocoa app for playing with the NoSQL CouchDB via the http API.
+An OS X Cocoa app for playing with the NoSQL CouchDB via the http API. The main app window is just a toy for getting to know the CouchDb HTTP rest API at a low level. The replicate window is more user friendly/useful, because it does do some replicate checks to let the user know whether they are syncing an existing database or creating a new one.
 
 ## Motivation for this project.
 Although I am mainly a back end server/distributed systems programmer I frequently have to maintain GUIs so I thought I would get to know the OS X Cocoa interface and make a foray into some Objective-C. This app allows me to play with CouchDB via the http API which is also something I am interested in. It is based on libcurl which is good for getting to know HTTP at a low level and the json CouchDB uses. However, the replication stuff does work at a higher level with the Objective-C NSURL classes and json parsing.
 
-This is my first go at Objective-C and I probably am not doing everything using best practises. e.g Since starting I realised that class extensions i.e. declaring a @interface <class name>() at the top of the .m file is the approved way of declaring private methods. It might be the best place for keeping private "attributes" too in the form of properties - I started out by enclosing the private stuff within "{}" braces on the interface in the .h file.
+This is my first go at Objective-C and I dived in to quickly get the feel for the language and also get the CouchDB project functioning. I am not doing everything using best practises, but have started to read Google's Objective-C Style guide and am just starting to refactor my code accordingly.
+
+https://google-styleguide.googlecode.com/svn/trunk/objcguide.xml
 
 ## Structure of this project.
 I am attempting to follow the MVC pattern in the following way:
