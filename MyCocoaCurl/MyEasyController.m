@@ -152,9 +152,25 @@
     return YES;
 }
 
+- (BOOL)pushSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:YES error:replicateError]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (BOOL)pullReplicateUrl:(NSString*)localUrl destinationUrl:(NSString*)remoteUrl error:(NSError**)replicateError {
     
     if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:NO error:replicateError]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)pullSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
+    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:YES error:replicateError]) {
         return NO;
     }
     

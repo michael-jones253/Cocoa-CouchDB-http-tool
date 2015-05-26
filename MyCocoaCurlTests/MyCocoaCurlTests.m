@@ -281,6 +281,51 @@
 
 }
 
+- (void)testReplicateValidaton {
+    MyEasyController* controller = [[MyEasyController alloc]init];
+    NSError* myError = nil;
+
+    BOOL ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
+                  destinationUrl:@"http://localhost:5984/hello"
+                           error:&myError];
+    ok = [controller pullReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
+                            destinationUrl:@"http://localhost:5984/hello"
+                                     error:&myError];
+    
+    XCTAssert(!ok, @"expected failure due to pre-existing target for replicate");
+    NSLog(@"Pre-existing target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/_hello-rep"
+                            destinationUrl:@"http://localhost:5984/hello"
+                                     error:&myError];
+    XCTAssert(!ok, @"expected failure due to source having system prefix.");
+    NSLog(@"System prefix source error: %@", [myError localizedDescription]);
+    
+    ok = [controller pushReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
+                       destinationUrl:@"http://localhost:5984/_hello"
+                                error:&myError];
+    XCTAssert(!ok, @"expected failure due to target having system prefix.");
+    NSLog(@"System prefix target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pushSyncUrl:@"http://127.0.0.1:5984/hello-rep"
+                       destinationUrl:@"http://localhost:5984/_hello"
+                                error:&myError];
+    XCTAssert(!ok, @"expected failure due to target having system prefix.");
+    NSLog(@"System prefix target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pullReplicateUrl:@"http://127.0.0.1:5984/hello-rep"
+                       destinationUrl:@"http://localhost:5984/_hello"
+                                error:&myError];
+    XCTAssert(!ok, @"expected failure due to target having system prefix.");
+    NSLog(@"System prefix target error: %@", [myError localizedDescription]);
+    
+    ok = [controller pullSyncUrl:@"http://127.0.0.1:5984/hello-rep"
+                  destinationUrl:@"http://localhost:5984/_hello"
+                           error:&myError];
+    XCTAssert(!ok, @"expected failure due to target having system prefix.");
+    NSLog(@"System prefix target error: %@", [myError localizedDescription]);
+}
+
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

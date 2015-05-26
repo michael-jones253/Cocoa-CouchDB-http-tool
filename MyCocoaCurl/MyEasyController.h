@@ -26,9 +26,13 @@
 
 - (BOOL)runUrl: (NSString*)url applicationData: (NSString*)data error: (NSError**)runError;
 
-- (BOOL)pushReplicateUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)runError;
+- (BOOL)pushReplicateUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
+
+- (BOOL)pushSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
 
 - (BOOL)pullReplicateUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
+
+- (BOOL)pullSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError;
 
 - (BOOL)loadImageFromFile: (NSString*) fileName imageSize: (NSUInteger*)length error: (NSError**)loadError;
 

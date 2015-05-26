@@ -98,6 +98,7 @@
             break;
             
         case PushSync:
+            ok = [_easyController pushSyncUrl:localUrl destinationUrl:remoteUrl error:&replicateError];
             break;
             
         case PullCreate:
@@ -105,6 +106,7 @@
             break;
             
         case PullSync:
+            ok = [_easyController pullSyncUrl:localUrl destinationUrl:remoteUrl error:&replicateError];
             break;
             
         default:
