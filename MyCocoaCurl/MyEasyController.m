@@ -13,11 +13,11 @@
 @property MyEasyCurl* myEasyModel;
 
 
-- (BOOL)ValidateSelection:(NSString*)url error:(NSError**)validationError;
+- (BOOL)validateSelection:(NSString*)url error:(NSError**)validationError;
 
 - (NSData*) dataFromImageFile:(NSString*)fileName error:(NSError**)loadError;
 
-- (BOOL)Replicate:(NSString*)localUrl
+- (BOOL)replicate:(NSString*)localUrl
    destinationUrl:(NSString*)remoteUrl
      createTarget:(BOOL) createTarget
              push:(BOOL) push
@@ -33,7 +33,7 @@
                                  error:(NSError**) error;
 
 
-- (BOOL)CheckResponseOk:(NSString*)response error:(NSError**)parseError;
+- (BOOL)checkResponseOk:(NSString*)response error:(NSError**)parseError;
 
 @end
 
@@ -57,7 +57,7 @@
         return NO;
     }
     
-    if (![self ValidateSelection:url error: runError]) {
+    if (![self validateSelection:url error: runError]) {
         return NO;
     }
     
@@ -145,7 +145,7 @@
 
 - (BOOL)pushReplicateUrl:(NSString*)localUrl destinationUrl:(NSString*)remoteUrl error:(NSError**)replicateError {
 
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:YES error:replicateError]) {
+    if (![self replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:YES error:replicateError]) {
         return NO;
     }
     
@@ -153,7 +153,7 @@
 }
 
 - (BOOL)pushSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:YES error:replicateError]) {
+    if (![self replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:YES error:replicateError]) {
         return NO;
     }
     
@@ -162,7 +162,7 @@
 
 - (BOOL)pullReplicateUrl:(NSString*)localUrl destinationUrl:(NSString*)remoteUrl error:(NSError**)replicateError {
     
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:NO error:replicateError]) {
+    if (![self replicate:localUrl destinationUrl:remoteUrl createTarget:YES push:NO error:replicateError]) {
         return NO;
     }
     
@@ -170,7 +170,7 @@
 }
 
 - (BOOL)pullSyncUrl: (NSString*)localUrl destinationUrl: (NSString*)remoteUrl error: (NSError**)replicateError {
-    if (![self Replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:YES error:replicateError]) {
+    if (![self replicate:localUrl destinationUrl:remoteUrl createTarget:NO push:NO error:replicateError]) {
         return NO;
     }
     
@@ -198,7 +198,7 @@
     return [self.myEasyModel GetDump];
 }
 
-- (BOOL)Replicate:(NSString*)localUrl
+- (BOOL)replicate:(NSString*)localUrl
    destinationUrl:(NSString*)remoteUrl
      createTarget:(BOOL) createTarget
              push:(BOOL) push
@@ -237,7 +237,7 @@
                             source, destination, createInstruction];
     
     NSString* replicateUrl = [localHostUrl stringByAppendingString:@"_replicate"];
-    NSLog(@"Replicate: %@ postData: %@", replicateUrl, postString);
+    NSLog(@"replicate: %@ postData: %@", replicateUrl, postString);
     
     if (![self.myEasyModel SetPostData:postString error:replicateError]) {
         return NO;
@@ -249,7 +249,7 @@
     
     NSString* response = [self.myEasyModel GetContent];
     
-    if (![self CheckResponseOk:response error:replicateError]) {
+    if (![self checkResponseOk:response error:replicateError]) {
         return NO;
     }
     return YES;
@@ -347,7 +347,7 @@
                                      userInfo:userInfo];
 }
 
-- (BOOL)ValidateSelection:(NSString*)url error:(NSError**)validationError {
+- (BOOL)validateSelection:(NSString*)url error:(NSError**)validationError {
     if (self.isPlainTextAttachment && self.httpMethod != MyHttpMethodPut) {
         [MyEasyController setRunError:validationError withMessage:@"Plain text attachment must use PUT"];
         return NO;
@@ -396,7 +396,7 @@
     return YES;
 }
 
-- (BOOL)CheckResponseOk:(NSString*)response error:(NSError**)parseError {
+- (BOOL)checkResponseOk:(NSString*)response error:(NSError**)parseError {
     
     NSData* responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
     

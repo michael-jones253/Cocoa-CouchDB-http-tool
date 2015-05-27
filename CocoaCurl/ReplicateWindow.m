@@ -20,7 +20,7 @@
 
 - (void)determineOperation;
 
-- (void)SetReplicateError:(NSString*const)message error:(NSError**)replicateError;
+- (void)setReplicateError:(NSString*const)message error:(NSError**)replicateError;
 
 @end
 
@@ -125,6 +125,8 @@
         NSAlert *alert = [NSAlert alertWithError:replicateError];
         [alert runModal];
     }
+    
+    [self.response setTitle:[self.easyController getResult]];
 }
 
 - (IBAction)replicateOperationSelected:(id)sender {
@@ -198,7 +200,7 @@
 - (BOOL)validateUserSelection:(NSError**) selectionError {
     
     if ([[self.remoteHost stringValue] isEqualToString:@""]) {
-        [self SetReplicateError:@"Remote host must be specified." error:selectionError];
+        [self setReplicateError:@"Remote host must be specified." error:selectionError];
         return NO;
     }
     
@@ -208,28 +210,28 @@
     switch (_replicateOperation) {
         case PushCreate:
             if (remoteTargetIndex != NSNotFound) {
-                [self SetReplicateError:@"Remote target DB exists - choose sync option" error:selectionError];
+                [self setReplicateError:@"Remote target DB exists - choose sync option" error:selectionError];
                 return NO;
             }
             break;
             
         case PushSync:
             if (remoteTargetIndex == NSNotFound) {
-                [self SetReplicateError:@"Remote target DB not present - choose create option" error:selectionError];
+                [self setReplicateError:@"Remote target DB not present - choose create option" error:selectionError];
                 return NO;
             }
             break;
             
         case PullCreate:
             if (localTargetIndex != NSNotFound) {
-                [self SetReplicateError:@"Local target DB exists - choose sync option" error:selectionError];
+                [self setReplicateError:@"Local target DB exists - choose sync option" error:selectionError];
                 return NO;
             }
             break;
             
         case PullSync:
             if (localTargetIndex == NSNotFound) {
-                [self SetReplicateError:@"Local target DB not present - choose create option" error:selectionError];
+                [self setReplicateError:@"Local target DB not present - choose create option" error:selectionError];
                 return NO;
             }
             break;
@@ -248,7 +250,7 @@
     NSAssert(_replicateOperation >= PushCreate && _replicateOperation <= PullSync, @"Replicate selection not valid.");
 }
 
-- (void)SetReplicateError:(NSString*const)message error:(NSError**)replicateError {
+- (void)setReplicateError:(NSString*const)message error:(NSError**)replicateError {
     if (replicateError == nil) {
         return;
     }
