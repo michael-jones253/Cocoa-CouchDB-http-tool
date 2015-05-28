@@ -126,7 +126,7 @@
         [alert runModal];
     }
     
-    [self.response setTitle:[self.easyController getResult]];
+    [self.response setString:[self.easyController getResult]];
 }
 
 - (IBAction)replicateOperationSelected:(id)sender {

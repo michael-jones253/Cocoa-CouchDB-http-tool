@@ -20,7 +20,8 @@
 
 @property(weak, nonatomic) IBOutlet NSComboBox* localDbs;
 @property(weak, nonatomic) IBOutlet NSComboBox* remoteDbs;
-@property(weak, nonatomic) IBOutlet NSTextFieldCell* response;
+
+@property(nonatomic) IBOutlet NSTextView* response;
 
 - (IBAction)getDbsButtonPressed:(id)sender;
 - (IBAction)replicateButtonPressed:(id)sender;

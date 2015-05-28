@@ -17,10 +17,12 @@
 
 @property(weak, nonatomic) IBOutlet NSTextFieldCell *url;
 @property(weak, nonatomic) IBOutlet NSTextFieldCell *applicationData;
-@property(weak, nonatomic) IBOutlet NSTextFieldCell *content;
 @property(weak, nonatomic) IBOutlet NSMatrix *httpVerb;
 @property(weak, nonatomic) IBOutlet NSButtonCell *attachAsPlainText;
 @property(weak, nonatomic) IBOutlet NSButtonCell *dump;
+
+@property(nonatomic) IBOutlet NSTextView *content;
+
 @property NSString* imagePath;
 
 - (IBAction)curlButtonTapped:(id)sender;

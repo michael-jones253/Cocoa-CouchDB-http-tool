@@ -11,6 +11,8 @@
 
 @interface Document ()
 
+@property NSString* resultBuf;
+
 @property MyEasyController* easyController;
 
 @property NSWindowController* replicateWindowController;
@@ -32,6 +34,8 @@
     self.easyController.isPlainTextAttachment = ([self.attachAsPlainText state] == NSOnState) ? YES:NO;
     self.easyController.isDumpOn = ([self.dump state] == NSOnState) ? YES:NO;
     
+    [self.content setString:@""];
+    
     NSString *name = [sender stringValue];
     if (![name isEqualToString:@""]) {
         NSLog(@"Performing curl: %@", self.url.title);
@@ -41,16 +45,20 @@
         
         if (!ok) {
             NSString *err = (runError != nil)? runError.localizedDescription : @"Unknown run error";
-            [self.content setTitle:err];
+            [self.content insertText:err];
             return;
         }
         
-        NSString* content = [self.easyController getResult];
-        [self.content setTitle: content];
+        NSString* result = [self.easyController getResult];
         
+        // For some reason the text stored in the scrollview contains strange characters which looks fine to read,
+        // but is invalid json if copied into the document window for a POST/PUT.
+        // So we store the result in another buffer for the purpose of copying to a new query (using copy button).
+        self.resultBuf = result;
+        [self.content insertText:result];
         if ([self.dump state] == NSOnState) {
-            [self.content setTitle:[self.content.title stringByAppendingString:@"\n"]];
-            [self.content setTitle:[self.content.title stringByAppendingString:[self.easyController getDump]]];
+            [self.content insertText:@"\n"];
+            [self.content insertText:[self.easyController getDump]];
             NSLog(@"DUMP: %@", [self.easyController getDump]);
         }
     }
@@ -64,19 +72,20 @@
         BOOL loadedOk = [self.easyController loadImageFromFile:self.imagePath imageSize:&imageLength error:&loadError];
         if (!loadedOk) {
             NSString *err = (loadError != nil)? loadError.localizedDescription : @"Unknown run error";
-            [self.content setTitle:err];
+            [self.content insertText:err];
             return;
         }
         
         NSString* msg = [NSString stringWithFormat:@"Loaded %@ %lU bytes", self.imagePath, (unsigned long)imageLength];
-        msg = [msg stringByAppendingString: @"\nTo attach PUT <document URI>/<image name>.jpg?rev=<revision>"];
-        [self.content setTitle:msg];
+        [self.content insertText:msg];
+        [self.content insertText:@"\nTo attach PUT <document URI>/<image name>.jpg?rev=<revision>"];
     }
 
 }
 
 - (IBAction)copyButtonPressed:(id)sender {
-    self.applicationData.placeholderString = self.content.title;
+    // We copy from the result buf, because the scroll view contains characters which invalidate json.
+    self.applicationData.placeholderString = self.resultBuf;
     NSInteger selectedRow = [self.httpVerb selectedRow];
     NSButtonCell *buttonCell = [[self.httpVerb cells] objectAtIndex:selectedRow];
     if ([[buttonCell title] isEqualToString:@"POST"] || [[buttonCell title] isEqualToString:@"PUT"]) {
