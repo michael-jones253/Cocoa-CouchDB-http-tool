@@ -11,7 +11,7 @@ https://google-styleguide.googlecode.com/svn/trunk/objcguide.xml
 ## Structure of this project.
 I am attempting to follow the MVC pattern in the following way:
 
-1. A c++ dylib which takes the role of the 'model'. This dynamic library uses 'libcurl' to formulate the http requests.
+1. A c++ dylib which takes the role of the 'model'. This dynamic library uses 'libcurl' to formulate the HTTP requests.
 2. An Objective-C framework which calls the above dylib and acts as the 'controller'.
 3. The Xcode generated Document.h/m acts as the view.
 
@@ -19,7 +19,7 @@ The idea is that the dylib model could be used by any application GUI or otherwi
 
 I also tried to design it such that changes to the view should not require major changes to the controller.
 
-Test driven development helps keep the application logic out of the View and in the controller where it can be tested.
+Test driven development helps keep the application logic out of the View and in the controller where it can be tested by the test project.
 
 ## Initial impressions and grappling with Objective-C.
 Once I got over the square brackets method call syntax I decided that this language is not so alien. Objective-C can be mixed with C++ so this allowed me to call the dylib from the Objective-C framework using a similar technique to a Dr Dobbs tutorial.
@@ -32,9 +32,13 @@ An update to my thoughts on the above exception discussion is that I still think
 
 # How I use this tool.
 
-This GUI app comes with a number of controls e.g. to choose a jpeg image to upload to CouchDB , but the main ones are the URL address bar where we type in HTTP URI of a CouchDB resource, HTTP radio buttons where we can select the HTTP method of which the following are supported: GET, POST, PUT, DELETE. A "go" button to execute the query. There are two text panels - the top one is where we enter any json for PUT and POST operations, the bottom text is a scroll field which displays the response.
+This GUI app comes with a number of controls e.g. to choose a jpeg image to upload to CouchDB , but the main ones are:
+* The URL address bar where I type in the HTTP URI of a CouchDB resource.
+* HTTP radio buttons where I select the HTTP method of which the following are supported: GET, POST, PUT, DELETE.
+* A "go" button to execute the query.
+* There are two text panels - the top one is where I enter any json for PUT and POST operations, the bottom text panel is a scrollable field which displays the response.
 
-The "copy" button is what makes this tool useful for me - it copies the response field (json from CouchDB) into the PUT/POST window where I can edit/adjust it, then post back the updated document. Because the document revision is carried in the response and then copied back into the PUT/POST window, it is quicker to use than CURL on the command line.
+The "copy" button is what makes this tool useful for me - it copies the response text (json from CouchDB) into the PUT/POST window where I can edit/adjust it, then post back the updated document. Because the document revision is carried in the response and then copied back into the PUT/POST window, it is quicker to use than CURL on the command line.
 
 e.g. If I enter "http://127.0.0.1:5984/hello/" into the URL address bar, select the "POST" button and have "{"company": "Example, Inc."}" in the data window, then press the "go" button I will create a new document in the (already existing) database named "hello" because CouchDB's REST API will consider the POST as a request to produce a new resource. The response window will show:
 
@@ -43,7 +47,7 @@ I can then copy the id onto the end of the address "http://127.0.0.1:5984/hello/
 
 <pre><code>{“_id”:”5a91243f72a836d475b56b20c90012ef”,”_rev”:”1-b14c811bf485b30b70aab77810769d00”,”company”:”Example, Inc.”}</code></pre>.
 
-Then I can use the copy button to put the document complete with id and revision back into the data window, make and adjustment e.g. alter the compnay name, select the HTTP "PUT" button and press "go". Being a REST API CouchDB treats this as an existing resource and modifies it. The _id field is actually in the URL address bar, but CouchDB ignores it. The _rev field, however is necessary otherwise CouchDB will report a document conflict.
+Then I can use the copy button to put the document complete with id and revision back into the data window, make and adjustment e.g. alter the compnay name, select the HTTP "PUT" button and press "go". Being a REST API CouchDB treats this as an existing resource and modifies it. The _id field is actually in the URL address bar, but CouchDB ignores it. The _rev field, however is necessary otherwise CouchDB will report a document conflict. The revision requiremnet is part of CouchDB's model to ensure the integrity of document modifications.
 
 ## Map-reduce example.
 
@@ -77,11 +81,22 @@ Then do a HTTP GET on "http://127.0.0.1:5984/hello/_design/wheels/_view/getwheel
 ]}
 </code></pre>
 
-This is an example of a "map" operation only and what it is doing is returning all the skateboard wheel diameter (traditionally in mm) for all documents that describe skate shops i.e. have the pre-requesite fields of city, shop, and wheels. Map function return a list of keys and values and because the javascript "emit" function was supplied the city as the first argument, that becomes the key.
+This is an example of a "map" operation and it returns all the skateboard wheel diameters (traditionally in mm) for all documents that describe skate shops. i.e. documents that have the pre-requesite fields of city, shop, and wheels. Map function return a list of keys and values. The javascript "emit" function in this example was supplied the city as the first argument, hence city becomes the key.
 
-An irrelevant point in case you are wondering what the "decks" key refers to in the full documents described above - that is the wooden part of the skateboard and traditionally refers to the width in inches. Skateboards have a curious mixture of imperial and metric measurements - the metal wheel mounting known as the "truck" actually has an axle diameter in mm which is slightly undersize for an imperial "608" sized bearing - its close enough and being oversized never seizes unlike some attempts to produce more finely engineered skateboards!
+An irrelevant point in case anyone is wondering what the "decks" field refers to in the full documents described above - a deck is the wooden part of the skateboard and traditionally refers to the width in inches. Skateboards have a curious mixture of imperial and metric measurements - the metal wheel mounting known as the "truck" actually has an axle diameter in mm which is slightly undersize for an imperial "608" sized bearing - it's close enough and being oversized never seizes unlike some attempts to produce more finely engineered skateboards!
 
-We can take the map operation a step further by adding a "reduce" javascript function to our query design document.
+We can take this map operation a step further by adding a "reduce" javascript function to our query design document. Hence making it a map-reduce operation.
+
+The following query runs the map operation to the following things:
+* Filter on all skateshop documents.
+* Emit a list of keys and a list of values. The keys are the city and each value in the value list is itself a list of wheels.
+* Run the reduce function on the list of cities and list of wheel size list.
+
+The reduce function does the following:
+* Ignore the "k" key parameter - it is not needed for the calculation.
+* Iterate over the list of lists totalling the wheel diameters and counting how many wheel diameters it has itereated over.
+* Returns total diameter/count which is the average wheel size offered by the shops.
+
 <pre><code>
 {”views”:{“get wheels”:{“map”:”function(doc) { 
     if(doc.shop && doc.wheels && doc.city) { 
@@ -98,6 +113,8 @@ We can take the map operation a step further by adding a "reduce" javascript fun
 </code></pre>
 
 POST it off to a new design document URI (assuming we want to keep the original map query), or PUT it if we want to edit the original.
+
+Although the reduce function does not look at the keys, choosing city as the key allows us to feed in a query parameter to the map part of the operation. So to run the map-reduce query with a key parameter we do a GET on the following:
 
 <pre><code>
 http://127.0.0.1:5984/hello/_design/redwheels/_view/getwheels?key="Melbourne"
