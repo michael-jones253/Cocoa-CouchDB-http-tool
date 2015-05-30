@@ -30,7 +30,7 @@ What I am reading about Objective-C exceptions is that exceptions are only inten
 
 An update to my thoughts on the above exception discussion is that I still think exception based code (as opposed to error return code) is the superior form of control flow and should be used for C++, however it is best not to fight the Objective-C NSError return methodology. Many of the "Foundation" classes provided by Apple take the approach of returnign NSError objects via parameters, so passing these up the call chain is more straightforward than converting them to exceptions in an attempt to produce exception driven control flow.
 
-# How I use this tool.
+## How I use this tool.
 
 This GUI app comes with a number of controls e.g. to choose a jpeg image to upload to CouchDB , but the main ones are:
 * The URL address bar where I type in the HTTP URI of a CouchDB resource.
@@ -42,10 +42,14 @@ The "copy" button is what makes this tool useful for me - it copies the response
 
 e.g. If I enter "http://127.0.0.1:5984/hello/" into the URL address bar, select the "POST" button and have "{"company": "Example, Inc."}" in the data window, then press the "go" button I will create a new document in the (already existing) database named "hello" because CouchDB's REST API will consider the POST as a request to produce a new resource. The response window will show:
 
-<pre><code>{“ok”:true,”id”:”5a91243f72a836d475b56b20c90012ef”,”rev”:”1-b14c811bf485b30b70aab77810769d00”}</code></pre>
+<pre><code>
+{“ok”:true,”id”:”5a91243f72a836d475b56b20c90012ef”,”rev”:”1-b14c811bf485b30b70aab77810769d00”}
+</code></pre>
 I can then copy the id onto the end of the address "http://127.0.0.1:5984/hello/5a91243f72a836d475b56b20c90012ef" select the HTTP "GET" radio button and hit "go" to get:
 
-<pre><code>{“_id”:”5a91243f72a836d475b56b20c90012ef”,”_rev”:”1-b14c811bf485b30b70aab77810769d00”,”company”:”Example, Inc.”}</code></pre>.
+<pre><code>
+{“_id”:”5a91243f72a836d475b56b20c90012ef”,”_rev”:”1-b14c811bf485b30b70aab77810769d00”,”company”:”Example, Inc.”}
+</code></pre>
 
 Then I can use the copy button to put the document complete with id and revision back into the data window, make and adjustment e.g. alter the compnay name, select the HTTP "PUT" button and press "go". Being a REST API CouchDB treats this as an existing resource and modifies it. The _id field is actually in the URL address bar, but CouchDB ignores it. The _rev field, however is necessary otherwise CouchDB will report a document conflict. The revision requiremnet is part of CouchDB's model to ensure the integrity of document modifications.
 
