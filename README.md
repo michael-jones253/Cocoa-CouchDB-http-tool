@@ -2,7 +2,7 @@
 An OS X Cocoa GUI app for playing with the NoSQL CouchDB via the http API. The main app window is just a toy for getting to know the CouchDb HTTP rest API at a low level. The replicate window is more user friendly, because it does do some replicate checks to let the user know whether they are syncing an existing database or creating a new one.
 
 ## Motivation for this project.
-Although I am mainly a back end server/distributed systems programmer I frequently have to maintain GUIs so I thought I would get to know the OS X Cocoa interface and make a foray into some Objective-C. This app allows me to play with CouchDB via the http API which is also something I am interested in. It is based on libcurl which is good for getting to know HTTP at a low level and the json CouchDB uses. However, the replication stuff does work at a higher level with the Objective-C NSURL classes and json parsing.
+Although I am mainly a back end client server/distributed systems programmer I frequently have to maintain GUIs so I thought I would get to know the OS X Cocoa interface and make a foray into some Objective-C. This app allows me to play with CouchDB via the http API which is also something I am interested in. It is based on libcurl which is good for getting to know HTTP at a low level and the json CouchDB uses. However, the replication stuff does work at a higher level with the Objective-C NSURL classes and json parsing.
 
 This is my first go at Objective-C and I dived in to quickly get the feel for the language and also get the CouchDB project functioning. I am not doing everything using best practises, but have started to read Google's Objective-C Style guide and am just starting to refactor my code accordingly.
 
@@ -60,7 +60,9 @@ I have a database which contains documents with the following data:
 
 If I POST to the URL "http://127.0.0.1:5984/hello/_design/wheels" the following json document (containing a javascript map function):
 <pre><code>
-{"views":{"getwheels":{"map":"function(doc) { if(doc.shop && doc.city && doc.wheels) { emit(doc.city, doc.wheels);}}"}}}
+{"views":{"getwheels":{"map":"function(doc){
+    if(doc.shop && doc.city && doc.wheels) {
+        emit(doc.city, doc.wheels);}}"}}}
 </code></pre>
 
 Then do a HTTP GET on "http://127.0.0.1:5984/hello/_design/wheels/_view/getwheels" I will get the following response:
@@ -75,14 +77,27 @@ Then do a HTTP GET on "http://127.0.0.1:5984/hello/_design/wheels/_view/getwheel
 ]}
 </code></pre>
 
-This is an example of a "map" operation only and what it is doing is returning me all the skateboard wheel diameter (traditionally in mm) for all documents that describe skate shops i.e. have the pre-requesite fields of city, shop, and wheels. An irrelevant point in case you are wondering what the "decks" key refers to in the full documents described above - that is the wooden part of the skateboard and traditionally refers to the width in inches. Skateboards have a curious mixture of imperial and metric measurements - the metal wheel mounting known as the "truck" actually has an axle diameter in mm which is slightly undersize for an imperial "608" sized bearing - its close enough and being oversized never seizes unlike some attempts to produce more finely engineered skateboards!
+This is an example of a "map" operation only and what it is doing is returning all the skateboard wheel diameter (traditionally in mm) for all documents that describe skate shops i.e. have the pre-requesite fields of city, shop, and wheels. Map function return a list of keys and values and because the javascript "emit" function was supplied the city as the first argument, that becomes the key.
+
+An irrelevant point in case you are wondering what the "decks" key refers to in the full documents described above - that is the wooden part of the skateboard and traditionally refers to the width in inches. Skateboards have a curious mixture of imperial and metric measurements - the metal wheel mounting known as the "truck" actually has an axle diameter in mm which is slightly undersize for an imperial "608" sized bearing - its close enough and being oversized never seizes unlike some attempts to produce more finely engineered skateboards!
 
 We can take the map operation a step further by adding a "reduce" javascript function to our query design document.
 <pre><code>
-{“_id”:”_design/redwheels”,”_rev”:”4-e208db53c7d9914ef2437f547efb986c”,”views”:{“get wheels”:{“map”:”function(doc) { if(doc.shop && doc.wheels && doc.city) { emit(doc.city, doc.wheels);}}”,”reduce”:”function(k, v) { var total, count; total = 0; count = 0; for (var idx in v) { for (var idy in v[idx]) { total = total + v[idx][idy];}  count = count + v[idx].length; }; return (total / count); }”}}}
+{”views”:{“get wheels”:{“map”:”function(doc) { 
+    if(doc.shop && doc.wheels && doc.city) { 
+        emit(doc.city, doc.wheels);}}”,
+        ”reduce”:”function(k, v) { 
+            var total, count; total = 0; count = 0;
+            for (var idx in v) { 
+                for (var idy in v[idx]) { 
+                    total = total + v[idx][idy];
+                }
+                count = count + v[idx].length;
+            };
+            return (total / count); }”}}}
 </code></pre>
 
-POST it off to a new design document (assuming we want to keep the original query above), or PUT it if we want to edit the original.
+POST it off to a new design document URI (assuming we want to keep the original map query), or PUT it if we want to edit the original.
 
 <pre><code>
 http://127.0.0.1:5984/hello/_design/redwheels/_view/getwheels?key="Melbourne"
@@ -97,4 +112,4 @@ We will get:
 
 This is the average wheel size in mm for all stock carried in Melbourne.
 
-I imagine that a distributed or parallel average could be calculated by replicating the database hello, performing a map-reduce for melbourne in on database, a map-reduce for Sydney on the replication, then feeding the two averages into a simple script to calculate the total average for all shops.
+I imagine that a distributed or parallel average could be calculated by replicating the database hello, performing a map-reduce for melbourne in on original database, a map-reduce for Sydney on the replication, then feeding the two averages into a simple script to calculate the total average for all shops in Melbourne and Sydney.
