@@ -44,3 +44,57 @@ I can then copy the id onto the end of the address "http://127.0.0.1:5984/hello/
 <pre><code>{“_id”:”5a91243f72a836d475b56b20c90012ef”,”_rev”:”1-b14c811bf485b30b70aab77810769d00”,”company”:”Example, Inc.”}</code></pre>.
 
 Then I can use the copy button to put the document complete with id and revision back into the data window, make and adjustment e.g. alter the compnay name, select the HTTP "PUT" button and press "go". Being a REST API CouchDB treats this as an existing resource and modifies it. The _id field is actually in the URL address bar, but CouchDB ignores it. The _rev field, however is necessary otherwise CouchDB will report a document conflict.
+
+## Map-reduce example.
+
+I have a database which contains documents with the following data:
+
+<pre><code>
+{”shop”:”Local skate shop”,”wheels”:[50,51,52,53,54],”griptape”:true,”decks”:[8,8.25,8.5],”city”:”Melbourne”}},
+{”shop”:”Internet skate shop”,”wheels”:[50,51,52,53,54,55,56,58,60],”griptape”:true,”decks”:[8,8.25,8.5,8.75],”city”:”Melbourne”}},
+{”shop”:”Big skate shop”,”wheels”:[50,51,52,53,54,55,56,58,60],”griptape”:true,”decks”:[8,8.25,8.5,8.75,9],”city”:”Melbourne”}},
+{”shop”:”Underground skate shop”,”wheels”:[50,51,52],”griptape”:true,”decks”:[8,8.25,8.5],”city”:”Melbourne”}},
+{”shop”:”City skate shop”,”wheels”:[50,51,52,53,54],”griptape”:false,”decks”:[8,8.25,8.5],”city”:”Sydney”}},
+{”shop”:”E-bay skate shop”,”wheels”:[50,51],”griptape”:false,”decks”:[8,8.5],”city”:”Sydney”}}
+</code></pre>
+
+If I POST to the URL "http://127.0.0.1:5984/hello/_design/wheels" the following json document (containing a javascript map function):
+<pre><code>
+{"views":{"getwheels":{"map":"function(doc) { if(doc.shop && doc.city && doc.wheels) { emit(doc.city, doc.wheels);}}"}}}
+</code></pre>
+
+Then do a HTTP GET on "http://127.0.0.1:5984/hello/_design/wheels/_view/getwheels" I will get the following response:
+<pre><code>
+{“total_rows”:6,”offset”:0,”rows”:[
+{“id”:”1fbe064c1720d7b0a46b52ec3b000f6b”,”key”:”Melbourne”,”value”:[50,51,52,53,54]},
+{“id”:”1fbe064c1720d7b0a46b52ec3b002932”,”key”:”Melbourne”,”value”:[50,51,52,53,54,55,56,58,60]},
+{“id”:”1fbe064c1720d7b0a46b52ec3b0029ec”,”key”:”Melbourne”,”value”:[50,51,52,53,54,55,56,58,60]},
+{“id”:”5a91243f72a836d475b56b20c9000a18”,”key”:”Melbourne”,”value”:[50,51,52]},
+{“id”:”1fbe064c1720d7b0a46b52ec3b001b60”,”key”:”Sydney”,”value”:[50,51,52,53,54]},
+{“id”:”1fbe064c1720d7b0a46b52ec3b002e46”,”key”:”Sydney”,”value”:[50,51]}
+]}
+</code></pre>
+
+This is an example of a "map" operation only and what it is doing is returning me all the skateboard wheel diameter (traditionally in mm) for all documents that describe skate shops i.e. have the pre-requesite fields of city, shop, and wheels. An irrelevant point in case you are wondering what the "decks" key refers to in the full documents described above - that is the wooden part of the skateboard and traditionally refers to the width in inches. Skateboards have a curious mixture of imperial and metric measurements - the metal wheel mounting known as the "truck" actually has an axle diameter in mm which is slightly undersize for an imperial "608" sized bearing - its close enough and being oversized never seizes unlike some attempts to produce more finely engineered skateboards!
+
+We can take the map operation a step further by adding a "reduce" javascript function to our query design document.
+<pre><code>
+{“_id”:”_design/redwheels”,”_rev”:”4-e208db53c7d9914ef2437f547efb986c”,”views”:{“get wheels”:{“map”:”function(doc) { if(doc.shop && doc.wheels && doc.city) { emit(doc.city, doc.wheels);}}”,”reduce”:”function(k, v) { var total, count; total = 0; count = 0; for (var idx in v) { for (var idy in v[idx]) { total = total + v[idx][idy];}  count = count + v[idx].length; }; return (total / count); }”}}}
+</code></pre>
+
+POST it off to a new design document (assuming we want to keep the original query above), or PUT it if we want to edit the original.
+
+<pre><code>
+http://127.0.0.1:5984/hello/_design/redwheels/_view/getwheels?key="Melbourne"
+</code></pre>
+
+We will get:
+<pre><code>
+{“rows”:[
+{“key”:null,”value”:53.5}
+]}
+</code></pre>
+
+This is the average wheel size in mm for all stock carried in Melbourne.
+
+I imagine that a distributed or parallel average could be calculated by replicating the database hello, performing a map-reduce for melbourne in on database, a map-reduce for Sydney on the replication, then feeding the two averages into a simple script to calculate the total average for all shops.
