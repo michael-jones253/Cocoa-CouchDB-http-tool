@@ -184,8 +184,12 @@
     // [[cellArray objectAtIndex:0] setTitle:@"Apples"];
     [self.httpVerb selectCellAtRow:0 column:0];
     
-    // FIX ME - this is error prone.
+    NSInteger selectedRow = [self.httpVerb selectedRow];
+    NSButtonCell *buttonCell = [[self.httpVerb cells] objectAtIndex:selectedRow];
+
+    NSAssert([[buttonCell title] isEqualToString:@"GET"], @"GET operation should be default selectio.");
     [_easyController setHttpMethod:MyHttpMethodGet];
+
     
     // Review: there must be a better way.
     if (self->_docBuf != nil) {
