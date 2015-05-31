@@ -29,7 +29,7 @@
 - (void)testExample {
     // This is an example of a functional test case.
     MyEasyCurl* libObj = [[MyEasyCurl alloc]init];
-    [libObj Greeting];
+    [libObj greeting];
     
     NSLog(@"Greeting from property: %@", libObj.MyGreeting);
 
@@ -40,49 +40,49 @@
     // This is an example of a functional test case.
     MyEasyCurl* libObj = [[MyEasyCurl alloc]init];
     
-    NSString* content = [libObj GetContent];
+    NSString* content = [libObj getContent];
     
     XCTAssert([ content isEqualToString: @""], @"Pass with content empty");
     
     NSError* runError;
     
-    BOOL ok = [libObj InitConnection: &runError];
+    BOOL ok = [libObj initConnection:&runError];
     XCTAssert(ok == TRUE, @"Connection initialised ok");
     XCTAssert(runError == nil, @"Connection initialised no error");
     
-    ok = [libObj Run:@"www.example.com" error:&runError];
+    ok = [libObj runUrl:@"www.example.com" error:&runError];
     
     XCTAssert(ok == TRUE, @"Run returned ok");
     XCTAssert(runError == nil, @"Run no error");
 
-    content = [libObj GetContent];
+    content = [libObj getContent];
 
     XCTAssert([ content containsString: @"Content"], @"Pass with content");
     
     NSLog(@"Content: %@", content);
     
-    NSString* emptyDump = [libObj GetDump];
+    NSString* emptyDump = [libObj getDump];
     
     XCTAssert(emptyDump != nil, @"Got a dump ok");
     
     XCTAssert([emptyDump length] == 0, @"Dump length is 0 OK.");
     
-    ok = [libObj InitConnection: &runError];
+    ok = [libObj initConnection:&runError];
     
     XCTAssert(ok == YES, @"Second connection ok");
     XCTAssert(runError == nil, @"Second Connection initialised no error");
     
-    ok = [libObj SetDebugOn: &runError];
+    ok = [libObj setDebugOn:&runError];
     
     XCTAssert(ok == YES, @"Pass");
     
-    ok = [libObj Run:@"www.example.com" error:&runError];
+    ok = [libObj runUrl:@"www.example.com" error:&runError];
 
     XCTAssert(ok == YES, @"Ran with debug");
     XCTAssert(runError == nil, @"Run with debug no error");
 
     
-    NSString* dump = [libObj GetDump];
+    NSString* dump = [libObj getDump];
     
     XCTAssert(dump != nil, @"Got a dump ok");
     
@@ -99,49 +99,49 @@
     BOOL ok = TRUE;
 
     // We deliberately do not initialise the connection so that curl option setting will fail.
-    ok = [libObj SetDebugOn: &runError];
+    ok = [libObj setDebugOn:&runError];
     XCTAssert(ok == FALSE, @"Set debug option expected failure");
     XCTAssert(runError != nil, @"Set debug option expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj Run:@"www.example.com" error:&runError];
+    ok = [libObj runUrl:@"www.example.com" error:&runError];
     XCTAssert(ok == FALSE, @"Run expected failure");
     XCTAssert(runError != nil, @"Run expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetDeleteMethod: &runError];
+    ok = [libObj setDeleteMethod:&runError];
     XCTAssert(ok == FALSE, @"Delete method expected failure");
     XCTAssert(runError != nil, @"Delete method expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetGetMethod: &runError];
+    ok = [libObj setGetMethod:&runError];
     XCTAssert(ok == FALSE, @"Get method expected failure");
     XCTAssert(runError != nil, @"Get method expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetJpegContent: &runError];
+    ok = [libObj setJpegContent:&runError];
     XCTAssert(ok == FALSE, @"Jpeg content expected failure");
     XCTAssert(runError != nil, @"Jpeg content expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetJsonContent: &runError];
+    ok = [libObj setJsonContent:&runError];
     XCTAssert(ok == FALSE, @"json content expected failure");
     XCTAssert(runError != nil, @"json content expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetPlainTextContent: &runError];
+    ok = [libObj setPlainTextContent:&runError];
     XCTAssert(ok == FALSE, @"plain text content expected failure");
     XCTAssert(runError != nil, @"plain text content expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
@@ -149,21 +149,21 @@
     
     runError = nil;
     NSString* junk = @"Junk";
-    ok = [libObj SetPostData:junk error:&runError];
+    ok = [libObj setPostData:junk error:&runError];
     XCTAssert(ok == FALSE, @"post data expected failure");
     XCTAssert(runError != nil, @"post data expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetPostMethod: &runError];
+    ok = [libObj setPostMethod:&runError];
     XCTAssert(ok == FALSE, @"post method expected failure");
     XCTAssert(runError != nil, @"post method expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");
     NSLog(@"Exception: %@", [runError localizedDescription]);
     
     runError = nil;
-    ok = [libObj SetPutData: junk error: &runError];
+    ok = [libObj setPutData: junk error:&runError];
     XCTAssert(ok == FALSE, @"post method expected failure");
     XCTAssert(runError != nil, @"post method expected exception");
     XCTAssert([runError localizedDescription].length > 0, @"Got an error description");

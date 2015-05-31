@@ -15,7 +15,7 @@
 
 @interface MyEasyCurl()
 // Private.
-- (void)CurlError: (NSError**)curlError;
+- (void)curlError:(NSError**)curlError;
 @end
 
 @implementation MyEasyCurl
@@ -37,89 +37,89 @@
     delete (MyCurlCpp::MyCurl*)self->myImpl;
 }
 
-- (void)Greeting {
+- (void)greeting {
     NSLog(@"Objective Greeting %@", self.MyGreeting);
     
 }
 
-- (void)HelloCurl {
+- (void)helloCurl {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     impl->HelloCurl();
 }
 
-- (BOOL)InitConnection: (NSError**)curlError {
+- (BOOL)initConnection:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     BOOL ret = impl->InitConnection();
     
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetGetMethod: (NSError**)curlError {
+- (BOOL)setGetMethod:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetGetMethod();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetPostMethod: (NSError**)curlError {
+- (BOOL)setPostMethod:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPostMethod();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
 
     return ret;
 }
 
-- (BOOL)SetPutMethod: (NSError**)curlError {
+- (BOOL)setPutMethod:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPutMethod();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetDeleteMethod: (NSError**)curlError {
+- (BOOL)setDeleteMethod:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetDeleteMethod();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetPostData: (NSString*)data error: (NSError**)curlError {
+- (BOOL)setPostData:(NSString*)data error:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPostData([ data UTF8String]);
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetPutData: (NSString*)data error: (NSError**)curlError {
+- (BOOL)setPutData:(NSString*)data error:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPutData([ data UTF8String]);
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetImageDataNoCache: (NSData*) data error: (NSError**)curlError {
+- (BOOL)setImageDataNoCache:(NSData*) data error:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     const void* bytes = [data bytes];
@@ -127,65 +127,65 @@
 
     BOOL ret = impl->SetPutNoCacheData(static_cast<char const*>(bytes), length);
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetJsonContent: (NSError**)curlError {
+- (BOOL)setJsonContent:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetJsonContent();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetPlainTextContent: (NSError**)curlError {
+- (BOOL)setPlainTextContent:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetPlainTextContent();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetJpegContent: (NSError**)curlError {
+- (BOOL)setJpegContent:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetJpegContent();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)SetDebugOn: (NSError**)curlError {
+- (BOOL)setDebugOn:(NSError**)curlError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     BOOL ret = impl->SetDebugOn();
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (BOOL)Run: (NSString*)url error: (NSError**)curlError{
+- (BOOL)runUrl:(NSString*)url error:(NSError**)curlError{
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     
     const char* cUrl = [ url UTF8String];
     BOOL ret = impl->Run(cUrl);
     if (!ret) {
-        [self CurlError: curlError];
+        [self curlError:curlError];
     }
     
     return ret;
 }
 
-- (NSString*)GetContent {
+- (NSString*)getContent {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     NSString* ret = nil;
 
@@ -195,7 +195,7 @@
     return ret;
 }
 
-- (NSString*)GetDump {
+- (NSString*)getDump {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     NSString* ret = nil;
     
@@ -205,7 +205,7 @@
     return ret;
 }
 
-- (NSString*)GetError {
+- (NSString*)getError {
     MyCurlCpp::MyCurl* impl = (MyCurlCpp::MyCurl*)self->myImpl;
     NSString* ret = nil;
     
@@ -216,12 +216,12 @@
     
 }
 
-- (void)CurlError: (NSError**)curlError {
+- (void)curlError:(NSError**)curlError {
     if (curlError == nil) {
         return;
     }
     
-    NSString* message = [self GetError];
+    NSString* message = [self getError];
     
     NSString *domain = @"com.Jones.CocoaCurl.ErrorDomain";
     NSString *desc = NSLocalizedString(message, nil);

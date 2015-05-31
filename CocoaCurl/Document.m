@@ -233,7 +233,7 @@
     // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
     // [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
     
-    NSString* buf = [[NSString alloc] initWithData: data encoding:NSUTF8StringEncoding];
+    NSString* buf = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (buf == nil) {
         // FIX ME - set outError.
         return NO;

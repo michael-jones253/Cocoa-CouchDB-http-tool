@@ -19,41 +19,41 @@
 
 @property NSString *MyGreeting;
 
-- (void)Greeting;
+- (void)greeting;
 
-- (void)HelloCurl;
+- (void)helloCurl;
 
-- (BOOL)InitConnection: (NSError**)curlError;
+- (BOOL)initConnection:(NSError**)curlError;
 
-- (BOOL)SetGetMethod: (NSError**)curlError;
+- (BOOL)setGetMethod:(NSError**)curlError;
 
-- (BOOL)SetPostMethod: (NSError**)curlError;
+- (BOOL)setPostMethod:(NSError**)curlError;
 
-- (BOOL)SetPutMethod: (NSError**)curlError;
+- (BOOL)setPutMethod:(NSError**)curlError;
 
-- (BOOL)SetDeleteMethod: (NSError**)curlError;
+- (BOOL)setDeleteMethod:(NSError**)curlError;
 
-- (BOOL)SetPostData: (NSString*)data error: (NSError**)curlError;
+- (BOOL)setPostData:(NSString*)data error:(NSError**)curlError;
 
-- (BOOL)SetPutData: (NSString*)data error: (NSError**)curlError;
+- (BOOL)setPutData:(NSString*)data error:(NSError**)curlError;
 
-- (BOOL)SetImageDataNoCache: (NSData*) data error: (NSError**)curlError;
+- (BOOL)setImageDataNoCache:(NSData*) data error:(NSError**)curlError;
 
-- (BOOL)SetJsonContent: (NSError**)curlError;
+- (BOOL)setJsonContent:(NSError**)curlError;
 
-- (BOOL)SetPlainTextContent: (NSError**)curlError;
+- (BOOL)setPlainTextContent:(NSError**)curlError;
 
-- (BOOL)SetJpegContent: (NSError**)curlError;
+- (BOOL)setJpegContent:(NSError**)curlError;
 
-- (BOOL)SetDebugOn: (NSError**)curlError;
+- (BOOL)setDebugOn:(NSError**)curlError;
 
-- (BOOL)Run: (NSString*)url error: (NSError**)curlError;
+- (BOOL)runUrl:(NSString*)url error:(NSError**)curlError;
 
-- (NSString*)GetContent;
+- (NSString*)getContent;
 
-- (NSString*)GetDump;
+- (NSString*)getDump;
 
-- (NSString*)GetError;
+- (NSString*)getError;
 
 - (id)init;
 
