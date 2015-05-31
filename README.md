@@ -1,5 +1,5 @@
 # Cocoa-CouchDB-http-tool
-An OS X Cocoa GUI app for playing with the NoSQL CouchDB via the http API. The main app window is just a toy for getting to know the CouchDb HTTP rest API at a low level. The replicate window is more user friendly, because it does do some replicate checks to let the user know whether they are syncing an existing database or creating a new one.
+An OS X Cocoa GUI app for playing with the NoSQL CouchDB via the http API. The main app window is just a toy for getting to know the CouchDb HTTP rest API at a low level. It operates with json documents for its input/output. The replicate window is more user friendly, because it does json parsing and some checks to let the user know whether they are syncing an existing database or creating a new one.
 
 ## Motivation for this project.
 Although I am mainly a back end client server/distributed systems programmer I frequently have to maintain GUIs so I thought I would get to know the OS X Cocoa interface and make a foray into some Objective-C. This app allows me to play with CouchDB via the http API which is also something I am interested in. It is based on libcurl which is good for getting to know HTTP at a low level and the json CouchDB uses. However, the replication stuff does work at a higher level with the Objective-C NSURL classes and json parsing.
@@ -91,15 +91,17 @@ An irrelevant point in case anyone is wondering what the "decks" field refers to
 
 We can take this map operation a step further by adding a "reduce" javascript function to our query design document. Hence making it a map-reduce operation.
 
-The following query runs the map operation to the following things:
+The following query runs the map operation to perform the following things:
 * Filter on all skateshop documents.
 * Emit a list of keys and a list of values. The keys are the city and each value in the value list is itself a list of wheels.
-* Run the reduce function on the list of cities and list of wheel size list.
+* Run the reduce function on the list of keys (cities) and list of values (wheel size lists).
 
 The reduce function does the following:
-* Ignore the "k" key parameter - it is not needed for the calculation.
+* Ignore the "k" key parameter - the city is not needed for the calculation.
 * Iterate over the list of lists totalling the wheel diameters and counting how many wheel diameters it has itereated over.
 * Returns total diameter/count which is the average wheel size offered by the shops.
+ 
+The above map function updated with the reduce function to perform the above average wheel size calculation is:
 
 <pre><code>
 {”views”:{“get wheels”:{“map”:”function(doc) { 
@@ -116,9 +118,9 @@ The reduce function does the following:
             return (total / count); }”}}}
 </code></pre>
 
-POST it off to a new design document URI (assuming we want to keep the original map query), or PUT it if we want to edit the original.
+We can POST it off to a new design (CouchDB query) document URI (assuming we want to keep the original map query), or PUT it if we want to edit the original.
 
-Although the reduce function does not look at the keys, choosing city as the key allows us to feed in a query parameter to the map part of the operation. So to run the map-reduce query with a key parameter we do a GET on the following:
+Although the reduce function does not look at the keys, choosing city as the key allows us to feed in a query parameter to the map part of the operation. e.g. to run the map-reduce query with a key parameter to filter on certain keys (cities in this case) we can do a GET on the following:
 
 <pre><code>
 http://127.0.0.1:5984/hello/_design/redwheels/_view/getwheels?key="Melbourne"
